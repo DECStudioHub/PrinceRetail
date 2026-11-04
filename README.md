@@ -102,8 +102,8 @@ Designed strictly according to Prince Retail's pastel corporate guidelines:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/<your-username>/prince-retail.git
-   cd prince-retail
+   git clone https://github.com/DECStudioHub/PrinceRetail.git
+   cd PrinceRetail
    ```
 
 2. **Install dependencies**:
