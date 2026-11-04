@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-pastel-red: #EF777B;
+    --color-soft-red: #FBE3DF;
+    --color-pastel-yellow: #F7DF8B;
+    --color-soft-yellow: #FFF0BF;
+    --color-pastel-green: #B8D9C4;
+    --color-soft-green: #DCEEE2;
+    --color-cream: #FFFDF8;
+    --color-charcoal: #252927;
+    --color-gray: #6C7470;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #FFFDF8;
+    color: #252927;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFFDF8;
+}
+::-webkit-scrollbar-thumb {
+  background: #B8D9C4;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #EF777B;
+}
+
+/* Tabular numbers for price and metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
