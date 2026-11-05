@@ -25,6 +25,7 @@ import {
   Activity,
   MapPin
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 export const AboutUs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'history' | 'profile'>('history');
@@ -216,7 +217,7 @@ export const AboutUs: React.FC = () => {
           <div className="lg:col-span-7 relative group">
             <div className="relative rounded-3xl overflow-hidden shadow-md aspect-[16/10] bg-slate-100 border border-[#252927]/8">
               <img
-                src="/src/assets/images/prince_store_community_1793803410656.jpg"
+                src={getAssetUrl('assets/images/prince_store_community_1793803410656.jpg')}
                 alt="Prince Retail community supermarket interior with Filipino shoppers and local produce"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 ease-out"

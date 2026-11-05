@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CartItem } from '../types';
+import { getAssetUrl } from '../utils/assets';
 import { 
   X, 
   Trash2, 
@@ -341,7 +342,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       className="p-3.5 rounded-2xl bg-[#FFFDF8] border border-[#252927]/8 flex items-center gap-3"
                     >
                       <img
-                        src={item.product.image}
+                        src={getAssetUrl(item.product.image)}
                         alt={item.product.name}
                         referrerPolicy="no-referrer"
                         className="w-16 h-16 rounded-xl object-cover border border-[#252927]/5 shrink-0"

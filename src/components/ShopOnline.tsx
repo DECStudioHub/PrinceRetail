@@ -13,6 +13,7 @@ import {
 import { productsData } from '../data/productsData';
 import { Product } from '../types';
 import { ProductDetailModal } from './ProductDetailModal';
+import { getAssetUrl } from '../utils/assets';
 
 interface ShopOnlineProps {
   onAddToCart: (product: Product, quantity: number) => void;
@@ -162,7 +163,7 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
                   {/* Image container */}
                   <div className="relative rounded-2xl overflow-hidden bg-[#FFFDF8] border border-[#252927]/5 aspect-square mb-3.5">
                     <img
-                      src={product.image}
+                      src={getAssetUrl(product.image)}
                       alt={product.name}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

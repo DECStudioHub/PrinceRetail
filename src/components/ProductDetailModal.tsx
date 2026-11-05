@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
 import { Star, ShoppingBag, Check, ShieldCheck, Truck, RotateCcw, Plus, Minus } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -45,7 +46,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {/* Image & Badges */}
           <div className="relative rounded-2xl overflow-hidden bg-[#FFFDF8] border border-[#252927]/8 aspect-square">
             <img
-              src={product.image}
+              src={getAssetUrl(product.image)}
               alt={product.name}
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover"

@@ -19,6 +19,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { QuickSearchModal } from './components/QuickSearchModal';
 import { CartItem, Product } from './types';
 import { X, Sparkles } from 'lucide-react';
+import { getAssetUrl } from './utils/assets';
 
 export default function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([
@@ -40,7 +41,7 @@ export default function App() {
           'Net Weight': '5 Kilograms',
           'Grain Type': '100% Whole Dinorado White Rice'
         },
-        image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+        image: getAssetUrl('assets/images/prince_fresh_pantry_1793803411885.jpg'),
         accentColor: '#EF777B'
       },
       quantity: 1

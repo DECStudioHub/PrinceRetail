@@ -5,6 +5,7 @@ import { storesData } from '../data/storesData';
 import { promosData } from '../data/promosData';
 import { loyaltyTiers } from '../data/loyaltyData';
 import { Product } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 interface QuickSearchModalProps {
   isOpen: boolean;
@@ -112,7 +113,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                       >
                         <div className="flex items-center gap-3">
                           <img
-                            src={p.image}
+                            src={getAssetUrl(p.image)}
                             alt={p.name}
                             referrerPolicy="no-referrer"
                             className="w-10 h-10 rounded-lg object-cover"

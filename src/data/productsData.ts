@@ -1,4 +1,9 @@
 import { Product } from '../types';
+import { getAssetUrl } from '../utils/assets';
+
+const freshPantryImg = getAssetUrl('assets/images/prince_fresh_pantry_1793803411885.jpg');
+const heroPhoneImg = getAssetUrl('assets/images/hero_phone_retail_screen_1793803409322.jpg');
+const storeCommunityImg = getAssetUrl('assets/images/prince_store_community_1793803410656.jpg');
 
 export const productsData: Product[] = [
   {
@@ -19,7 +24,7 @@ export const productsData: Product[] = [
       'Milling Grade': 'Premium Well-Milled',
       'Origin': 'Mindoro, Philippines'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#EF777B'
   },
   {
@@ -39,7 +44,7 @@ export const productsData: Product[] = [
       'Source': 'Negros Occidental Cane Sugar',
       'Purity': '99.8% Refined Sucrose'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#F7DF8B'
   },
   {
@@ -59,7 +64,7 @@ export const productsData: Product[] = [
       'Fortification': 'Vitamin A Fortified (Sangkap Pinoy)',
       'Shelf Life': '18 Months'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#B8D9C4'
   },
   {
@@ -79,7 +84,7 @@ export const productsData: Product[] = [
       'Size': 'Large (60g - 65g)',
       'Inspection': 'Bureau of Animal Industry Inspected'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#EF777B'
   },
   {
@@ -98,7 +103,7 @@ export const productsData: Product[] = [
       'Nutrients': 'Calcium, Vitamin A, B-Complex, D',
       'Format': 'Easy-Open Can'
     },
-    image: '/src/assets/images/hero_phone_retail_screen_1793803409322.jpg',
+    image: heroPhoneImg,
     accentColor: '#F7DF8B'
   },
   {
@@ -118,7 +123,7 @@ export const productsData: Product[] = [
       'Meat Quality': '100% Pure Beef Strands',
       'Preservatives': 'No Artificial Fillers'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#EF777B'
   },
   {
@@ -137,7 +142,7 @@ export const productsData: Product[] = [
       'Content': '1L Soy Sauce + 1L Cane Vinegar',
       'Origin': 'Naturally Fermented Cane Vinegar & Soy'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#B8D9C4'
   },
   {
@@ -156,7 +161,7 @@ export const productsData: Product[] = [
       'Pack Size': '6 Pouches x 80g',
       'Cooking Time': '3 Minutes'
     },
-    image: '/src/assets/images/hero_phone_retail_screen_1793803409322.jpg',
+    image: heroPhoneImg,
     accentColor: '#F7DF8B'
   },
   {
@@ -176,7 +181,7 @@ export const productsData: Product[] = [
       'Yield': 'Approx. 28 glasses',
       'Certifications': 'Halal Certified, Sangkap Pinoy'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#EF777B'
   },
   {
@@ -195,7 +200,7 @@ export const productsData: Product[] = [
       'Application': 'Machine Wash & Hand Wash Compatible',
       'Fragrance': 'Zesty Citrus Blossom'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#B8D9C4'
   },
   {
@@ -214,7 +219,7 @@ export const productsData: Product[] = [
       'Feature': 'Anti-Kulob Formula',
       'Yield': 'Up to 35 wash loads'
     },
-    image: '/src/assets/images/hero_phone_retail_screen_1793803409322.jpg',
+    image: heroPhoneImg,
     accentColor: '#EF777B'
   },
   {
@@ -233,7 +238,7 @@ export const productsData: Product[] = [
       'Pack Contents': '4 Bars x 130g',
       'Scent': 'Signature Pure White Clean'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#B8D9C4'
   },
   {
@@ -252,7 +257,7 @@ export const productsData: Product[] = [
       'Material': 'Reinforced PP Resin + Stainless Wringer',
       'Includes': '1 Bucket + 1 Mop Rod + 2 Microfiber Refills'
     },
-    image: '/src/assets/images/hero_phone_retail_screen_1793803409322.jpg',
+    image: heroPhoneImg,
     accentColor: '#F7DF8B'
   },
   {
@@ -272,7 +277,7 @@ export const productsData: Product[] = [
       'Target Resale Margin': '18% - 25% for Sari-Sari Retail',
       'Milling': 'Commercial Grade Well Milled'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#EF777B'
   },
   {
@@ -292,7 +297,7 @@ export const productsData: Product[] = [
       'Flavor': 'Spicy Tomato Sauce',
       'Shelf Life': '3 Years'
     },
-    image: '/src/assets/images/prince_store_community_1793803410656.jpg',
+    image: storeCommunityImg,
     accentColor: '#F7DF8B'
   },
   {
@@ -312,7 +317,7 @@ export const productsData: Product[] = [
       'Handling': 'Cold Chain Maintained 0°C - 4°C',
       'Inspection': 'NMIS Certified Fresh'
     },
-    image: '/src/assets/images/prince_fresh_pantry_1793803411885.jpg',
+    image: freshPantryImg,
     accentColor: '#B8D9C4'
   }
 ];

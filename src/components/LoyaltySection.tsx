@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { loyaltyTiers } from '../data/loyaltyData';
 import { LoyaltyTier } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 interface LoyaltySectionProps {
   initialTierId?: string | null;
@@ -90,7 +91,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
             <div className="w-full max-w-md relative group">
               <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-1">
                 <img
-                  src={selectedTier.cardImage}
+                  src={getAssetUrl(selectedTier.cardImage)}
                   alt={selectedTier.name}
                   className="w-full h-auto object-cover block rounded-2xl sm:rounded-3xl"
                 />
@@ -283,7 +284,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                           {/* Authentic Card Image */}
                           <div className="aspect-[1.8/1] sm:aspect-[1.85/1] max-h-[85px] sm:max-h-[105px] rounded-xl overflow-hidden shadow-xs border border-black/5 bg-[#FFFDF8]">
                             <img
-                              src={tier.cardImage}
+                              src={getAssetUrl(tier.cardImage)}
                               alt={tier.name}
                               className="w-full h-full object-cover rounded-xl"
                             />
@@ -467,7 +468,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                 {/* Visual card summary thumbnail */}
                 <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#FFFDF8] border border-[#252927]/10">
                   <img
-                    src={selectedTier.cardImage}
+                    src={getAssetUrl(selectedTier.cardImage)}
                     alt={selectedTier.name}
                     className="w-16 h-10 object-cover rounded-lg shadow-xs"
                   />

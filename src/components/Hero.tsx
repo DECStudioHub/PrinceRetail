@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Smartphone
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface HeroProps {
   onExploreShop: () => void;
@@ -25,6 +26,7 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [appNotice, setAppNotice] = useState<string | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
@@ -35,56 +37,56 @@ export const Hero: React.FC<HeroProps> = ({
       number: '01',
       title: 'Store Selection',
       subtitle: 'Prince Hypermart Sagay · Add MySuki Store',
-      image: '/public/assets/aistudio/1_268d1ae3.jpg'
+      image: getAssetUrl('assets/aistudio/1_268d1ae3.jpg')
     },
     {
       id: 2,
       number: '02',
       title: 'Wholesale Deals Storefront',
       subtitle: 'Prince Asenso Negosyo Club · Featured Categories',
-      image: '/public/assets/aistudio/2_2df6d4e6.jpg'
+      image: getAssetUrl('assets/aistudio/2_2df6d4e6.jpg')
     },
     {
       id: 3,
       number: '03',
       title: 'Shop by Category',
       subtitle: 'Christmas Bundles, Value Picks & Fresh Produce',
-      image: '/public/assets/aistudio/3_82ea7325.jpg'
+      image: getAssetUrl('assets/aistudio/3_82ea7325.jpg')
     },
     {
       id: 4,
       number: '04',
       title: 'Bulk Wholesale Cases',
       subtitle: 'Safeguard, Go Fresh Water & Mystery Deals',
-      image: '/public/assets/aistudio/4_54245243.jpg'
+      image: getAssetUrl('assets/aistudio/4_54245243.jpg')
     },
     {
       id: 5,
       number: '05',
       title: 'Sari-Sari Best Sellers',
       subtitle: 'Suki Prices on Bioderm, Silka, Doreen & Chippy',
-      image: '/public/assets/aistudio/5_f9d53d6f.jpg'
+      image: getAssetUrl('assets/aistudio/5_f9d53d6f.jpg')
     },
     {
       id: 6,
       number: '06',
       title: 'Discount Coupons',
       subtitle: 'Promos Just For You! ₱50 OFF Vouchers',
-      image: '/public/assets/aistudio/6_94fd91ca.jpg'
+      image: getAssetUrl('assets/aistudio/6_94fd91ca.jpg')
     },
     {
       id: 7,
       number: '07',
       title: 'Orders & Tracking',
       subtitle: 'Ongoing, Completed & Cancelled Deliveries',
-      image: '/public/assets/aistudio/7_79022b86.jpg'
+      image: getAssetUrl('assets/aistudio/7_79022b86.jpg')
     },
     {
       id: 8,
       number: '08',
       title: 'Profile & MySuki QR',
       subtitle: 'Store Info, Settings, Legal & Digital Barcode',
-      image: '/public/assets/aistudio/8_7a0cecb1.jpg'
+      image: getAssetUrl('assets/aistudio/8_7a0cecb1.jpg')
     }
   ];
 
@@ -227,22 +229,34 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="flex items-center gap-2">
                 <a
                   href="#download"
-                  onClick={(e) => { e.preventDefault(); alert("Prince Retail Mobile App is available on Apple App Store & Google Play!"); }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#252927] text-white rounded-lg text-[11px] font-semibold hover:bg-black transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAppNotice('Prince Retail App is available on Apple App Store & Google Play!');
+                    setTimeout(() => setAppNotice(null), 3000);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#252927] text-white rounded-lg text-[11px] font-semibold hover:bg-black transition-colors cursor-pointer"
                 >
                   <Download className="w-3 h-3 text-[#F7DF8B]" />
                   <span>App Store</span>
                 </a>
                 <a
                   href="#download"
-                  onClick={(e) => { e.preventDefault(); alert("Prince Retail Mobile App is available on Apple App Store & Google Play!"); }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#252927] text-white rounded-lg text-[11px] font-semibold hover:bg-black transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAppNotice('Prince Retail App is available on Apple App Store & Google Play!');
+                    setTimeout(() => setAppNotice(null), 3000);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#252927] text-white rounded-lg text-[11px] font-semibold hover:bg-black transition-colors cursor-pointer"
                 >
                   <Download className="w-3 h-3 text-[#B8D9C4]" />
                   <span>Google Play</span>
                 </a>
               </div>
-
+              {appNotice && (
+                <div className="text-[11px] font-medium text-[#252927] bg-[#B8D9C4]/40 px-3 py-1 rounded-full border border-[#B8D9C4] animate-fade-in">
+                  ✓ {appNotice}
+                </div>
+              )}
             </div>
 
           </div>
