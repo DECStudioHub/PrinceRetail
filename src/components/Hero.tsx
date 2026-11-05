@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { 
   ArrowRight, 
   MapPin, 
@@ -6,8 +6,6 @@ import {
   Download, 
   ShoppingBag, 
   Sparkles, 
-  ChevronLeft,
-  ChevronRight,
   ShieldCheck,
   Smartphone
 } from 'lucide-react';
@@ -24,112 +22,7 @@ export const Hero: React.FC<HeroProps> = ({
   onFindStore,
   onOpenLoyalty
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [appNotice, setAppNotice] = useState<string | null>(null);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-
-  // Exact 1 to 8 sequence requested by user matching the uploaded filenames
-  const slides = [
-    {
-      id: 1,
-      number: '01',
-      title: 'Store Selection',
-      subtitle: 'Prince Hypermart Sagay · Add MySuki Store',
-      image: getAssetUrl('assets/aistudio/1_268d1ae3.jpg')
-    },
-    {
-      id: 2,
-      number: '02',
-      title: 'Wholesale Deals Storefront',
-      subtitle: 'Prince Asenso Negosyo Club · Featured Categories',
-      image: getAssetUrl('assets/aistudio/2_2df6d4e6.jpg')
-    },
-    {
-      id: 3,
-      number: '03',
-      title: 'Shop by Category',
-      subtitle: 'Christmas Bundles, Value Picks & Fresh Produce',
-      image: getAssetUrl('assets/aistudio/3_82ea7325.jpg')
-    },
-    {
-      id: 4,
-      number: '04',
-      title: 'Bulk Wholesale Cases',
-      subtitle: 'Safeguard, Go Fresh Water & Mystery Deals',
-      image: getAssetUrl('assets/aistudio/4_54245243.jpg')
-    },
-    {
-      id: 5,
-      number: '05',
-      title: 'Sari-Sari Best Sellers',
-      subtitle: 'Suki Prices on Bioderm, Silka, Doreen & Chippy',
-      image: getAssetUrl('assets/aistudio/5_f9d53d6f.jpg')
-    },
-    {
-      id: 6,
-      number: '06',
-      title: 'Discount Coupons',
-      subtitle: 'Promos Just For You! ₱50 OFF Vouchers',
-      image: getAssetUrl('assets/aistudio/6_94fd91ca.jpg')
-    },
-    {
-      id: 7,
-      number: '07',
-      title: 'Orders & Tracking',
-      subtitle: 'Ongoing, Completed & Cancelled Deliveries',
-      image: getAssetUrl('assets/aistudio/7_79022b86.jpg')
-    },
-    {
-      id: 8,
-      number: '08',
-      title: 'Profile & MySuki QR',
-      subtitle: 'Store Info, Settings, Legal & Digital Barcode',
-      image: getAssetUrl('assets/aistudio/8_7a0cecb1.jpg')
-    }
-  ];
-
-  // Auto-slide every 2.1 seconds per prompt specification
-  useEffect(() => {
-    if (isPaused) return;
-
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 2100);
-
-    return () => clearInterval(timer);
-  }, [isPaused, slides.length]);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const diff = touchStartX.current - touchEndX.current;
-    if (diff > 45) {
-      // Swiped left -> next
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    } else if (diff < -45) {
-      // Swiped right -> prev
-      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    }
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  const goToPrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const goToNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
 
   return (
     <section id="home" className="relative pt-20 sm:pt-22 pb-12 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
@@ -262,117 +155,19 @@ export const Hero: React.FC<HeroProps> = ({
 
           </div>
 
-          {/* RIGHT SIDE: Realistic Smartphone Mockup with 1 to 8 Sequential Real App Screens */}
+          {/* RIGHT SIDE: Single-screen app preview */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
-            
-            <div 
-              className="relative w-[min(325px,35svh,calc(100vw_-_4.5rem))] select-none"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              
-              {/* Outer Glow & Shadow */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#EF777B]/20 via-[#F7DF8B]/20 to-[#B8D9C4]/20 rounded-[48px] filter blur-xl transform scale-105 -z-10"></div>
-
-              {/* Navigation Arrows for Easy Browsing through all 8 screens */}
-              <button
-                onClick={goToPrev}
-                aria-label="Previous screen"
-                className="absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              <button
-                onClick={goToNext}
-                aria-label="Next screen"
-                className="absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-
-              {/* Phone Hardware Shell */}
-              <div className="relative bg-[#1A1D1C] p-2.5 rounded-[46px] shadow-2xl border-4 border-[#3A403D]">
-                
-                {/* Volume Rocker & Power Buttons (Realistic accents) */}
-                <div className="absolute -left-4 top-24 w-1 h-10 bg-[#3A403D] rounded-l-md"></div>
-                <div className="absolute -left-4 top-38 w-1 h-10 bg-[#3A403D] rounded-l-md"></div>
-                <div className="absolute -right-4 top-28 w-1 h-14 bg-[#3A403D] rounded-r-md"></div>
-
-                {/* Inner Bezel Screen */}
-                <div className="relative bg-white rounded-[36px] overflow-hidden aspect-[9/18.5] flex flex-col">
-                  
-                  {/* Dynamic Island Notch */}
-                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 w-24 h-5 bg-[#1A1D1C] rounded-full flex items-center justify-end pr-2 pointer-events-none">
-                    <div className="w-2 h-2 rounded-full bg-[#2A302D] border border-white/10"></div>
-                  </div>
-
-                  {/* Rotating Screens Container: 8 Real App Screens 1 to 8 */}
-                  <div className="relative w-full h-full overflow-hidden bg-slate-100">
-                    {slides.map((slide, idx) => {
-                      const isActive = idx === currentSlide;
-                      return (
-                        <div
-                          key={slide.id}
-                          className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            isActive 
-                              ? 'opacity-100 translate-x-0 pointer-events-auto' 
-                              : idx < currentSlide 
-                                ? 'opacity-0 -translate-x-full pointer-events-none' 
-                                : 'opacity-0 translate-x-full pointer-events-none'
-                          }`}
-                        >
-                          <img
-                            src={slide.image}
-                            alt={`Prince Retail Mobile App Screen ${slide.number} - ${slide.title}`}
-                            loading={isActive ? 'eager' : 'lazy'}
-                            decoding="async"
-                            className="w-full h-full object-cover object-top"
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Home Indicator Bar */}
-                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-28 h-1 bg-[#252927]/40 rounded-full z-20 pointer-events-none"></div>
-
-                </div>
-
+            <div className="relative w-[min(310px,calc(100vw_-_3rem))]">
+              <div aria-hidden="true" className="absolute -inset-5 rounded-[3rem] bg-gradient-to-br from-[#FBE3DF]/80 via-white/70 to-[#DCEEE2]/80 blur-2xl" />
+              <div className="relative overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/70 p-2 shadow-[0_32px_80px_-28px_rgba(37,41,39,0.38)] backdrop-blur-xl">
+                <img
+                  src={getAssetUrl('assets/aistudio/2_2df6d4e6.jpg')}
+                  alt="Prince Retail app storefront showing wholesale deals and featured categories"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="block aspect-[1/2] w-full rounded-[1.8rem] object-cover"
+                />
               </div>
-
-              {/* Dynamic 8 Pagination Dots */}
-              <div className="mt-5 flex items-center justify-center gap-1.5">
-                {slides.map((slide, idx) => (
-                  <button
-                    key={slide.id}
-                    onClick={() => setCurrentSlide(idx)}
-                    aria-label={`Go to screen ${slide.number}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      currentSlide === idx
-                        ? 'w-6 bg-[#EF777B]'
-                        : 'w-2 bg-[#252927]/20 hover:bg-[#252927]/40'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              {/* Active Screen Information Title */}
-              <div className="mt-2 text-center">
-                <div className="text-xs font-bold text-[#252927] truncate">
-                  Screen {slides[currentSlide].number}: {slides[currentSlide].title}
-                </div>
-                <div className="text-[11px] text-[#6C7470] truncate mt-0.5">
-                  {slides[currentSlide].subtitle}
-                </div>
-                <div className="mt-1 text-[10px] uppercase tracking-wider font-semibold text-[#EF777B]">
-                  {isPaused ? 'Paused on Hover' : 'Rotating every 2.1s (1 to 8)'}
-                </div>
-              </div>
-
             </div>
 
           </div>
