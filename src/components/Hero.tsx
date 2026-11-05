@@ -139,7 +139,7 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#DCEEE2]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-8 items-center">
           
           {/* LEFT SIDE: Brand, Headline, Supporting, Badges, CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
@@ -155,7 +155,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#252927] leading-[1.08] mb-6 max-w-xl text-balance">
+            <h1 className="text-[clamp(2rem,8vw,3rem)] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#252927] leading-[1.08] mb-6 max-w-xl text-balance">
               Everyday Finds.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#252927] via-[#252927] to-[#EF777B]">
                 Everyday Smiles.
@@ -266,7 +266,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             
             <div 
-              className="relative w-[285px] sm:w-[310px] md:w-[325px] select-none"
+              className="relative w-[min(285px,calc(100vw_-_4.5rem))] sm:w-[310px] md:w-[325px] select-none"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -281,7 +281,7 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 onClick={goToPrev}
                 aria-label="Previous screen"
-                className="absolute -left-5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
+                className="absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -289,7 +289,7 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 onClick={goToNext}
                 aria-label="Next screen"
-                className="absolute -right-5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
+                className="absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-[#252927] shadow-md border border-[#252927]/10 flex items-center justify-center z-40 transition-transform active:scale-95 cursor-pointer"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
