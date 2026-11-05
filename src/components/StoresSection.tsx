@@ -38,7 +38,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       region: 'Luzon' as const,
       title: 'Luzon',
       desc: 'Explore PRINCE RETAIL stores across Luzon.',
-      count: 'Batangas, Pampanga, Pangasinan, Quezon',
+      count: 'Palawan, Nueva Ecija, Bulacan, Tarlac, Quezon',
       bgClass: 'bg-[#FBE3DF]',
       borderClass: 'border-[#EF777B]/30',
       accentColor: '#EF777B',
@@ -235,10 +235,10 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                       <Clock className="w-3.5 h-3.5 text-[#EF777B] shrink-0" />
                       <span>{store.hours}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {store.phone && <div className="flex items-center gap-2">
                       <Phone className="w-3.5 h-3.5 text-[#6C7470] shrink-0" />
                       <span>{store.phone}</span>
-                    </div>
+                    </div>}
                   </div>
 
                   {/* Amenities */}
@@ -338,10 +338,10 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                 <span className="text-[#6C7470]">Operating Hours:</span>
                 <span className="font-bold text-[#252927]">{activeStoreModal.hours}</span>
               </div>
-              <div className="flex items-center justify-between">
+              {activeStoreModal.phone && <div className="flex items-center justify-between">
                 <span className="text-[#6C7470]">Branch Phone:</span>
                 <span className="font-bold text-[#252927]">{activeStoreModal.phone}</span>
-              </div>
+              </div>}
               <div className="flex items-center justify-between">
                 <span className="text-[#6C7470]">Customer Parking:</span>
                 <span className="font-bold text-emerald-700">Free Customer Parking Available</span>

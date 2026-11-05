@@ -3,53 +3,80 @@ import { StoreLocation } from '../types';
 export const storesData: StoreLocation[] = [
   // LUZON
   {
-    id: 'store-lz-1',
-    name: 'Prince Retail Center — Batangas City',
+    id: 'store-lz-brookes-point',
+    name: 'Prince Hypermart Brooke’s Point',
     region: 'Luzon',
-    city: 'Batangas City',
-    province: 'Batangas',
-    address: 'P. Burgos St. cor. Evangelista, Poblacion, Batangas City',
-    hours: '7:00 AM – 8:30 PM (Mon - Sun)',
-    phone: '(043) 723-8819',
-    amenities: ['Supermarket', 'Fresh Market', 'Wholesale Cash & Carry', 'Pharmacy', 'Royalty Rewards Lane', 'Parking'],
-    coordinates: { lat: 13.7565, lng: 121.0583 },
-    featured: true
+    city: 'Brooke’s Point',
+    province: 'Palawan',
+    address: 'M. Rodriguez St., Poblacion District II, Brooke’s Point, Palawan',
+    hours: '8:00 AM – 8:00 PM (Mon - Sun)',
+    phone: '0925-588-6353',
+    amenities: []
   },
   {
-    id: 'store-lz-2',
-    name: 'Prince Hypermart — San Fernando',
+    id: 'store-lz-jaen',
+    name: 'Prince Hypermart Jaen',
     region: 'Luzon',
-    city: 'San Fernando',
-    province: 'Pampanga',
-    address: 'MacArthur Highway, Dolores, City of San Fernando, Pampanga',
-    hours: '7:30 AM – 9:00 PM (Mon - Sun)',
-    phone: '(045) 961-4420',
-    amenities: ['Supermarket', 'Bakery', 'Kasosyo Partner Counter', 'Curbside Pickup', 'Parking'],
-    coordinates: { lat: 15.0307, lng: 120.6899 }
+    city: 'Jaen',
+    province: 'Nueva Ecija',
+    address: 'Dampulan, Jaen, Nueva Ecija',
+    hours: '7:30 AM – 8:00 PM (Mon - Sun)',
+    phone: '(044) 958-4961',
+    amenities: []
   },
   {
-    id: 'store-lz-3',
-    name: 'Prince Retail — Lucena Hub',
+    id: 'store-lz-narra',
+    name: 'Prince Hypermart Narra',
     region: 'Luzon',
-    city: 'Lucena City',
-    province: 'Quezon',
-    address: 'Quezon Avenue cor. Gomez Street, Lucena City',
-    hours: '7:00 AM – 8:00 PM (Mon - Sun)',
-    phone: '(042) 710-2391',
-    amenities: ['Supermarket', 'Fresh Wet & Dry', 'Wholesale Packs', 'Royalty Member Lounge'],
-    coordinates: { lat: 13.9314, lng: 121.6172 }
+    city: 'Narra',
+    province: 'Palawan',
+    address: 'Sampaloc St., Brgy Poblacion, Narra, Palawan',
+    hours: '8:00 AM – 8:00 PM (Mon - Sun)',
+    phone: '0909-643-3100',
+    amenities: []
   },
   {
-    id: 'store-lz-4',
-    name: 'Prince Town Center — Dagupan',
+    id: 'store-lz-angat',
+    name: 'Prince Hypermart Angat',
     region: 'Luzon',
-    city: 'Dagupan City',
-    province: 'Pangasinan',
-    address: 'Arellano Street, Downtown, Dagupan City, Pangasinan',
+    city: 'Angat',
+    province: 'Bulacan',
+    address: 'Barangay San Roque, Angat, Bulacan',
+    hours: '8:00 AM – 9:00 PM (Mon - Sat); 7:00 AM – 9:00 PM (Sun)',
+    phone: '0997-877-1733',
+    amenities: []
+  },
+  {
+    id: 'store-lz-la-paz',
+    name: 'Prince Hypermart La Paz',
+    region: 'Luzon',
+    city: 'La Paz',
+    province: 'Tarlac',
+    address: 'Calle Libertad, La Paz, Tarlac',
     hours: '7:30 AM – 8:30 PM (Mon - Sun)',
-    phone: '(075) 522-3011',
-    amenities: ['Supermarket', 'Pharmacy', 'Fresh Seafood', 'Free Parking', 'Kasosyo Sari-Sari Desk'],
-    coordinates: { lat: 16.0433, lng: 120.3333 }
+    phone: '0977-461-0988',
+    amenities: []
+  },
+  {
+    id: 'store-lz-san-francisco',
+    name: 'Prince Hypermart San Francisco',
+    region: 'Luzon',
+    city: 'San Francisco',
+    province: 'Quezon',
+    address: 'Queblar St., Cayawan I, San Francisco, Quezon Province',
+    hours: '7:00 AM – 7:00 PM (Mon - Sun)',
+    amenities: []
+  },
+  {
+    id: 'store-lz-san-miguel',
+    name: 'Prince Hypermart San Miguel',
+    region: 'Luzon',
+    city: 'San Miguel',
+    province: 'Bulacan',
+    address: 'Noberto Consejo St., Brgy. San Jose, San Miguel, Bulacan',
+    hours: '8:00 AM – 8:00 PM (Mon - Sun)',
+    phone: '044 (762-1585)',
+    amenities: []
   },
 
   // VISAYAS (Heartland of Prince Retail)

@@ -30,7 +30,7 @@ export type StoreLocation = {
   hours: string;
   phone: string;
   amenities: string[];
-  coordinates: { lat: number; lng: number };
+  coordinates?: { lat: number; lng: number };
   featured?: boolean;
 };
 
