@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
@@ -10,9 +10,7 @@ import {
   Search, 
   Navigation, 
   Check, 
-  ExternalLink,
   Building2,
-  Sparkles
 } from 'lucide-react';
 import { storesData } from '../data/storesData';
 import { StoreLocation } from '../types';
@@ -33,30 +31,80 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
   const [showDirectionsSuccess, setShowDirectionsSuccess] = useState(false);
   const [routeMapReady, setRouteMapReady] = useState(false);
   const routeMapRef = useRef<HTMLDivElement>(null);
+  const mapsOpenedRef = useRef(false);
+  const modalBackdropRef = useRef<HTMLDivElement>(null);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!activeStoreModal || !modalBackdropRef.current || !modalPanelRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const context = gsap.context(() => {
+      gsap.fromTo(modalBackdropRef.current, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.24, ease: 'power1.out' });
+      gsap.fromTo(modalPanelRef.current, { autoAlpha: 0, scale: 0.96, y: 12 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.34, ease: 'power2.out' });
+    });
+    return () => context.revert();
+  }, [activeStoreModal]);
+
+  useLayoutEffect(() => {
     if (activeStoreModal?.id !== 'store-vs-sagay' || !routeMapRef.current) return;
 
     const map = routeMapRef.current;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const openMaps = () => {
-      window.open(sagayMapsUrl, '_blank', 'noopener,noreferrer');
+      if (!mapsOpenedRef.current) {
+        window.open(sagayMapsUrl, '_blank', 'noopener,noreferrer');
+        mapsOpenedRef.current = true;
+      }
       setRouteMapReady(true);
     };
 
     if (reducedMotion) {
+      gsap.set(map.querySelector('.route-dashed'), { drawSVG: '0% 100%' });
+      gsap.set(map.querySelector('.route-solid'), { drawSVG: '0% 100%' });
+      gsap.set(map.querySelector('.route-start'), { autoAlpha: 1, scale: 1 });
+      gsap.set(map.querySelector('.route-destination'), { autoAlpha: 1, y: 0, scale: 1 });
+      gsap.set(map.querySelector('.route-complete'), { autoAlpha: 1, y: 0 });
+      gsap.set(map.querySelector('.route-glow'), { opacity: 0.28 });
+      gsap.set(map.querySelector('.route-pin-pulse'), { opacity: 0.16, scale: 1 });
+      gsap.set(map.querySelector('.route-car'), { autoAlpha: 0 });
       openMaps();
       return;
     }
 
-    const timeline = gsap.timeline({ onComplete: openMaps });
-    timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.65, ease: 'power1.inOut' });
+    const route = map.querySelector('.route-path');
+    const car = map.querySelector('.route-car');
+    const glow = map.querySelector('.route-glow');
+    const pinPulse = map.querySelector('.route-pin-pulse');
+    const particles = map.querySelectorAll('.route-particle');
+    gsap.set([map.querySelector('.route-start'), map.querySelector('.route-destination'), map.querySelector('.route-complete')], { autoAlpha: 0 });
+    gsap.set(map.querySelector('.route-start'), { scale: 0.6, transformOrigin: '62px 256px' });
+    gsap.set(map.querySelector('.route-destination'), { y: -18, scale: 0.88, transformOrigin: '50% 90%' });
+    gsap.set(map.querySelector('.route-complete'), { y: 8 });
+    gsap.set(car, { autoAlpha: 0 });
+    gsap.set(particles, { autoAlpha: 0 });
+    gsap.set(glow, { opacity: 0.1 });
+    gsap.set(pinPulse, { opacity: 0.08, scale: 0.82, transformOrigin: '570px 67px' });
+
+    const glowPulse = gsap.to(glow, { opacity: 0.3, duration: 1.6, repeat: -1, yoyo: true, ease: 'sine.inOut', paused: true });
+    const pinPulseTween = gsap.to(pinPulse, { opacity: 0.2, scale: 1.12, duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut', paused: true });
+    const particlesMotion = gsap.to(particles, { autoAlpha: 0.95, duration: 2.6, ease: 'none', repeat: -1, stagger: 0.8, motionPath: { path: route, align: route, alignOrigin: [0.5, 0.5] }, paused: true });
+    const placeholderFloat = gsap.to(map.querySelectorAll('.map-placeholder'), { y: -4, duration: 2.4, repeat: -1, yoyo: true, stagger: 0.28, ease: 'sine.inOut' });
+    const timeline = gsap.timeline({ onComplete: () => { setRouteMapReady(true); openMaps(); glowPulse.play(); pinPulseTween.play(); particlesMotion.play(); } });
+    timeline.to(map.querySelector('.route-start'), { autoAlpha: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' });
+    timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.7, ease: 'power1.inOut' });
     timeline.fromTo(map.querySelector('.route-solid'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 2.5, ease: 'none' }, 0.55);
-    timeline.to(map.querySelector('.route-car'), { duration: 2.5, ease: 'none', motionPath: { path: map.querySelector('.route-path'), align: map.querySelector('.route-path'), alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
+    timeline.to(car, { autoAlpha: 1, duration: 0.18 }, 0.55);
+    timeline.to(car, { duration: 2.5, ease: 'none', motionPath: { path: route, align: route, alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
+    timeline.to(car, { autoAlpha: 0, duration: 0.18 }, 2.9);
+    timeline.to(map.querySelector('.route-destination'), { autoAlpha: 1, y: 0, scale: 1, duration: 0.7, ease: 'bounce.out' }, 2.85);
+    timeline.to(map.querySelector('.route-complete'), { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 3.35);
 
     return () => {
       timeline.kill();
-      gsap.killTweensOf(map.querySelector('.route-car'));
+      glowPulse.kill();
+      pinPulseTween.kill();
+      particlesMotion.kill();
+      placeholderFloat.kill();
+      gsap.killTweensOf([car, particles]);
     };
   }, [activeStoreModal]);
 
@@ -112,6 +160,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
   const handleGetDirections = (store: StoreLocation) => {
     if (store.id === 'store-vs-sagay') {
+      mapsOpenedRef.current = false;
       setRouteMapReady(false);
       setActiveStoreModal(store);
       return;
@@ -353,50 +402,73 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
       {/* Store Directions & Info Modal */}
       {activeStoreModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn" onClick={closeStoreModal}>
-          <div role="dialog" aria-modal="true" aria-labelledby="store-modal-title" className={`bg-white rounded-3xl ${activeStoreModal.id === 'store-vs-sagay' ? 'max-w-2xl' : 'max-w-lg'} w-full p-5 sm:p-7 shadow-2xl border border-[#252927]/10 relative animate-scaleIn`} onClick={(event) => event.stopPropagation()}>
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#EF777B]">
-                  {activeStoreModal.region} Branch
+        <div ref={modalBackdropRef} className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#252927]/55 backdrop-blur-md" onClick={closeStoreModal}>
+          <div ref={modalPanelRef} role="dialog" aria-modal="true" aria-labelledby="store-modal-title" className={`relative max-h-[calc(100dvh-1.5rem)] w-full overflow-y-auto rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_28px_90px_-30px_rgba(37,41,39,0.6)] sm:p-7 ${activeStoreModal.id === 'store-vs-sagay' ? 'max-w-3xl' : 'max-w-lg'}`} onClick={(event) => event.stopPropagation()}>
+            <div className="mb-4 flex items-start justify-between gap-4 sm:mb-5">
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#FBE3DF] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#C6545B]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#EF777B]" />{activeStoreModal.region} Branch
                 </span>
-                <h3 id="store-modal-title" className="text-xl font-extrabold text-[#252927] mt-0.5">
+                <h3 id="store-modal-title" className="mt-2 text-2xl font-black tracking-tight text-[#252927] sm:text-3xl">
                   {activeStoreModal.name}
                 </h3>
+                <p className="mt-1.5 flex items-start gap-2 text-sm leading-relaxed text-[#6C7470]">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#EF777B]" aria-hidden="true" />
+                  <span>{activeStoreModal.address}</span>
+                </p>
               </div>
               <button
                 onClick={closeStoreModal}
                 aria-label="Close store details"
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-[#252927] flex items-center justify-center text-xs font-bold cursor-pointer"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#252927]/10 bg-white text-lg text-[#252927] shadow-sm transition hover:bg-[#FFFDF8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EF777B]"
               >
-                ✕
+                ×
               </button>
             </div>
 
             {activeStoreModal.id === 'store-vs-sagay' ? (
               <>
-                <p className="text-xs text-[#6C7470] mb-3">{activeStoreModal.address}</p>
-                <div ref={routeMapRef} className="rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-3 sm:p-4" aria-label="Animated route to Prince Hypermart Sagay">
-                  <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[300px] w-full max-w-[640px]" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
-                    <rect x="14" y="20" width="150" height="84" rx="18" fill="#E8EEF7" />
-                    <rect x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
-                    <rect x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
-                    <rect x="230" y="218" width="148" height="66" rx="20" fill="#E8EEF7" />
-                    <rect x="470" y="165" width="122" height="78" rx="20" fill="#E8EEF7" />
+                <div ref={routeMapRef} className="overflow-hidden rounded-2xl border border-[#C9D8F2] bg-[#F3F7FF] p-2 shadow-inner sm:p-3" aria-label="Animated route to Prince Hypermart Sagay">
+                  <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[330px] w-full max-w-[720px]" role="img" aria-label="Animated route from your location to Prince Hypermart Sagay">
+                    <path d="M0 68H640M0 188H640M170 0V300M394 0V300" stroke="#E0E9F7" strokeWidth="2" />
+                    <rect className="map-placeholder" x="14" y="20" width="150" height="84" rx="18" fill="#E5ECF7" />
+                    <rect className="map-placeholder" x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
+                    <rect className="map-placeholder" x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
+                    <rect className="map-placeholder" x="230" y="218" width="148" height="66" rx="20" fill="#E5ECF7" />
+                    <rect className="map-placeholder" x="470" y="165" width="122" height="78" rx="20" fill="#E8EEF7" />
                     <path className="route-path" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" />
-                    <path className="route-dashed" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#A9C8FF" strokeWidth="7" strokeLinecap="round" strokeDasharray="2 16" />
+                    <path className="route-glow" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#176BFF" strokeWidth="20" strokeLinecap="round" opacity="0.1" />
+                    <path className="route-dashed" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#A9C8FF" strokeWidth="6" strokeLinecap="round" strokeDasharray="3 15" />
                     <path className="route-solid" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#176BFF" strokeWidth="7" strokeLinecap="round" />
-                    <circle cx="62" cy="256" r="13" fill="white" stroke="#176BFF" strokeWidth="6" />
-                    <path d="M570 18c-15 0-27 12-27 27 0 20 27 49 27 49s27-29 27-49c0-15-12-27-27-27Zm0 36a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z" fill="#176BFF" />
-                    <g className="route-car" aria-hidden="true">
+                    <g className="route-start" opacity="0">
+                      <circle cx="62" cy="256" r="21" fill="#176BFF" opacity="0.12" />
+                      <circle cx="62" cy="256" r="13" fill="white" stroke="#176BFF" strokeWidth="6" />
+                    </g>
+                    <circle className="route-particle" cx="62" cy="256" r="4" fill="white" stroke="#176BFF" strokeWidth="2" opacity="0" />
+                    <circle className="route-particle" cx="62" cy="256" r="3" fill="white" stroke="#EF777B" strokeWidth="2" opacity="0" />
+                    <circle className="route-particle" cx="62" cy="256" r="2.5" fill="white" stroke="#176BFF" strokeWidth="1.5" opacity="0" />
+                    <g className="route-car" opacity="0" aria-hidden="true">
                       <rect x="-18" y="-11" width="36" height="22" rx="8" fill="#176BFF" stroke="white" strokeWidth="3" />
                       <rect x="-8" y="-7" width="16" height="14" rx="4" fill="#DCEAFF" />
                     </g>
+                    <g className="route-destination" opacity="0">
+                      <circle className="route-pin-pulse" cx="570" cy="67" r="48" fill="#176BFF" opacity="0.08" />
+                      <path d="M570 18c-15 0-27 12-27 27 0 20 27 49 27 49s27-29 27-49c0-15-12-27-27-27Z" fill="#176BFF" />
+                      <path d="M555 49h30l-3 8h-24l-3-8Zm3 10h24v17h-24V59Zm4 4v8h5v-8h-5Zm9 0v8h7v-8h-7Z" fill="white" />
+                    </g>
                   </svg>
                 </div>
-                <p className="mt-3 text-center text-xs font-semibold text-[#176BFF]" aria-live="polite">
-                  {routeMapReady ? <>Animation complete. If Maps did not open, <a href={sagayMapsUrl} target="_blank" rel="noreferrer" className="underline">open it here</a>.</> : 'Opening Google Maps in a new tab…'}
-                </p>
+                <div className="route-complete mt-4 flex translate-y-2 items-center gap-3 rounded-2xl border border-[#B8D9C4]/70 bg-[#DCEEE2]/60 p-3 opacity-0 sm:p-4" aria-live="polite">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#DCEEE2] text-emerald-700">
+                    <Check className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-bold text-[#252927]">{routeMapReady ? 'Destination reached' : 'Plotting your route'}</span>
+                    <span className="mt-0.5 block text-xs text-[#6C7470]">
+                      {routeMapReady ? <>Animation complete. If Maps did not open, <a href={sagayMapsUrl} target="_blank" rel="noreferrer" className="font-bold text-[#176BFF] underline underline-offset-2">open it here</a>.</> : 'Your Google Maps destination will open in a new tab.'}
+                    </span>
+                  </span>
+                </div>
               </>
             ) : (
               <>
