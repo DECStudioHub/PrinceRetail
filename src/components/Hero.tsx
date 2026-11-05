@@ -12,7 +12,7 @@ import {
   Smartphone
 } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
-import { HeroAnalytics } from './HeroAnalytics';
+import { VisitorCounterCard } from './VisitorCounterCard';
 
 interface HeroProps {
   onExploreShop: () => void;
@@ -145,7 +145,7 @@ export const Hero: React.FC<HeroProps> = ({
           {/* LEFT SIDE: Brand, Headline, Supporting, Badges, CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
 
-            <HeroAnalytics />
+            <VisitorCounterCard />
             
             {/* Brand Kicker with Unboxed Metadata */}
             <div className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-4">
