@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { 
   MapPin, 
   ArrowRight, 
@@ -14,6 +17,8 @@ import {
 import { storesData } from '../data/storesData';
 import { StoreLocation } from '../types';
 
+gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+
 interface StoresSectionProps {
   selectedRegionFilter?: 'Luzon' | 'Visayas' | 'Mindanao' | null;
 }
@@ -25,6 +30,34 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
   const [searchQuery, setSearchQuery] = useState('');
   const [activeStoreModal, setActiveStoreModal] = useState<StoreLocation | null>(null);
   const [showDirectionsSuccess, setShowDirectionsSuccess] = useState(false);
+  const [sagayRouteActive, setSagayRouteActive] = useState(false);
+  const routeMapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sagayRouteActive || !routeMapRef.current) return;
+
+    const map = routeMapRef.current;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Prince Hypermart Sagay, Poblacion II, Sagay City, Negros Occidental');
+    let redirectTimer: number;
+
+    if (reducedMotion) {
+      redirectTimer = window.setTimeout(() => window.location.assign(mapUrl), 300);
+      return () => window.clearTimeout(redirectTimer);
+    }
+
+    const timeline = gsap.timeline({
+      onComplete: () => window.location.assign(mapUrl)
+    });
+    timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.65, ease: 'power1.inOut' });
+    timeline.fromTo(map.querySelector('.route-solid'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 2.5, ease: 'none' }, 0.55);
+    timeline.to(map.querySelector('.route-car'), { duration: 2.5, ease: 'none', motionPath: { path: map.querySelector('.route-path'), align: map.querySelector('.route-path'), alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
+
+    return () => {
+      timeline.kill();
+      gsap.killTweensOf(map.querySelector('.route-car'));
+    };
+  }, [sagayRouteActive]);
 
   // Sync if prop updates
   React.useEffect(() => {
@@ -77,6 +110,11 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
   });
 
   const handleGetDirections = (store: StoreLocation) => {
+    if (store.id === 'store-vs-sagay') {
+      setSagayRouteActive(true);
+      requestAnimationFrame(() => routeMapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      return;
+    }
     setActiveStoreModal(store);
     setShowDirectionsSuccess(false);
   };
@@ -281,7 +319,34 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
           {/* Interactive Map Visual Simulator */}
           <div className="mt-8 pt-6 border-t border-[#252927]/8">
-            <div className="bg-[#DCEEE2]/30 rounded-2xl p-6 border border-[#B8D9C4]/40 flex flex-col md:flex-row items-center justify-between gap-4">
+            {sagayRouteActive ? (
+              <div ref={routeMapRef} className="rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-4 sm:p-6" aria-label="Animated route to Prince Hypermart Sagay">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <div>
+                    <h4 className="text-sm font-bold text-[#252927]">Route to Prince Hypermart Sagay</h4>
+                    <p className="text-xs text-[#6C7470]">Poblacion II, Sagay City, Negros Occidental</p>
+                  </div>
+                  <Navigation className="h-5 w-5 shrink-0 text-[#EF777B]" aria-hidden="true" />
+                </div>
+                <svg viewBox="0 0 640 300" className="w-full" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
+                  <rect x="14" y="20" width="150" height="84" rx="18" fill="#E8EEF7" />
+                  <rect x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
+                  <rect x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
+                  <rect x="230" y="218" width="148" height="66" rx="20" fill="#E8EEF7" />
+                  <rect x="470" y="165" width="122" height="78" rx="20" fill="#E8EEF7" />
+                  <path className="route-path" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" />
+                  <path className="route-dashed" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#A9C8FF" strokeWidth="7" strokeLinecap="round" strokeDasharray="2 16" />
+                  <path className="route-solid" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#176BFF" strokeWidth="7" strokeLinecap="round" />
+                  <circle cx="62" cy="256" r="13" fill="white" stroke="#176BFF" strokeWidth="6" />
+                  <path d="M570 18c-15 0-27 12-27 27 0 20 27 49 27 49s27-29 27-49c0-15-12-27-27-27Zm0 36a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z" fill="#176BFF" />
+                  <g className="route-car" aria-hidden="true">
+                    <rect x="-18" y="-11" width="36" height="22" rx="8" fill="#176BFF" stroke="white" strokeWidth="3" />
+                    <rect x="-8" y="-7" width="16" height="14" rx="4" fill="#DCEAFF" />
+                  </g>
+                </svg>
+                <p className="text-center text-xs font-semibold text-[#176BFF]">Opening Google Maps…</p>
+              </div>
+            ) : <div className="bg-[#DCEEE2]/30 rounded-2xl p-6 border border-[#B8D9C4]/40 flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-white shadow-2xs flex items-center justify-center text-[#252927] shrink-0">
                   <Navigation className="w-6 h-6 text-[#EF777B]" />
@@ -301,7 +366,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
               >
                 Open Nearest Store in Maps
               </button>
-            </div>
+            </div>}
           </div>
 
         </div>
