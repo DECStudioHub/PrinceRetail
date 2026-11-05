@@ -40,3 +40,64 @@
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+@keyframes traffic-segment-land {
+  from { stroke-dasharray: 0 251.2; }
+  to { stroke-dasharray: var(--segment-length); }
+}
+
+@keyframes traffic-legend-land {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes visitor-line-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes visitor-area-fade {
+  to { opacity: 1; }
+}
+
+@keyframes visitor-dot-pulse {
+  50% { r: 5; opacity: .65; }
+}
+
+.traffic-segment {
+  animation: traffic-segment-land 420ms ease-out both;
+  stroke-dashoffset: var(--segment-offset);
+}
+
+.traffic-legend-row {
+  animation: traffic-legend-land 240ms ease-out both;
+}
+
+.visitor-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: visitor-line-draw 1.35s cubic-bezier(.22,.7,.22,1) 100ms forwards;
+}
+
+.visitor-area {
+  opacity: 0;
+  animation: visitor-area-fade 450ms ease-out 1.45s forwards;
+}
+
+.visitor-dot {
+  opacity: 0;
+  animation: visitor-area-fade 200ms ease-out 1.5s forwards, visitor-dot-pulse 1.8s ease-in-out 1.7s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traffic-segment,
+  .traffic-legend-row,
+  .visitor-line,
+  .visitor-area,
+  .visitor-dot {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .visitor-line { stroke-dashoffset: 0; }
+}
