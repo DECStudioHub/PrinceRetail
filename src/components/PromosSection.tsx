@@ -16,11 +16,11 @@ export const PromosSection: React.FC<PromosSectionProps> = ({ onShopPromo }) => 
   };
 
   return (
-    <section id="promos" className="py-20 lg:py-28 bg-[#FFFDF8] border-b border-[#252927]/5 relative">
+    <section id="promos" className="pt-8 pb-14 lg:pt-10 lg:pb-16 bg-[#FFFDF8] border-b border-[#252927]/5 relative scroll-mt-18">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 lg:mb-10">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-3">
               <span className="text-[#EF777B]">Promotions & Discounts</span>

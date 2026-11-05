@@ -59,7 +59,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
   };
 
   return (
-    <section id="loyalty" className="py-20 lg:py-28 bg-[#FFFDF8] relative overflow-hidden">
+    <section id="loyalty" className="pt-8 pb-14 lg:pt-10 lg:pb-16 bg-[#FFFDF8] relative overflow-hidden scroll-mt-18">
       {/* Decorative ambient subtle background gradients */}
       <div className="absolute top-10 right-0 w-96 h-96 bg-[#FFF0BF]/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
       <div className="absolute bottom-10 left-0 w-96 h-96 bg-[#DCEEE2]/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -67,7 +67,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
+        <div className="max-w-3xl mb-8 lg:mb-10">
           <div className="inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-3">
             <span className="text-[#EF777B]">Royalty Rewards Program</span>
             <span aria-hidden="true">·</span>

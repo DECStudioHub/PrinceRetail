@@ -132,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section id="home" className="relative pt-24 sm:pt-28 pb-16 lg:pb-24 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30">
+    <section id="home" className="relative pt-20 sm:pt-22 pb-12 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
       {/* Subtle background ambient pastel glows */}
       <div className="absolute top-12 left-1/4 w-96 h-96 bg-[#FBE3DF]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
       <div className="absolute top-36 right-10 w-96 h-96 bg-[#FFF0BF]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -144,8 +144,13 @@ export const Hero: React.FC<HeroProps> = ({
           {/* LEFT SIDE: Brand, Headline, Supporting, Badges, CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             
-            {/* Brand Kicker with Unboxed Metadata */}
-            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-4">
+            {/* Brand Kicker with Unboxed Metadata & Official Logo */}
+            <div className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-4">
+              <img 
+                src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
+                alt="Prince Retail Official Logo Badge"
+                className="w-7 h-7 object-contain rounded-full drop-shadow-2xs"
+              />
               <span className="text-[#EF777B]">Prince Retail</span>
               <span aria-hidden="true">·</span>
               <span className="text-[#252927]">Sabay sa Buhay</span>

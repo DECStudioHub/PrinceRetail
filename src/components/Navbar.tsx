@@ -9,6 +9,7 @@ import {
   Crown,
   Sparkles
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface NavbarProps {
   cartCount: number;
@@ -36,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       setIsScrolled(window.scrollY > 20);
 
       const sections = ['home', 'about', 'stores', 'promos', 'programs', 'loyalty', 'shop', 'careers', 'contact'];
-      const scrollPosition = window.scrollY + 140;
+      const scrollPosition = window.scrollY + 90;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -57,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     setLoyaltyDropdownOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const top = element.getBoundingClientRect().top + window.scrollY - 76;
+      const top = element.getBoundingClientRect().top + window.scrollY - 66;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };
@@ -80,27 +81,34 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#FFFDF8]/95 backdrop-blur-md shadow-xs border-b border-[#252927]/8 py-3' 
-          : 'bg-[#FFFDF8] border-b border-[#252927]/5 py-4'
+          ? 'bg-[#FFFDF8]/95 backdrop-blur-md shadow-xs border-b border-[#252927]/8 py-2.5 sm:py-3' 
+          : 'bg-[#FFFDF8] border-b border-[#252927]/5 py-3 sm:py-3.5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
           
-          {/* Brand Wordmark & Slogan */}
+          {/* Brand Wordmark & Slogan with Official Logo */}
           <button 
             onClick={() => scrollTo('home')} 
-            className="flex flex-col items-start group focus:outline-none text-left shrink-0"
+            className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none text-left shrink-0 cursor-pointer"
           >
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-[#252927] group-hover:text-[#EF777B] transition-colors">
-                PRINCE RETAIL
+            <img 
+              src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
+              alt="Prince Retail - Sabay sa Buhay Official Logo"
+              className="w-10 h-10 sm:w-11 sm:h-11 object-contain drop-shadow-xs group-hover:scale-105 transition-transform duration-300 rounded-full"
+            />
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-base sm:text-lg tracking-tight text-[#252927] group-hover:text-[#EF777B] transition-colors leading-tight">
+                  PRINCE RETAIL
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EF777B]"></span>
+              </div>
+              <span className="text-[10px] tracking-[0.18em] font-bold text-[#6C7470] uppercase">
+                Sabay sa Buhay
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#EF777B]"></span>
             </div>
-            <span className="text-[10px] tracking-[0.18em] font-bold text-[#6C7470] uppercase">
-              Sabay sa Buhay
-            </span>
           </button>
 
           {/* Desktop Navigation Links */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, Crown, Heart, Sparkles } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -37,18 +38,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Brand & Slogan Strip */}
+        {/* Brand & Slogan Strip with Official Logo */}
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-12 mb-12 border-b border-white/10 gap-6">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-black tracking-tight text-white">
-                PRINCE RETAIL
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#EF777B]"></span>
+          <div className="flex items-center gap-4">
+            <img 
+              src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
+              alt="Prince Retail - Sabay sa Buhay Official Logo"
+              className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full drop-shadow-md"
+            />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-black tracking-tight text-white">
+                  PRINCE RETAIL
+                </span>
+                <span className="w-2 h-2 rounded-full bg-[#EF777B]"></span>
+              </div>
+              <p className="text-xs uppercase tracking-[0.25em] font-extrabold text-[#F7DF8B] mt-1">
+                SABAY SA BUHAY
+              </p>
             </div>
-            <p className="text-xs uppercase tracking-[0.25em] font-extrabold text-[#F7DF8B] mt-1">
-              SABAY SA BUHAY
-            </p>
           </div>
 
           <div className="text-xs text-white/60 max-w-md leading-relaxed">
