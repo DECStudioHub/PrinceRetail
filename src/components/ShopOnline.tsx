@@ -165,6 +165,8 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
                     <img
                       src={getAssetUrl(product.image)}
                       alt={product.name}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     />

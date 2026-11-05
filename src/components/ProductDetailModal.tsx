@@ -48,6 +48,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <img
               src={getAssetUrl(product.image)}
               alt={product.name}
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover"
             />

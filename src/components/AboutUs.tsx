@@ -219,6 +219,8 @@ export const AboutUs: React.FC = () => {
               <img
                 src={getAssetUrl('assets/images/prince_store_community_1793803410656.jpg')}
                 alt="Prince Retail community supermarket interior with Filipino shoppers and local produce"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
               />

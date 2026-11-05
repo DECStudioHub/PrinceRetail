@@ -149,6 +149,9 @@ export const Hero: React.FC<HeroProps> = ({
               <img 
                 src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
                 alt="Prince Retail Official Logo Badge"
+                width={28}
+                height={28}
+                decoding="async"
                 className="w-7 h-7 object-contain rounded-full drop-shadow-2xs"
               />
               <span className="text-[#EF777B]">Prince Retail</span>
@@ -332,6 +335,8 @@ export const Hero: React.FC<HeroProps> = ({
                           <img
                             src={slide.image}
                             alt={`Prince Retail Mobile App Screen ${slide.number} - ${slide.title}`}
+                            loading={isActive ? 'eager' : 'lazy'}
+                            decoding="async"
                             className="w-full h-full object-cover object-top"
                           />
                         </div>

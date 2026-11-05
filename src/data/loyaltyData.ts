@@ -13,7 +13,7 @@ export const loyaltyTiers: LoyaltyTier[] = [
     textColor: 'text-[#252927]',
     description: 'Welcome to the Prince Retail family. Start earning points on all daily grocery and home purchases from your very first receipt.',
     multiplier: '1x Points (₱200 = 1 Point)',
-    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gift_Card_fb2f5864.png'),
+    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gift_Card_fb2f5864.jpg'),
     perks: [
       'Earn points on all groceries & essentials',
       'Free digital membership in Prince Mobile App',
@@ -34,7 +34,7 @@ export const loyaltyTiers: LoyaltyTier[] = [
     textColor: 'text-[#252927]',
     description: 'Elevated rewards designed for regular family shoppers with bonus points and fast-track lane checkout privileges.',
     multiplier: '1.5x Points (₱200 = 1.5 Points)',
-    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gold_Gift_Card_c4e61e30.png'),
+    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gold_Gift_Card_c4e61e30.jpg'),
     perks: [
       '1.5x point earnings on all purchases',
       'Express Royalty Gold priority checkout lane',
@@ -56,7 +56,7 @@ export const loyaltyTiers: LoyaltyTier[] = [
     textColor: 'text-[#252927]',
     description: 'Comprehensive VIP treatment with generous reward multipliers, free delivery perks, and curated seasonal family bundles.',
     multiplier: '2x Points (₱200 = 2 Points)',
-    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Platinum_Gift_Card_f4f98cf6.png'),
+    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Platinum_Gift_Card_f4f98cf6.jpg'),
     perks: [
       'Double points on every transaction',
       'Free doorstep home delivery on orders over ₱1,000',
@@ -78,7 +78,7 @@ export const loyaltyTiers: LoyaltyTier[] = [
     textColor: 'text-white',
     description: 'The pinnacle of Prince Retail privilege. Crafted for community leaders, large households, and elite patrons who expect absolute distinction.',
     multiplier: '3x Points (₱200 = 3 Points)',
-    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Diamond_Card_8fc33fed.png'),
+    cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Diamond_Card_8fc33fed.jpg'),
     perks: [
       'Triple points with no maximum earning cap',
       'Private access to Prince Royalty VIP Lounge in flagship branches',

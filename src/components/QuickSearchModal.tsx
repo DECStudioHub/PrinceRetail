@@ -115,6 +115,8 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                           <img
                             src={getAssetUrl(p.image)}
                             alt={p.name}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             className="w-10 h-10 rounded-lg object-cover"
                           />

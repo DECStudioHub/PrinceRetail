@@ -44,6 +44,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
             <img 
               src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
               alt="Prince Retail - Sabay sa Buhay Official Logo"
+              width={64}
+              height={64}
+              loading="lazy"
+              decoding="async"
               className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full drop-shadow-md"
             />
             <div>

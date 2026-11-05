@@ -93,6 +93,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                 <img
                   src={getAssetUrl(selectedTier.cardImage)}
                   alt={selectedTier.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover block rounded-2xl sm:rounded-3xl"
                 />
               </div>
@@ -286,6 +288,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                             <img
                               src={getAssetUrl(tier.cardImage)}
                               alt={tier.name}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover rounded-xl"
                             />
                           </div>
@@ -470,6 +474,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                   <img
                     src={getAssetUrl(selectedTier.cardImage)}
                     alt={selectedTier.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-16 h-10 object-cover rounded-lg shadow-xs"
                   />
                   <div>

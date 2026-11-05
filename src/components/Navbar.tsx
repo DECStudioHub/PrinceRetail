@@ -96,6 +96,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <img 
               src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
               alt="Prince Retail - Sabay sa Buhay Official Logo"
+              width={44}
+              height={44}
+              fetchPriority="high"
+              decoding="async"
               className="w-10 h-10 sm:w-11 sm:h-11 object-contain drop-shadow-xs group-hover:scale-105 transition-transform duration-300 rounded-full"
             />
             <div className="flex flex-col items-start">
