@@ -144,16 +144,8 @@ export const Hero: React.FC<HeroProps> = ({
           {/* LEFT SIDE: Brand, Headline, Supporting, Badges, CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             
-            {/* Brand Kicker with Unboxed Metadata & Official Logo */}
+            {/* Brand Kicker with Unboxed Metadata */}
             <div className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-4">
-              <img 
-                src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
-                alt="Prince Retail Official Logo Badge"
-                width={28}
-                height={28}
-                decoding="async"
-                className="w-7 h-7 object-contain rounded-full drop-shadow-2xs"
-              />
               <span className="text-[#EF777B]">Prince Retail</span>
               <span aria-hidden="true">·</span>
               <span className="text-[#252927]">Sabay sa Buhay</span>
