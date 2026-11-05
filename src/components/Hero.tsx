@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   ArrowRight, 
   MapPin, 
@@ -6,6 +6,8 @@ import {
   Download, 
   ShoppingBag, 
   Sparkles, 
+  ChevronLeft,
+  ChevronRight,
   ShieldCheck,
   Smartphone
 } from 'lucide-react';
@@ -22,7 +24,40 @@ export const Hero: React.FC<HeroProps> = ({
   onFindStore,
   onOpenLoyalty
 }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const [appNotice, setAppNotice] = useState<string | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const slides = [
+    { id: 1, title: 'Store Selection', image: getAssetUrl('assets/aistudio/1_268d1ae3.jpg') },
+    { id: 2, title: 'Wholesale Deals Storefront', image: getAssetUrl('assets/aistudio/2_2df6d4e6.jpg') },
+    { id: 3, title: 'Shop by Category', image: getAssetUrl('assets/aistudio/3_82ea7325.jpg') },
+    { id: 4, title: 'Bulk Wholesale Cases', image: getAssetUrl('assets/aistudio/4_54245243.jpg') },
+    { id: 5, title: 'Sari-Sari Best Sellers', image: getAssetUrl('assets/aistudio/5_f9d53d6f.jpg') },
+    { id: 6, title: 'Discount Coupons', image: getAssetUrl('assets/aistudio/6_94fd91ca.jpg') },
+    { id: 7, title: 'Orders & Tracking', image: getAssetUrl('assets/aistudio/7_79022b86.jpg') },
+    { id: 8, title: 'Profile & MySuki QR', image: getAssetUrl('assets/aistudio/8_7a0cecb1.jpg') }
+  ];
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 2100);
+    return () => clearInterval(timer);
+  }, [isPaused, slides.length]);
+
+  const handleTouchStart = (event: React.TouchEvent) => {
+    touchStartX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = touchStartX.current - event.changedTouches[0].clientX;
+    if (Math.abs(delta) > 45) {
+      setCurrentSlide((slide) => (slide + (delta > 0 ? 1 : slides.length - 1)) % slides.length);
+    }
+    touchStartX.current = null;
+  };
 
   return (
     <section id="home" className="relative pt-20 sm:pt-22 pb-12 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
@@ -155,18 +190,56 @@ export const Hero: React.FC<HeroProps> = ({
 
           </div>
 
-          {/* RIGHT SIDE: Single-screen app preview */}
+          {/* RIGHT SIDE: App screen slider */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
-            <div className="relative w-[min(310px,calc(100vw_-_3rem))]">
+            <div
+              className="relative w-[min(310px,calc(100vw_-_3rem),max(150px,calc(50svh_-_7rem)))]"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onFocus={() => setIsPaused(true)}
+              onBlur={() => setIsPaused(false)}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               <div aria-hidden="true" className="absolute -inset-5 rounded-[3rem] bg-gradient-to-br from-[#FBE3DF]/80 via-white/70 to-[#DCEEE2]/80 blur-2xl" />
               <div className="relative overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/70 p-2 shadow-[0_32px_80px_-28px_rgba(37,41,39,0.38)] backdrop-blur-xl">
-                <img
-                  src={getAssetUrl('assets/aistudio/2_2df6d4e6.jpg')}
-                  alt="Prince Retail app storefront showing wholesale deals and featured categories"
-                  fetchPriority="high"
-                  decoding="async"
-                  className="block aspect-[1/2] w-full rounded-[1.8rem] object-cover"
-                />
+                <div className="relative aspect-[1/2] overflow-hidden rounded-[1.8rem] bg-white">
+                  {slides.map((slide, index) => (
+                    <img
+                      key={slide.id}
+                      src={slide.image}
+                      alt={`Prince Retail app screen: ${slide.title}`}
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <button
+                onClick={() => setCurrentSlide((slide) => (slide + slides.length - 1) % slides.length)}
+                aria-label="Previous app screen"
+                className="absolute -left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 text-[#252927] shadow-md transition-transform hover:scale-105 active:scale-95"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)}
+                aria-label="Next app screen"
+                className="absolute -right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 text-[#252927] shadow-md transition-transform hover:scale-105 active:scale-95"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+              <div className="mt-4 flex justify-center gap-2" aria-label="Choose app screen">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.id}
+                    onClick={() => setCurrentSlide(index)}
+                    aria-label={`Show ${slide.title}`}
+                    aria-current={index === currentSlide ? 'true' : undefined}
+                    className={`h-2.5 rounded-full transition-all ${index === currentSlide ? 'w-6 bg-[#EF777B]' : 'w-2.5 bg-[#252927]/20 hover:bg-[#252927]/40'}`}
+                  />
+                ))}
               </div>
             </div>
 
