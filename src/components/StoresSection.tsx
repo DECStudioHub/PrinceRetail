@@ -320,7 +320,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
           {/* Interactive Map Visual Simulator */}
           <div className="mt-8 pt-6 border-t border-[#252927]/8">
             {sagayRouteActive ? (
-              <div ref={routeMapRef} className="rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-4 sm:p-6" aria-label="Animated route to Prince Hypermart Sagay">
+              <div ref={routeMapRef} className="mx-auto max-w-2xl rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-4 sm:p-6" aria-label="Animated route to Prince Hypermart Sagay">
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div>
                     <h4 className="text-sm font-bold text-[#252927]">Route to Prince Hypermart Sagay</h4>
@@ -328,7 +328,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                   </div>
                   <Navigation className="h-5 w-5 shrink-0 text-[#EF777B]" aria-hidden="true" />
                 </div>
-                <svg viewBox="0 0 640 300" className="w-full" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
+                <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[300px] w-full max-w-[640px]" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
                   <rect x="14" y="20" width="150" height="84" rx="18" fill="#E8EEF7" />
                   <rect x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
                   <rect x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
