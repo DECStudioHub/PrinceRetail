@@ -27,8 +27,8 @@ export type StoreLocation = {
   city: string;
   province: string;
   address: string;
-  hours: string;
-  phone: string;
+  hours?: string;
+  phone?: string;
   amenities: string[];
   coordinates?: { lat: number; lng: number };
   featured?: boolean;

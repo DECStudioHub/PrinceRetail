@@ -48,7 +48,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       region: 'Visayas' as const,
       title: 'Visayas',
       desc: 'Explore PRINCE RETAIL stores across Visayas.',
-      count: 'Cebu Flagship, Bohol, Leyte, Negros, Panay',
+      count: 'Cebu, Leyte, Biliran, Samar, Negros, Panay, Siquijor',
       bgClass: 'bg-[#FFF0BF]',
       borderClass: 'border-[#F7DF8B]/50',
       accentColor: '#F7DF8B',
@@ -58,7 +58,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       region: 'Mindanao' as const,
       title: 'Mindanao',
       desc: 'Explore PRINCE RETAIL stores across Mindanao.',
-      count: 'Davao City, CDO, GenSan, Agusan del Norte',
+      count: 'Surigao, Misamis, Agusan, Zamboanga, Lanao, Bukidnon',
       bgClass: 'bg-[#DCEEE2]',
       borderClass: 'border-[#B8D9C4]/50',
       accentColor: '#B8D9C4',
@@ -231,10 +231,10 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                   </p>
 
                   <div className="space-y-1.5 text-xs text-[#252927] font-medium mb-4">
-                    <div className="flex items-center gap-2">
+                    {store.hours && <div className="flex items-center gap-2">
                       <Clock className="w-3.5 h-3.5 text-[#EF777B] shrink-0" />
                       <span>{store.hours}</span>
-                    </div>
+                    </div>}
                     {store.phone && <div className="flex items-center gap-2">
                       <Phone className="w-3.5 h-3.5 text-[#6C7470] shrink-0" />
                       <span>{store.phone}</span>
@@ -334,10 +334,10 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
             </p>
 
             <div className="space-y-2 p-4 rounded-xl bg-[#FFFDF8] border border-[#252927]/8 mb-6 text-xs">
-              <div className="flex items-center justify-between">
+              {activeStoreModal.hours && <div className="flex items-center justify-between">
                 <span className="text-[#6C7470]">Operating Hours:</span>
                 <span className="font-bold text-[#252927]">{activeStoreModal.hours}</span>
-              </div>
+              </div>}
               {activeStoreModal.phone && <div className="flex items-center justify-between">
                 <span className="text-[#6C7470]">Branch Phone:</span>
                 <span className="font-bold text-[#252927]">{activeStoreModal.phone}</span>
