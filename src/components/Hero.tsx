@@ -266,7 +266,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             
             <div 
-              className="relative w-[min(285px,calc(100vw_-_4.5rem))] sm:w-[310px] md:w-[325px] select-none"
+              className="relative w-[min(325px,35svh,calc(100vw_-_4.5rem))] select-none"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
