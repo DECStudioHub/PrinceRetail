@@ -67,14 +67,11 @@ export const ContactUs: React.FC = () => {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#252927] mb-1">Corporate Headquarters</h3>
+                  <h3 className="text-sm font-bold text-[#252927] mb-1">Head Office</h3>
                   <p className="text-xs text-[#6C7470] leading-relaxed">
-                    Prince Retail Corporate Center<br />
-                    Colon Street cor. Leon Kilat, Downtown<br />
-                    Cebu City 6000, Philippines
-                  </p>
-                  <p className="text-[11px] text-[#6C7470] mt-2 font-medium">
-                    With Regional Hubs in Batangas, Pampanga, Davao & Tacloban
+                    <strong>Prince Retail Group of Companies</strong><br />
+                    PRG Tower, P. Basubas Street, Brgy. Tipolo<br />
+                    Mandaue City 6014, Cebu
                   </p>
                 </div>
               </div>
@@ -87,11 +84,10 @@ export const ContactUs: React.FC = () => {
                   <Phone className="w-5 h-5 text-[#252927]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#252927] mb-1">Customer Care Hotlines</h3>
+                  <h3 className="text-sm font-bold text-[#252927] mb-1">Contact</h3>
                   <p className="text-xs text-[#6C7470] leading-relaxed">
-                    Trunkline: <strong>(032) 255-7000</strong><br />
-                    Mobile / SMS: <strong>+63 917 888 7746</strong> (0917-888-PRINCE)<br />
-                    Toll-Free Provincial: <strong>1-800-10-PRINCE</strong>
+                    <strong>(032) 254-5565</strong><br />
+                    <strong>(032) 326-8396</strong>
                   </p>
                 </div>
               </div>
@@ -104,14 +100,14 @@ export const ContactUs: React.FC = () => {
                   <Mail className="w-5 h-5 text-[#252927]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#252927] mb-1">Email & Operating Hours</h3>
+                  <h3 className="text-sm font-bold text-[#252927] mb-1">Email & Business Hours</h3>
                   <p className="text-xs text-[#6C7470] leading-relaxed">
                     Shopper Inquiries: <strong>customercare@princeretail.com</strong><br />
                     Kasosyo Wholesale: <strong>kasosyo@princeretail.com</strong>
                   </p>
                   <div className="mt-3 flex items-center gap-1.5 text-xs text-[#6C7470] font-medium">
                     <Clock className="w-3.5 h-3.5 text-[#EF777B]" />
-                    <span>Monday to Saturday: 7:30 AM – 7:00 PM PHT</span>
+                    <span>Monday – Friday, 8:00 AM – 6:00 PM</span>
                   </div>
                 </div>
               </div>
