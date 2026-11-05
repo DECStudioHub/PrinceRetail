@@ -403,7 +403,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       {/* Store Directions & Info Modal */}
       {activeStoreModal && (
         <div ref={modalBackdropRef} className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#252927]/55 backdrop-blur-md" onClick={closeStoreModal}>
-          <div ref={modalPanelRef} role="dialog" aria-modal="true" aria-labelledby="store-modal-title" className={`relative max-h-[calc(100dvh-1.5rem)] w-full overflow-y-auto rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_28px_90px_-30px_rgba(37,41,39,0.6)] sm:p-7 ${activeStoreModal.id === 'store-vs-sagay' ? 'max-w-[748px]' : 'max-w-lg'}`} onClick={(event) => event.stopPropagation()}>
+          <div ref={modalPanelRef} role="dialog" aria-modal="true" aria-labelledby="store-modal-title" className={`relative max-h-[calc(100dvh-1.5rem)] w-full overflow-y-auto rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_28px_90px_-30px_rgba(37,41,39,0.6)] sm:p-7 ${activeStoreModal.id === 'store-vs-sagay' ? 'max-w-3xl' : 'max-w-lg'}`} onClick={(event) => event.stopPropagation()}>
             <div className="mb-4 flex items-start justify-between gap-4 sm:mb-5">
               <div className="min-w-0">
                 <span className="inline-flex items-center gap-2 rounded-full bg-[#FBE3DF] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#C6545B]">
@@ -429,7 +429,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
             {activeStoreModal.id === 'store-vs-sagay' ? (
               <>
                 <div ref={routeMapRef} className="overflow-hidden rounded-2xl border border-[#C9D8F2] bg-[#F3F7FF] p-2 shadow-inner sm:p-3" aria-label="Animated route to Prince Hypermart Sagay">
-                  <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[310px] w-full max-w-[700px]" role="img" aria-label="Animated route from your location to Prince Hypermart Sagay">
+                  <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[330px] w-full max-w-[720px]" role="img" aria-label="Animated route from your location to Prince Hypermart Sagay">
                     <path d="M0 68H640M0 188H640M170 0V300M394 0V300" stroke="#E0E9F7" strokeWidth="2" />
                     <rect className="map-placeholder" x="14" y="20" width="150" height="84" rx="18" fill="#E5ECF7" />
                     <rect className="map-placeholder" x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
