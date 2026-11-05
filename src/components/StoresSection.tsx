@@ -18,6 +18,7 @@ import { storesData } from '../data/storesData';
 import { StoreLocation } from '../types';
 
 gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+const sagayMapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Prince Hypermart Sagay, Poblacion II, Sagay City, Negros Occidental');
 
 interface StoresSectionProps {
   selectedRegionFilter?: 'Luzon' | 'Visayas' | 'Mindanao' | null;
@@ -30,25 +31,25 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
   const [searchQuery, setSearchQuery] = useState('');
   const [activeStoreModal, setActiveStoreModal] = useState<StoreLocation | null>(null);
   const [showDirectionsSuccess, setShowDirectionsSuccess] = useState(false);
-  const [sagayRouteActive, setSagayRouteActive] = useState(false);
+  const [routeMapReady, setRouteMapReady] = useState(false);
   const routeMapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sagayRouteActive || !routeMapRef.current) return;
+    if (activeStoreModal?.id !== 'store-vs-sagay' || !routeMapRef.current) return;
 
     const map = routeMapRef.current;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Prince Hypermart Sagay, Poblacion II, Sagay City, Negros Occidental');
-    let redirectTimer: number;
+    const openMaps = () => {
+      window.open(sagayMapsUrl, '_blank', 'noopener,noreferrer');
+      setRouteMapReady(true);
+    };
 
     if (reducedMotion) {
-      redirectTimer = window.setTimeout(() => window.location.assign(mapUrl), 300);
-      return () => window.clearTimeout(redirectTimer);
+      openMaps();
+      return;
     }
 
-    const timeline = gsap.timeline({
-      onComplete: () => window.location.assign(mapUrl)
-    });
+    const timeline = gsap.timeline({ onComplete: openMaps });
     timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.65, ease: 'power1.inOut' });
     timeline.fromTo(map.querySelector('.route-solid'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 2.5, ease: 'none' }, 0.55);
     timeline.to(map.querySelector('.route-car'), { duration: 2.5, ease: 'none', motionPath: { path: map.querySelector('.route-path'), align: map.querySelector('.route-path'), alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
@@ -57,7 +58,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       timeline.kill();
       gsap.killTweensOf(map.querySelector('.route-car'));
     };
-  }, [sagayRouteActive]);
+  }, [activeStoreModal]);
 
   // Sync if prop updates
   React.useEffect(() => {
@@ -111,12 +112,16 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
   const handleGetDirections = (store: StoreLocation) => {
     if (store.id === 'store-vs-sagay') {
-      setSagayRouteActive(true);
-      requestAnimationFrame(() => routeMapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      setRouteMapReady(false);
+      setActiveStoreModal(store);
       return;
     }
     setActiveStoreModal(store);
     setShowDirectionsSuccess(false);
+  };
+
+  const closeStoreModal = () => {
+    setActiveStoreModal(null);
   };
 
   return (
@@ -319,34 +324,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
           {/* Interactive Map Visual Simulator */}
           <div className="mt-8 pt-6 border-t border-[#252927]/8">
-            {sagayRouteActive ? (
-              <div ref={routeMapRef} className="mx-auto max-w-2xl rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-4 sm:p-6" aria-label="Animated route to Prince Hypermart Sagay">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <div>
-                    <h4 className="text-sm font-bold text-[#252927]">Route to Prince Hypermart Sagay</h4>
-                    <p className="text-xs text-[#6C7470]">Poblacion II, Sagay City, Negros Occidental</p>
-                  </div>
-                  <Navigation className="h-5 w-5 shrink-0 text-[#EF777B]" aria-hidden="true" />
-                </div>
-                <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[300px] w-full max-w-[640px]" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
-                  <rect x="14" y="20" width="150" height="84" rx="18" fill="#E8EEF7" />
-                  <rect x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
-                  <rect x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
-                  <rect x="230" y="218" width="148" height="66" rx="20" fill="#E8EEF7" />
-                  <rect x="470" y="165" width="122" height="78" rx="20" fill="#E8EEF7" />
-                  <path className="route-path" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" />
-                  <path className="route-dashed" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#A9C8FF" strokeWidth="7" strokeLinecap="round" strokeDasharray="2 16" />
-                  <path className="route-solid" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#176BFF" strokeWidth="7" strokeLinecap="round" />
-                  <circle cx="62" cy="256" r="13" fill="white" stroke="#176BFF" strokeWidth="6" />
-                  <path d="M570 18c-15 0-27 12-27 27 0 20 27 49 27 49s27-29 27-49c0-15-12-27-27-27Zm0 36a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z" fill="#176BFF" />
-                  <g className="route-car" aria-hidden="true">
-                    <rect x="-18" y="-11" width="36" height="22" rx="8" fill="#176BFF" stroke="white" strokeWidth="3" />
-                    <rect x="-8" y="-7" width="16" height="14" rx="4" fill="#DCEAFF" />
-                  </g>
-                </svg>
-                <p className="text-center text-xs font-semibold text-[#176BFF]">Opening Google Maps…</p>
-              </div>
-            ) : <div className="bg-[#DCEEE2]/30 rounded-2xl p-6 border border-[#B8D9C4]/40 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="bg-[#DCEEE2]/30 rounded-2xl p-6 border border-[#B8D9C4]/40 flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-white shadow-2xs flex items-center justify-center text-[#252927] shrink-0">
                   <Navigation className="w-6 h-6 text-[#EF777B]" />
@@ -366,7 +344,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
               >
                 Open Nearest Store in Maps
               </button>
-            </div>}
+            </div>
           </div>
 
         </div>
@@ -375,66 +353,93 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
       {/* Store Directions & Info Modal */}
       {activeStoreModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#252927]/10 relative animate-scaleIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn" onClick={closeStoreModal}>
+          <div role="dialog" aria-modal="true" aria-labelledby="store-modal-title" className={`bg-white rounded-3xl ${activeStoreModal.id === 'store-vs-sagay' ? 'max-w-2xl' : 'max-w-lg'} w-full p-5 sm:p-7 shadow-2xl border border-[#252927]/10 relative animate-scaleIn`} onClick={(event) => event.stopPropagation()}>
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#EF777B]">
                   {activeStoreModal.region} Branch
                 </span>
-                <h3 className="text-xl font-extrabold text-[#252927] mt-0.5">
+                <h3 id="store-modal-title" className="text-xl font-extrabold text-[#252927] mt-0.5">
                   {activeStoreModal.name}
                 </h3>
               </div>
               <button
-                onClick={() => setActiveStoreModal(null)}
+                onClick={closeStoreModal}
+                aria-label="Close store details"
                 className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-[#252927] flex items-center justify-center text-xs font-bold cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-xs text-[#6C7470] mb-4">
-              {activeStoreModal.address}
-            </p>
+            {activeStoreModal.id === 'store-vs-sagay' ? (
+              <>
+                <p className="text-xs text-[#6C7470] mb-3">{activeStoreModal.address}</p>
+                <div ref={routeMapRef} className="rounded-2xl border border-[#B8D9C4]/50 bg-[#F4F8FF] p-3 sm:p-4" aria-label="Animated route to Prince Hypermart Sagay">
+                  <svg viewBox="0 0 640 300" className="mx-auto block h-auto max-h-[300px] w-full max-w-[640px]" role="img" aria-label="A car follows a blue route to Prince Hypermart Sagay">
+                    <rect x="14" y="20" width="150" height="84" rx="18" fill="#E8EEF7" />
+                    <rect x="205" y="13" width="140" height="62" rx="18" fill="#E8EEF7" />
+                    <rect x="42" y="146" width="94" height="92" rx="20" fill="#E8EEF7" />
+                    <rect x="230" y="218" width="148" height="66" rx="20" fill="#E8EEF7" />
+                    <rect x="470" y="165" width="122" height="78" rx="20" fill="#E8EEF7" />
+                    <path className="route-path" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" />
+                    <path className="route-dashed" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#A9C8FF" strokeWidth="7" strokeLinecap="round" strokeDasharray="2 16" />
+                    <path className="route-solid" d="M62 256 C150 250 166 166 248 156 S360 176 422 104 S502 72 570 44" fill="none" stroke="#176BFF" strokeWidth="7" strokeLinecap="round" />
+                    <circle cx="62" cy="256" r="13" fill="white" stroke="#176BFF" strokeWidth="6" />
+                    <path d="M570 18c-15 0-27 12-27 27 0 20 27 49 27 49s27-29 27-49c0-15-12-27-27-27Zm0 36a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z" fill="#176BFF" />
+                    <g className="route-car" aria-hidden="true">
+                      <rect x="-18" y="-11" width="36" height="22" rx="8" fill="#176BFF" stroke="white" strokeWidth="3" />
+                      <rect x="-8" y="-7" width="16" height="14" rx="4" fill="#DCEAFF" />
+                    </g>
+                  </svg>
+                </div>
+                <p className="mt-3 text-center text-xs font-semibold text-[#176BFF]" aria-live="polite">
+                  {routeMapReady ? <>Animation complete. If Maps did not open, <a href={sagayMapsUrl} target="_blank" rel="noreferrer" className="underline">open it here</a>.</> : 'Opening Google Maps in a new tab…'}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-[#6C7470] mb-4">{activeStoreModal.address}</p>
+                <div className="space-y-2 p-4 rounded-xl bg-[#FFFDF8] border border-[#252927]/8 mb-6 text-xs">
+                  {activeStoreModal.hours && <div className="flex items-center justify-between">
+                    <span className="text-[#6C7470]">Operating Hours:</span>
+                    <span className="font-bold text-[#252927]">{activeStoreModal.hours}</span>
+                  </div>}
+                  {activeStoreModal.phone && <div className="flex items-center justify-between">
+                    <span className="text-[#6C7470]">Branch Phone:</span>
+                    <span className="font-bold text-[#252927]">{activeStoreModal.phone}</span>
+                  </div>}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#6C7470]">Customer Parking:</span>
+                    <span className="font-bold text-emerald-700">Free Customer Parking Available</span>
+                  </div>
+                </div>
 
-            <div className="space-y-2 p-4 rounded-xl bg-[#FFFDF8] border border-[#252927]/8 mb-6 text-xs">
-              {activeStoreModal.hours && <div className="flex items-center justify-between">
-                <span className="text-[#6C7470]">Operating Hours:</span>
-                <span className="font-bold text-[#252927]">{activeStoreModal.hours}</span>
-              </div>}
-              {activeStoreModal.phone && <div className="flex items-center justify-between">
-                <span className="text-[#6C7470]">Branch Phone:</span>
-                <span className="font-bold text-[#252927]">{activeStoreModal.phone}</span>
-              </div>}
-              <div className="flex items-center justify-between">
-                <span className="text-[#6C7470]">Customer Parking:</span>
-                <span className="font-bold text-emerald-700">Free Customer Parking Available</span>
-              </div>
-            </div>
+                {showDirectionsSuccess ? (
+                  <div className="p-4 rounded-xl bg-[#DCEEE2] text-xs font-bold text-emerald-800 flex items-center gap-2 mb-4">
+                    <Check className="w-4 h-4 shrink-0" />
+                    <span>Navigation route sent to your maps app! Ready to drive to {activeStoreModal.name}.</span>
+                  </div>
+                ) : null}
 
-            {showDirectionsSuccess ? (
-              <div className="p-4 rounded-xl bg-[#DCEEE2] text-xs font-bold text-emerald-800 flex items-center gap-2 mb-4">
-                <Check className="w-4 h-4 shrink-0" />
-                <span>Navigation route sent to your maps app! Ready to drive to {activeStoreModal.name}.</span>
-              </div>
-            ) : null}
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowDirectionsSuccess(true)}
-                className="flex-1 py-3 px-4 rounded-xl bg-[#EF777B] hover:bg-[#e46468] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-              >
-                <Navigation className="w-4 h-4" />
-                <span>Start GPS Navigation</span>
-              </button>
-              <button
-                onClick={() => setActiveStoreModal(null)}
-                className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#252927] text-xs font-bold cursor-pointer"
-              >
-                Close
-              </button>
-            </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowDirectionsSuccess(true)}
+                    className="flex-1 py-3 px-4 rounded-xl bg-[#EF777B] hover:bg-[#e46468] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <Navigation className="w-4 h-4" />
+                    <span>Start GPS Navigation</span>
+                  </button>
+                  <button
+                    onClick={closeStoreModal}
+                    className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#252927] text-xs font-bold cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
