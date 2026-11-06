@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Briefcase, ArrowRight, Check, MapPin, Building, Users, Sparkles } from 'lucide-react';
+import { Briefcase, ArrowRight, Check, MapPin, Building, Users, Sparkles, Search } from 'lucide-react';
 import { careersData } from '../data/careersData';
 import { JobOpening } from '../types';
 import { getAssetUrl } from '../utils/assets';
 
 export const CareersSection: React.FC = () => {
   const [selectedDept, setSelectedDept] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedJob, setSelectedJob] = useState<JobOpening | null>(null);
   const [applicantName, setApplicantName] = useState('');
   const [applicantEmail, setApplicantEmail] = useState('');
@@ -14,8 +15,10 @@ export const CareersSection: React.FC = () => {
 
   const departments = ['All', ...new Set(careersData.map((job) => job.department))];
 
-  const filteredJobs = careersData.filter(
-    (job) => selectedDept === 'All' || job.department === selectedDept
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filteredJobs = careersData.filter((job) =>
+    (selectedDept === 'All' || job.department === selectedDept) &&
+    `${job.title} ${job.department}`.toLowerCase().includes(normalizedQuery)
   );
 
   const handleSubmitApplication = (e: React.FormEvent) => {
@@ -115,34 +118,52 @@ export const CareersSection: React.FC = () => {
         {/* Job Listings with Department Filter */}
         <div id="job-listings" className="bg-white rounded-3xl border border-[#252927]/10 p-6 sm:p-8 shadow-xs">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#252927]/8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#252927]/8">
             <div>
               <h3 className="text-lg font-bold text-[#252927]">Open Opportunities</h3>
               <p className="text-xs text-[#6C7470]">Find your place in our growing family</p>
             </div>
 
-            {/* Department Filter */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-              {departments.map((dept) => (
-                <button
-                  key={dept}
-                  onClick={() => setSelectedDept(dept)}
-                  aria-pressed={selectedDept === dept}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
-                    selectedDept === dept
-                      ? 'bg-[#252927] text-white shadow-2xs'
-                      : 'bg-[#FFFDF8] text-[#6C7470] hover:text-[#252927]'
-                  }`}
-                >
-                  {dept}
-                </button>
-              ))}
+            <div className="flex min-w-0 flex-col sm:flex-row sm:items-center gap-3">
+              <div className="relative w-full sm:w-56 shrink-0">
+                <Search aria-hidden="true" className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6C7470]" />
+                <input
+                  type="search"
+                  aria-label="Search open opportunities"
+                  placeholder="Search opportunities"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  className="h-11 w-full rounded-xl border border-[#252927]/10 bg-[#FFFDF8] pl-9 pr-3 text-sm text-[#252927] placeholder:text-[#6C7470] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252927]"
+                />
+              </div>
+
+              {/* Department Filter */}
+              <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+                {departments.map((dept) => (
+                  <button
+                    key={dept}
+                    onClick={() => setSelectedDept(dept)}
+                    aria-pressed={selectedDept === dept}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                      selectedDept === dept
+                        ? 'bg-[#252927] text-white shadow-2xs'
+                        : 'bg-[#FFFDF8] text-[#6C7470] hover:text-[#252927]'
+                    }`}
+                  >
+                    {dept}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Job List */}
           <div className="divide-y divide-[#252927]/6 pt-2">
-            {filteredJobs.map((job) => (
+            {filteredJobs.length === 0 ? (
+              <p className="py-8 text-center text-sm text-[#6C7470]">
+                No opportunities match your search or selected department.
+              </p>
+            ) : filteredJobs.map((job) => (
               <div
                 key={job.id}
                 className="py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#FFFDF8] px-3 rounded-2xl transition-colors"
