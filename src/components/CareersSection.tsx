@@ -41,8 +41,8 @@ export const CareersSection: React.FC = () => {
     <section id="careers" className="pt-8 pb-14 lg:pt-10 lg:pb-16 bg-[#FFFDF8] border-b border-[#252927]/5 relative scroll-mt-18">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 lg:mb-10">
+        {/* Careers Intro */}
+        <div className="mb-12 grid items-center gap-8 lg:mb-14 lg:grid-cols-2 lg:gap-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[#6C7470] mb-3">
               <span className="text-[#EF777B]">Join Pamilyang Prince</span>
@@ -55,32 +55,28 @@ export const CareersSection: React.FC = () => {
             <p className="mt-4 text-base text-[#6C7470] leading-relaxed">
               At Prince Retail, our people are the heart of everything we accomplish. Join a purpose-driven organization dedicated to serving grassroots Filipino communities, fostering mentorship, and empowering lifelong career advancement.
             </p>
+            <a
+              href="#job-listings"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#EF777B] px-6 py-3 text-xs font-bold text-white shadow-xs transition-colors hover:bg-[#e46468] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252927] cursor-pointer"
+            >
+              <span>Explore Careers</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
 
-          <a
-            href="#job-listings"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EF777B] hover:bg-[#e46468] text-white text-xs font-bold transition-all shadow-xs self-start md:self-auto cursor-pointer"
-          >
-            <span>Explore Careers</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          <div className="relative mx-auto aspect-[4/3] w-full max-w-xl lg:max-w-none">
+            <div aria-hidden="true" className="careers-shadow absolute bottom-[5%] left-1/2 h-[7%] w-3/4 rounded-full bg-[#252927]/30 blur-xl" />
+            <img
+              src={getAssetUrl('assets/images/prince_careers_team.png')}
+              alt="Prince Retail team members outside a store, with the message ‘Empowering Communities, Building Careers’"
+              width={1672}
+              height={941}
+              loading="lazy"
+              decoding="async"
+              className="careers-float absolute inset-0 h-full w-full object-contain"
+            />
+          </div>
         </div>
-
-        <figure className="group mb-14 overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-          <img
-            src={getAssetUrl('assets/images/prince_careers_team.png')}
-            alt="Prince Retail team members outside a store, with the message ‘Empowering Communities, Building Careers’"
-            width={1672}
-            height={941}
-            loading="lazy"
-            decoding="async"
-            className="block h-auto w-full"
-          />
-          <figcaption className="flex flex-col gap-1 border-t border-[#252927]/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-            <span className="text-sm font-bold text-[#252927]">A place to grow with purpose.</span>
-            <span className="text-xs text-[#6C7470]">Join a team serving communities across the Philippines.</span>
-          </figcaption>
-        </figure>
 
         {/* Culture & Growth Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
