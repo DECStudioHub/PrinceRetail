@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { 
   ArrowRight, 
   MapPin, 
@@ -12,7 +12,10 @@ import {
   Smartphone
 } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
-import { MobileMock3D } from './MobileMock3D.jsx';
+
+const MobileMock3D = lazy(() =>
+  import('./MobileMock3D.jsx').then(({ MobileMock3D }) => ({ default: MobileMock3D }))
+);
 
 interface HeroProps {
   onExploreShop: () => void;
@@ -27,6 +30,7 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [appNotice, setAppNotice] = useState<string | null>(null);
 
   const slides = [
@@ -41,10 +45,10 @@ export const Hero: React.FC<HeroProps> = ({
   ];
 
   useEffect(() => {
-    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!is3DEnabled || isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 5000);
     return () => clearInterval(timer);
-  }, [isPaused, slides.length]);
+  }, [is3DEnabled, isPaused, slides.length]);
 
   return (
     <section id="home" className="relative pt-8 pb-12 lg:pt-10 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
@@ -191,11 +195,40 @@ export const Hero: React.FC<HeroProps> = ({
               <div aria-hidden="true" className="absolute -inset-5 rounded-[3rem] bg-gradient-to-br from-[#252927]/15 via-[#FBE3DF]/50 to-[#DCEEE2]/55 blur-2xl" />
               <div aria-hidden="true" className="absolute inset-x-8 bottom-7 h-12 rounded-full bg-[#252927]/25 blur-2xl" />
               <div className="relative aspect-[1/2] w-full">
-                <MobileMock3D
-                  image={slides[currentSlide].image}
-                  alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
-                  setIsPaused={setIsPaused}
-                />
+                {is3DEnabled ? (
+                  <Suspense fallback={
+                    <img
+                      src={slides[currentSlide].image}
+                      alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full rounded-[2rem] object-cover"
+                    />
+                  }>
+                    <MobileMock3D
+                      image={slides[currentSlide].image}
+                      alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
+                      setIsPaused={setIsPaused}
+                    />
+                  </Suspense>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIs3DEnabled(true)}
+                    aria-label={`Load interactive 3D preview: ${slides[currentSlide].title}`}
+                    className="group relative block h-full w-full rounded-[2rem] border-[9px] border-[#171a1c] bg-[#171a1c] p-1 shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#EF777B]"
+                  >
+                    <img
+                      src={slides[currentSlide].image}
+                      alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
+                      fetchPriority="high"
+                      decoding="async"
+                      className="h-full w-full rounded-[1.3rem] object-cover"
+                    />
+                    <span aria-hidden="true" className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#252927]/85 px-3 py-1.5 text-[10px] font-bold text-white opacity-90 transition-opacity group-hover:opacity-100">
+                      Tap to explore in 3D
+                    </span>
+                  </button>
+                )}
               </div>
               <button
                 onClick={() => setCurrentSlide((slide) => (slide + slides.length - 1) % slides.length)}

@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { 
   MapPin, 
   ArrowRight, 
@@ -14,7 +11,6 @@ import {
 import { storesData } from '../data/storesData';
 import { StoreLocation } from '../types';
 
-gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
 const googleMapsUrl = (store: StoreLocation) => {
   const destination = store.coordinates
     ? `${store.coordinates.lat},${store.coordinates.lng}`
@@ -51,14 +47,30 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
       return;
     }
 
-    const timeline = gsap.timeline({ onComplete: openMaps });
-    timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.65, ease: 'power1.inOut' });
-    timeline.fromTo(map.querySelector('.route-solid'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 2.5, ease: 'none' }, 0.55);
-    timeline.to(map.querySelector('.route-car'), { duration: 2.5, ease: 'none', motionPath: { path: map.querySelector('.route-path'), align: map.querySelector('.route-path'), alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
+    let cancelled = false;
+    let stopAnimation = () => {};
+    void Promise.all([
+      import('gsap'),
+      import('gsap/DrawSVGPlugin'),
+      import('gsap/MotionPathPlugin')
+    ]).then(([{ gsap }, { DrawSVGPlugin }, { MotionPathPlugin }]) => {
+      if (cancelled) return;
+      gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+      const timeline = gsap.timeline({ onComplete: openMaps });
+      timeline.fromTo(map.querySelector('.route-dashed'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.65, ease: 'power1.inOut' });
+      timeline.fromTo(map.querySelector('.route-solid'), { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 2.5, ease: 'none' }, 0.55);
+      timeline.to(map.querySelector('.route-car'), { duration: 2.5, ease: 'none', motionPath: { path: map.querySelector('.route-path'), align: map.querySelector('.route-path'), alignOrigin: [0.5, 0.5], autoRotate: true } }, 0.55);
+      stopAnimation = () => {
+        timeline.kill();
+        gsap.killTweensOf(map.querySelector('.route-car'));
+      };
+    }).catch(() => {
+      if (!cancelled) openMaps();
+    });
 
     return () => {
-      timeline.kill();
-      gsap.killTweensOf(map.querySelector('.route-car'));
+      cancelled = true;
+      stopAnimation();
     };
   }, [activeStoreModal]);
 

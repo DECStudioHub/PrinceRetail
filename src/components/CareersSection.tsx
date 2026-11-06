@@ -64,10 +64,10 @@ export const CareersSection: React.FC = () => {
             <div aria-hidden="true" className="careers-shadow absolute bottom-[5%] left-1/2 h-[7%] w-3/4 rounded-full bg-[#252927]/30 blur-xl" />
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
               <img
-                src={getAssetUrl('assets/images/prince_careers_team.png')}
+                src={getAssetUrl('assets/images/prince_careers_team.jpg')}
                 alt="Prince Retail team members outside a store, with the message ‘Empowering Communities, Building Careers’"
-                width={1672}
-                height={941}
+                width={1000}
+                height={563}
                 loading="lazy"
                 decoding="async"
                 className="careers-float block h-auto w-full rounded-3xl shadow-2xl ring-1 ring-[#252927]/10"
