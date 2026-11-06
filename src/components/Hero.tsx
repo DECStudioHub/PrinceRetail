@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   ArrowRight, 
   MapPin, 
@@ -12,6 +12,7 @@ import {
   Smartphone
 } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
+import { MobileMock3D } from './MobileMock3D.jsx';
 
 interface HeroProps {
   onExploreShop: () => void;
@@ -27,7 +28,6 @@ export const Hero: React.FC<HeroProps> = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [appNotice, setAppNotice] = useState<string | null>(null);
-  const touchStartX = useRef<number | null>(null);
 
   const slides = [
     { id: 1, title: 'Store Selection', image: getAssetUrl('assets/aistudio/1_268d1ae3.jpg') },
@@ -45,19 +45,6 @@ export const Hero: React.FC<HeroProps> = ({
     const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 2100);
     return () => clearInterval(timer);
   }, [isPaused, slides.length]);
-
-  const handleTouchStart = (event: React.TouchEvent) => {
-    touchStartX.current = event.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (event: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const delta = touchStartX.current - event.changedTouches[0].clientX;
-    if (Math.abs(delta) > 45) {
-      setCurrentSlide((slide) => (slide + (delta > 0 ? 1 : slides.length - 1)) % slides.length);
-    }
-    touchStartX.current = null;
-  };
 
   return (
     <section id="home" className="relative pt-20 sm:pt-22 pb-12 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
@@ -190,7 +177,7 @@ export const Hero: React.FC<HeroProps> = ({
 
           </div>
 
-          {/* RIGHT SIDE: App screen slider */}
+          {/* RIGHT SIDE: Interactive 3D app screen slider */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             <div
               className="relative w-[min(330px,calc(100vw_-_3rem),max(150px,calc(50svh_-_5.5rem)))]"
@@ -198,23 +185,17 @@ export const Hero: React.FC<HeroProps> = ({
               onMouseLeave={() => setIsPaused(false)}
               onFocus={() => setIsPaused(true)}
               onBlur={() => setIsPaused(false)}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
+              onTouchStart={() => setIsPaused(true)}
+              onTouchEnd={() => setIsPaused(false)}
             >
-              <div aria-hidden="true" className="absolute -inset-5 rounded-[3rem] bg-gradient-to-br from-[#FBE3DF]/80 via-white/70 to-[#DCEEE2]/80 blur-2xl" />
-              <div className="relative overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/70 p-2 shadow-[0_32px_80px_-28px_rgba(37,41,39,0.38)] backdrop-blur-xl">
-                <div className="relative aspect-[1/2] overflow-hidden rounded-[1.8rem] bg-white">
-                  {slides.map((slide, index) => (
-                    <img
-                      key={slide.id}
-                      src={slide.image}
-                      alt={`Prince Retail app screen: ${slide.title}`}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      decoding="async"
-                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                  ))}
-                </div>
+              <div aria-hidden="true" className="absolute -inset-5 rounded-[3rem] bg-gradient-to-br from-[#252927]/15 via-[#FBE3DF]/50 to-[#DCEEE2]/55 blur-2xl" />
+              <div aria-hidden="true" className="absolute inset-x-8 bottom-7 h-12 rounded-full bg-[#252927]/25 blur-2xl" />
+              <div className="relative aspect-[1/2] w-full">
+                <MobileMock3D
+                  image={slides[currentSlide].image}
+                  alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
+                  setIsPaused={setIsPaused}
+                />
               </div>
               <button
                 onClick={() => setCurrentSlide((slide) => (slide + slides.length - 1) % slides.length)}
