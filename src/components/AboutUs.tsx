@@ -224,20 +224,21 @@ export const AboutUs: React.FC = () => {
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
               
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <span className="text-xs uppercase tracking-wider font-extrabold text-[#F7DF8B]">
-                  Pamilyang Prince · Sabay sa Buhay
-                </span>
-                <p className="text-base font-bold leading-snug mt-1">
-                  Serving grassroots Filipino families across Luzon, Visayas, and Mindanao with dignity and unbeatable everyday value.
-                </p>
+              <div className="absolute inset-y-0 left-6 right-6 flex flex-col justify-center text-white">
+                <div className="max-w-2xl">
+                  <span className="text-xs uppercase tracking-wider font-extrabold text-[#F7DF8B]">
+                    Pamilyang Prince · Sabay sa Buhay
+                  </span>
+                  <p className="text-base font-bold leading-snug mt-1">
+                    Serving grassroots Filipino families across Luzon, Visayas, and Mindanao with dignity and unbeatable everyday value.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Slogan card stays below the image so it never covers the caption. */}
-            <div className="mt-3 sm:mt-4 flex w-full sm:max-w-sm sm:ml-auto bg-white p-4 sm:p-5 rounded-2xl shadow-md border border-[#252927]/10 items-start sm:items-center gap-3.5">
+            <div className="hidden sm:flex absolute -bottom-6 -right-6 bg-white p-5 rounded-2xl shadow-lg border border-[#252927]/10 items-center gap-3.5 max-w-sm">
               <div className="w-11 h-11 rounded-xl bg-[#FBE3DF] flex items-center justify-center text-[#EF777B] shrink-0">
                 <Heart className="w-6 h-6 fill-[#EF777B]" aria-hidden="true" />
               </div>

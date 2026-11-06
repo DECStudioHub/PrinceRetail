@@ -39,15 +39,16 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
     let handleEnd;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 40);
-    camera.position.set(0, 0, 9.2);
+    camera.position.set(0, 0, 10.2);
 
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
       rendererRef.current = renderer;
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.setClearColor(0x000000, 0);
       renderer.domElement.setAttribute('aria-hidden', 'true');
-      renderer.domElement.className = 'absolute inset-0 h-full w-full touch-none';
+      renderer.domElement.className = 'absolute left-1/2 top-0 h-full w-[140%] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 touch-none bg-transparent';
       renderer.domElement.style.opacity = '0';
       mount.appendChild(renderer.domElement);
 
@@ -139,7 +140,7 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
       controls.addEventListener('end', handleEnd);
 
       const resize = () => {
-        const { width, height } = mount.getBoundingClientRect();
+        const { width, height } = renderer.domElement.getBoundingClientRect();
         if (!width || !height) return;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
