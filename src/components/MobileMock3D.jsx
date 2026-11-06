@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as THREE from '../../vendor/three/build/three.module.js';
+import { OrbitControls } from '../../vendor/three/examples/jsm/controls/OrbitControls.js';
 
 function roundedRect(width, height, radius) {
   const x = -width / 2;
