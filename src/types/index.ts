@@ -54,10 +54,10 @@ export type LoyaltyTier = {
 export type JobOpening = {
   id: string;
   title: string;
-  department: 'Store Operations' | 'Merchandising' | 'Supply Chain' | 'Digital & Tech' | 'Human Resources';
-  location: string;
-  type: 'Full-time' | 'Shift' | 'Contract';
-  description: string;
+  department: 'HRD' | 'ICT' | 'AUDIT' | 'SHARED SERVICES';
+  location?: string;
+  type?: 'Full-time' | 'Shift' | 'Contract';
+  description?: string;
 };
 
 export type PromoItem = {

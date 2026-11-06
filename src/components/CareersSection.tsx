@@ -12,14 +12,7 @@ export const CareersSection: React.FC = () => {
   const [applicantResumeNote, setApplicantResumeNote] = useState('');
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
 
-  const departments = [
-    'All',
-    'Store Operations',
-    'Merchandising',
-    'Supply Chain',
-    'Digital & Tech',
-    'Human Resources'
-  ];
+  const departments = ['All', ...new Set(careersData.map((job) => job.department))];
 
   const filteredJobs = careersData.filter(
     (job) => selectedDept === 'All' || job.department === selectedDept
@@ -134,6 +127,7 @@ export const CareersSection: React.FC = () => {
                 <button
                   key={dept}
                   onClick={() => setSelectedDept(dept)}
+                  aria-pressed={selectedDept === dept}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
                     selectedDept === dept
                       ? 'bg-[#252927] text-white shadow-2xs'
@@ -158,22 +152,30 @@ export const CareersSection: React.FC = () => {
                     <span className="text-[11px] font-bold text-[#EF777B] uppercase tracking-wider">
                       {job.department}
                     </span>
-                    <span aria-hidden="true" className="text-[#6C7470]">·</span>
-                    <span className="text-xs text-[#6C7470] font-medium">{job.type}</span>
+                    {job.type && (
+                      <>
+                        <span aria-hidden="true" className="text-[#6C7470]">·</span>
+                        <span className="text-xs text-[#6C7470] font-medium">{job.type}</span>
+                      </>
+                    )}
                   </div>
 
                   <h4 className="text-base font-bold text-[#252927] mb-1">
                     {job.title}
                   </h4>
 
-                  <div className="flex items-center gap-1.5 text-xs text-[#6C7470] mb-2">
-                    <MapPin className="w-3.5 h-3.5 text-[#6C7470]" />
-                    <span>{job.location}</span>
-                  </div>
+                  {job.location && (
+                    <div className="flex items-center gap-1.5 text-xs text-[#6C7470] mb-2">
+                      <MapPin className="w-3.5 h-3.5 text-[#6C7470]" />
+                      <span>{job.location}</span>
+                    </div>
+                  )}
 
-                  <p className="text-xs text-[#6C7470] max-w-2xl leading-relaxed">
-                    {job.description}
-                  </p>
+                  {job.description && (
+                    <p className="text-xs text-[#6C7470] max-w-2xl leading-relaxed">
+                      {job.description}
+                    </p>
+                  )}
                 </div>
 
                 <button
@@ -202,7 +204,7 @@ export const CareersSection: React.FC = () => {
                 <h3 className="text-xl font-extrabold text-[#252927] mt-0.5">
                   {selectedJob.title}
                 </h3>
-                <p className="text-xs text-[#6C7470]">{selectedJob.location} · {selectedJob.department}</p>
+                <p className="text-xs text-[#6C7470]">{selectedJob.location ? `${selectedJob.location} · ` : ''}{selectedJob.department}</p>
               </div>
               <button
                 onClick={() => setSelectedJob(null)}

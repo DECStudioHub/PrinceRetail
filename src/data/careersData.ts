@@ -1,44 +1,27 @@
 import { JobOpening } from '../types';
 
 export const careersData: JobOpening[] = [
-  {
-    id: 'job-1',
-    title: 'Assistant Store Operations Manager',
-    department: 'Store Operations',
-    location: 'Cebu City Flagship / Batangas / Davao',
-    type: 'Full-time',
-    description: 'Lead frontline store personnel, oversee inventory replenishment and customer service standards, and uphold our "Sabay sa Buhay" commitment to shopper satisfaction.'
-  },
-  {
-    id: 'job-2',
-    title: 'Category Merchandiser — Fresh Produce & Grocery',
-    department: 'Merchandising',
-    location: 'Corporate HQ — Cebu City',
-    type: 'Full-time',
-    description: 'Partner with local farmers, co-operatives, and nationwide FMCG distributors to source quality everyday items at unbeatable prices for Filipino households.'
-  },
-  {
-    id: 'job-3',
-    title: 'Regional Supply Chain & Warehouse Supervisor',
-    department: 'Supply Chain',
-    location: 'Mandaue Logistics Hub / CDO Warehouse',
-    type: 'Full-time',
-    description: 'Manage inter-island distribution, cold chain logistics, and cross-docking operations ensuring shelves in provincial stores remain fully stocked every day.'
-  },
-  {
-    id: 'job-4',
-    title: 'Senior Frontend E-Commerce Engineer (React & TypeScript)',
-    department: 'Digital & Tech',
-    location: 'Hybrid / Remote (Philippines)',
-    type: 'Full-time',
-    description: 'Architect and scale our customer-facing digital storefront, Royalty Rewards mobile integration, and high-speed store locator tools.'
-  },
-  {
-    id: 'job-5',
-    title: 'Royalty VIP Customer Care Specialist',
-    department: 'Human Resources',
-    location: 'Metro Manila Support Hub',
-    type: 'Shift',
-    description: 'Deliver thoughtful, warm, and timely assistance to Royalty loyalty members and online shoppers via phone, email, and live messaging.'
-  }
+  { id: 'hrd-payroll-benefits-specialist', title: 'Payroll & Benefits Specialist', department: 'HRD' },
+  { id: 'hrd-learning-development-supervisor', title: 'Learning & Development Supervisor', department: 'HRD' },
+  { id: 'hrd-organizational-development-specialist', title: 'Organizational Development Specialist', department: 'HRD' },
+  { id: 'hrd-sourcing-specialist', title: 'Sourcing Specialist', department: 'HRD' },
+  { id: 'hrd-sourcing-specialist-graphic-designer', title: 'Sourcing Specialist (Graphic Designer)', department: 'HRD' },
+  { id: 'hrd-coordinator-store-opening', title: 'HR Coordinator (Store Opening)', department: 'HRD' },
+  { id: 'ict-data-analytics-development-manager', title: 'Data & Analytics Development Manager', department: 'ICT' },
+  { id: 'ict-full-stack-developer-system-analyst', title: 'Full Stack Developer (System Analyst)', department: 'ICT' },
+  { id: 'ict-information-security-analyst', title: 'Information Security Analyst', department: 'ICT' },
+  { id: 'audit-operations-audit-specialist', title: 'Operations Audit Specialist', department: 'AUDIT' },
+  { id: 'audit-operations-audit-specialist-tl', title: 'Operations Audit Specialist – TL', department: 'AUDIT' },
+  { id: 'shared-institutional-accounts-officer-misor', title: 'Institutional Accounts Officer (MisOr)', department: 'SHARED SERVICES' },
+  { id: 'shared-institutional-accounts-officer-palawan', title: 'Institutional Accounts Officer (Palawan)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-leyte-samar', title: 'Management Trainee (Leyte/Samar)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-cebu-north', title: 'Management Trainee (Cebu North)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-cebu-south', title: 'Management Trainee (Cebu South)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-panay-iloilo', title: 'Management Trainee (Panay/Iloilo)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-compval', title: 'Management Trainee (CompVal)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-caraga', title: 'Management Trainee (Caraga)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-north-min', title: 'Management Trainee (North Min)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-west-min', title: 'Management Trainee (West Min)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-central-luzon', title: 'Management Trainee (Central Luzon)', department: 'SHARED SERVICES' },
+  { id: 'shared-management-trainee-neg-or', title: 'Management Trainee (Neg-Or)', department: 'SHARED SERVICES' }
 ];
