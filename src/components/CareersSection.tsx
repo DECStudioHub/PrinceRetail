@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Briefcase, ArrowRight, Check, MapPin, Building, Users, Sparkles } from 'lucide-react';
 import { careersData } from '../data/careersData';
 import { JobOpening } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 export const CareersSection: React.FC = () => {
   const [selectedDept, setSelectedDept] = useState<string>('All');
@@ -64,6 +65,22 @@ export const CareersSection: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
+
+        <figure className="group mb-14 overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+          <img
+            src={getAssetUrl('assets/images/prince_careers_team.png')}
+            alt="Prince Retail team members outside a store, with the message ‘Empowering Communities, Building Careers’"
+            width={1672}
+            height={941}
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full"
+          />
+          <figcaption className="flex flex-col gap-1 border-t border-[#252927]/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+            <span className="text-sm font-bold text-[#252927]">A place to grow with purpose.</span>
+            <span className="text-xs text-[#6C7470]">Join a team serving communities across the Philippines.</span>
+          </figcaption>
+        </figure>
 
         {/* Culture & Growth Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
