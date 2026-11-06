@@ -54,7 +54,7 @@ export const Hero: React.FC<HeroProps> = ({
     const timer = setTimeout(() => {
       setPreviousSlide(currentSlide);
       setCurrentSlide((slide) => (slide + 1) % slides.length);
-    }, 8000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, [currentSlide, is3DEnabled, isPaused, slides.length]);
 
