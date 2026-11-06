@@ -41,8 +41,8 @@ export const Hero: React.FC<HeroProps> = ({
   ];
 
   useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 2100);
+    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 5000);
     return () => clearInterval(timer);
   }, [isPaused, slides.length]);
 
@@ -200,16 +200,20 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 onClick={() => setCurrentSlide((slide) => (slide + slides.length - 1) % slides.length)}
                 aria-label="Previous app screen"
-                className="absolute -left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 text-[#252927] shadow-md transition-transform hover:scale-105 active:scale-95"
+                className="group absolute -left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-[#252927] transition-transform active:scale-95"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 shadow-sm transition-colors group-hover:bg-white">
+                  <ChevronLeft className="h-4 w-4" />
+                </span>
               </button>
               <button
                 onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)}
                 aria-label="Next app screen"
-                className="absolute -right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 text-[#252927] shadow-md transition-transform hover:scale-105 active:scale-95"
+                className="group absolute -right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-[#252927] transition-transform active:scale-95"
               >
-                <ChevronRight className="h-5 w-5" />
+                <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-full border border-[#252927]/10 bg-white/90 shadow-sm transition-colors group-hover:bg-white">
+                  <ChevronRight className="h-4 w-4" />
+                </span>
               </button>
               <div className="mt-4 flex justify-center gap-2" aria-label="Choose app screen">
                 {slides.map((slide, index) => (

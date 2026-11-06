@@ -21,9 +21,13 @@ function roundedRect(width, height, radius) {
 export function MobileMock3D({ image, alt, setIsPaused }) {
   const mountRef = useRef(null);
   const controlsRef = useRef(null);
-  const screenMaterialRef = useRef(null);
+  const screenMaterialsRef = useRef([]);
   const rendererRef = useRef(null);
-  const textureRef = useRef(null);
+  const texturesRef = useRef([null, null]);
+  const activeScreenRef = useRef(0);
+  const hasScreenRef = useRef(false);
+  const transitionFrameRef = useRef(null);
+  const loadIdRef = useRef(0);
   const renderRef = useRef(null);
   const [ready, setReady] = useState(false);
 
@@ -87,11 +91,14 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
       }
       uvs.needsUpdate = true;
 
-      const screenMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
-      screenMaterialRef.current = screenMaterial;
-      const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-      screen.position.z = 0.105;
-      phone.add(screen);
+      screenMaterialsRef.current = [0, 1].map((index) => {
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, toneMapped: false });
+        const screen = new THREE.Mesh(screenGeometry, material);
+        screen.position.z = 0.105 + index * 0.001;
+        screen.renderOrder = index + 1;
+        phone.add(screen);
+        return material;
+      });
 
       const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x7d858e, metalness: 0.8, roughness: 0.22 });
       [[-1.075, 0.9, 0.06, 0.34], [-1.075, 0.38, 0.06, 0.48], [1.075, 0.62, 0.06, 0.56]].forEach(([x, y, width, height]) => {
@@ -157,7 +164,7 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
       renderer?.domElement.remove();
       rendererRef.current = null;
       controlsRef.current = null;
-      screenMaterialRef.current = null;
+      screenMaterialsRef.current = [];
       renderRef.current = null;
       return undefined;
     }
@@ -165,6 +172,7 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
     return () => {
       observer?.disconnect();
       if (frame !== null) window.cancelAnimationFrame(frame);
+      if (transitionFrameRef.current !== null) window.cancelAnimationFrame(transitionFrameRef.current);
       controls.removeEventListener('start', handleStart);
       controls.removeEventListener('end', handleEnd);
       controls.dispose();
@@ -176,36 +184,91 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
         object.geometry.dispose();
         for (const material of Array.isArray(object.material) ? object.material : [object.material]) material.dispose();
       });
-      textureRef.current?.dispose();
-      textureRef.current = null;
-      screenMaterialRef.current = null;
+      texturesRef.current.forEach((texture) => texture?.dispose());
+      texturesRef.current = [null, null];
+      screenMaterialsRef.current = [];
       renderer.dispose();
       renderer.domElement.remove();
     };
   }, [setIsPaused]);
 
   useEffect(() => {
-    if (!screenMaterialRef.current) return undefined;
+    if (screenMaterialsRef.current.length !== 2) return undefined;
     let cancelled = false;
-    mountRef.current?.querySelector('canvas')?.style.setProperty('opacity', '0');
-    setReady(false);
+    const loadId = ++loadIdRef.current;
+
+    const cancelTransition = () => {
+      if (transitionFrameRef.current !== null) {
+        window.cancelAnimationFrame(transitionFrameRef.current);
+        transitionFrameRef.current = null;
+      }
+      screenMaterialsRef.current.forEach((material, index) => {
+        if (index === activeScreenRef.current) {
+          material.opacity = 1;
+          return;
+        }
+        material.opacity = 0;
+        texturesRef.current[index]?.dispose();
+        texturesRef.current[index] = null;
+        material.map = null;
+        material.needsUpdate = true;
+      });
+      renderRef.current?.();
+    };
+
     new THREE.TextureLoader().load(image, (texture) => {
-      if (cancelled || !screenMaterialRef.current) {
+      if (cancelled || loadId !== loadIdRef.current || screenMaterialsRef.current.length !== 2) {
         texture.dispose();
         return;
       }
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = rendererRef.current?.capabilities.getMaxAnisotropy() ?? 1;
-      const previous = textureRef.current;
-      screenMaterialRef.current.map = texture;
-      screenMaterialRef.current.needsUpdate = true;
-      textureRef.current = texture;
-      previous?.dispose();
-      setReady(true);
-      if (mountRef.current) mountRef.current.querySelector('canvas')?.style.setProperty('opacity', '1');
-      renderRef.current?.();
+      cancelTransition();
+
+      const previousIndex = activeScreenRef.current;
+      const nextIndex = hasScreenRef.current ? 1 - previousIndex : 0;
+      const previousMaterial = screenMaterialsRef.current[previousIndex];
+      const nextMaterial = screenMaterialsRef.current[nextIndex];
+      texturesRef.current[nextIndex]?.dispose();
+      nextMaterial.map = texture;
+      nextMaterial.opacity = hasScreenRef.current ? 0 : 1;
+      nextMaterial.needsUpdate = true;
+      texturesRef.current[nextIndex] = texture;
+
+      if (!hasScreenRef.current) {
+        hasScreenRef.current = true;
+        activeScreenRef.current = nextIndex;
+        setReady(true);
+        if (mountRef.current) mountRef.current.querySelector('canvas')?.style.setProperty('opacity', '1');
+        renderRef.current?.();
+        return;
+      }
+
+      const start = performance.now();
+      const fadeDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+      const fade = (now) => {
+        const progress = fadeDuration === 0 ? 1 : Math.min((now - start) / fadeDuration, 1);
+        nextMaterial.opacity = progress;
+        previousMaterial.opacity = 1 - progress;
+        renderRef.current?.();
+        if (progress < 1) {
+          transitionFrameRef.current = window.requestAnimationFrame(fade);
+          return;
+        }
+        transitionFrameRef.current = null;
+        previousMaterial.map = null;
+        previousMaterial.needsUpdate = true;
+        texturesRef.current[previousIndex]?.dispose();
+        texturesRef.current[previousIndex] = null;
+        activeScreenRef.current = nextIndex;
+      };
+      transitionFrameRef.current = window.requestAnimationFrame(fade);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      loadIdRef.current++;
+      cancelTransition();
+    };
   }, [image]);
 
   const handleKeyDown = (event) => {
