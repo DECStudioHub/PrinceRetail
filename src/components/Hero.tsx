@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({
           {/* RIGHT SIDE: Interactive 3D app screen slider */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             <div
-              className="relative w-[min(330px,calc(100vw_-_3rem),max(150px,calc(50svh_-_5.5rem)))]"
+              className="relative w-[min(330px,calc(100vw_-_3rem),max(150px,calc(50svh_-_4.5rem)))]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onFocus={() => setIsPaused(true)}
