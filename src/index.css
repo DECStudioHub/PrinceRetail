@@ -54,6 +54,15 @@
 .careers-float { animation: careers-float 4.5s ease-in-out infinite; }
 .careers-shadow { animation: careers-shadow 4.5s ease-in-out infinite; }
 
+@keyframes hero-screen-fade {
+  0% { opacity: 0; }
+  8%, 92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.hero-screen-fade { animation: hero-screen-fade 10s ease-in-out both; }
+.hero-screen-fade.is-paused { animation: none; opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
-  .careers-float, .careers-shadow { animation: none; }
+  .careers-float, .careers-shadow, .hero-screen-fade { animation: none; }
 }

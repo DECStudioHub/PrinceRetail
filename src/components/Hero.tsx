@@ -218,11 +218,17 @@ export const Hero: React.FC<HeroProps> = ({
                     className="group relative block h-full w-full rounded-[2rem] border-[9px] border-[#171a1c] bg-[#171a1c] p-1 shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#EF777B]"
                   >
                     <img
+                      key={slides[currentSlide].id}
                       src={slides[currentSlide].image}
                       alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
                       fetchPriority="high"
                       decoding="async"
-                      className="h-full w-full rounded-[1.3rem] object-cover"
+                      onAnimationEnd={() => {
+                        if (!is3DEnabled && !isPaused) {
+                          setCurrentSlide((slide) => (slide + 1) % slides.length);
+                        }
+                      }}
+                      className={`hero-screen-fade h-full w-full rounded-[1.3rem] object-cover ${isPaused ? 'is-paused' : ''}`}
                     />
                     <span aria-hidden="true" className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#252927]/85 px-3 py-1.5 text-[10px] font-bold text-white opacity-90 transition-opacity group-hover:opacity-100">
                       Tap to explore in 3D
