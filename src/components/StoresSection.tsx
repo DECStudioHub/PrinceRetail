@@ -244,11 +244,11 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
           </div>
 
           {/* Stores Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             {filteredStores.map((store) => (
               <div
                 key={store.id}
-                className="p-5 rounded-2xl bg-[#FFFDF8] border border-[#252927]/8 hover:border-[#EF777B]/40 transition-all flex flex-col justify-between"
+                className="p-4 rounded-2xl bg-[#FFFDF8] border border-[#252927]/8 hover:border-[#EF777B]/40 transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
@@ -262,15 +262,15 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                     )}
                   </div>
 
-                  <h4 className="text-base font-bold text-[#252927] mb-2 leading-snug">
+                  <h4 className="text-sm font-bold text-[#252927] mb-1.5 leading-snug">
                     {store.name}
                   </h4>
 
-                  <p className="text-xs text-[#6C7470] mb-3 leading-relaxed">
+                  <p className="text-xs text-[#6C7470] mb-2 leading-relaxed">
                     {store.address}
                   </p>
 
-                  <div className="space-y-1.5 text-xs text-[#252927] font-medium mb-4">
+                  <div className="space-y-1 text-xs text-[#252927] font-medium mb-3">
                     {store.hours && <div className="flex items-center gap-2">
                       <Clock className="w-3.5 h-3.5 text-[#EF777B] shrink-0" />
                       <span>{store.hours}</span>
@@ -282,7 +282,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
                   </div>
 
                   {/* Amenities */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <div className="flex flex-wrap gap-1.5 mb-3">
                     {store.amenities.map((amenity, idx) => (
                       <span
                         key={idx}
@@ -296,7 +296,7 @@ export const StoresSection: React.FC<StoresSectionProps> = ({ selectedRegionFilt
 
                 <button
                   onClick={() => handleGetDirections(store)}
-                  className="w-full py-2 px-3 rounded-xl bg-white border border-[#252927]/15 hover:bg-[#FBE3DF]/30 hover:border-[#EF777B] text-xs font-bold text-[#252927] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  className="w-full min-h-11 px-3 rounded-xl bg-white border border-[#252927]/15 hover:bg-[#FBE3DF]/30 hover:border-[#EF777B] text-xs font-bold text-[#252927] flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
                   <Navigation className="w-3.5 h-3.5 text-[#EF777B]" />
                   <span>Get Directions & Details</span>
