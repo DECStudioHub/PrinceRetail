@@ -1,6 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Crown, Heart, Sparkles } from 'lucide-react';
-import { getAssetUrl } from '../utils/assets';
+import { ArrowUpRight, Crown } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -38,18 +37,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Brand & Slogan Strip with Official Logo */}
+        {/* Brand & Slogan Strip */}
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-12 mb-12 border-b border-white/10 gap-6">
           <div className="flex items-center gap-4">
-            <img 
-              src={getAssetUrl('assets/aistudio/Glossy_Prince_Sabay_sa_Buhay_Badge_eb175b40.png')}
-              alt="Prince Retail - Sabay sa Buhay Official Logo"
-              width={64}
-              height={64}
-              loading="lazy"
-              decoding="async"
-              className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full drop-shadow-md"
-            />
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-2xl font-black tracking-tight text-white">

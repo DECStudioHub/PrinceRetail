@@ -14,6 +14,7 @@ import { LoyaltySection } from './components/LoyaltySection';
 import { ShopOnline } from './components/ShopOnline';
 import { CareersSection } from './components/CareersSection';
 import { ContactUs } from './components/ContactUs';
+import { FAQChat } from './components/FAQChat';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
 import { QuickSearchModal } from './components/QuickSearchModal';
@@ -169,6 +170,9 @@ export default function App() {
 
         {/* Section 10: Careers Section */}
         <CareersSection />
+
+        {/* Customer FAQ Chat */}
+        <FAQChat />
 
         {/* Section 11: Contact Us Section */}
         <ContactUs />
