@@ -47,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({
   }, [isPaused, slides.length]);
 
   return (
-    <section id="home" className="relative pt-20 sm:pt-22 pb-12 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
+    <section id="home" className="relative pt-8 pb-12 lg:pt-10 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
       {/* Subtle background ambient pastel glows */}
       <div className="absolute top-12 left-1/4 w-96 h-96 bg-[#FBE3DF]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
       <div className="absolute top-36 right-10 w-96 h-96 bg-[#FFF0BF]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
