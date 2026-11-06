@@ -226,7 +226,10 @@ export const AboutUs: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
               
-              <div className="absolute inset-y-0 left-6 right-6 flex flex-col justify-center text-white">
+              <div
+                className="absolute bottom-6 left-6 right-6 text-white sm:right-auto sm:w-[40%]"
+                style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.9)' }}
+              >
                 <div className="max-w-2xl">
                   <span className="text-xs uppercase tracking-wider font-extrabold text-[#F7DF8B]">
                     Pamilyang Prince · Sabay sa Buhay
