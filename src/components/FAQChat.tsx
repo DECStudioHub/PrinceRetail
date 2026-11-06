@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 
 // shortcut: answers are static, move them to a CMS when business owners need self-service edits.
@@ -25,69 +25,12 @@ const suggestedQuestions = [
   }
 ];
 
-type Message = { id: string; role: 'assistant' | 'user'; text: string };
-type PendingReply = { question: (typeof suggestedQuestions)[number]; turnId: number };
-
 export const FAQChat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 'welcome', role: 'assistant', text: 'Hi there! Choose a question and I’ll help you find the right information.' }
-  ]);
-  const [pendingReply, setPendingReply] = useState<PendingReply | null>(null);
-  const [typedAnswer, setTypedAnswer] = useState('');
-  const [announcement, setAnnouncement] = useState('');
-  const conversationRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!pendingReply) return;
-
-    const { question, turnId } = pendingReply;
-    let typingInterval: number | undefined;
-    const finishAnswer = () => {
-      setMessages((current) => [...current, { id: `answer-${turnId}`, role: 'assistant', text: question.answer }]);
-      setTypedAnswer('');
-      setPendingReply(null);
-      setAnnouncement(`Prince Retail answered: ${question.answer}`);
-    };
-
-    const typingDelay = window.setTimeout(() => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        finishAnswer();
-        return;
-      }
-
-      let character = 0;
-      typingInterval = window.setInterval(() => {
-        character += 1;
-        setTypedAnswer(question.answer.slice(0, character));
-        if (character >= question.answer.length) {
-          window.clearInterval(typingInterval);
-          finishAnswer();
-        }
-      }, 18);
-    }, 900);
-
-    return () => {
-      window.clearTimeout(typingDelay);
-      if (typingInterval !== undefined) window.clearInterval(typingInterval);
-    };
-  }, [pendingReply]);
-
-  useEffect(() => {
-    const conversation = conversationRef.current;
-    if (conversation) conversation.scrollTop = conversation.scrollHeight;
-  }, [messages, pendingReply, typedAnswer]);
-
-  const askQuestion = (question: (typeof suggestedQuestions)[number]) => {
-    if (pendingReply) return;
-    const turnId = messages.length;
-    setAnnouncement('');
-    setMessages((current) => [...current, { id: `question-${turnId}`, role: 'user', text: question.question }]);
-    setPendingReply({ question, turnId });
-  };
+  const [openQuestionId, setOpenQuestionId] = useState<string | null>(null);
 
   return (
     <section id="faq" className="border-y border-[#252927]/5 bg-[#F8F6F0] py-14 scroll-mt-18 lg:py-20">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 lg:px-8">
+      <div className="mx-auto grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 lg:px-8">
         <div>
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#6C7470]">
             <span className="text-[#EF777B]">Customer Care</span> <span aria-hidden="true">·</span> FAQ
@@ -103,7 +46,7 @@ export const FAQChat: React.FC = () => {
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-lg shadow-[#252927]/5 lg:flex lg:h-[272px] lg:flex-col">
+        <div className="overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-lg shadow-[#252927]/5">
           <div className="flex shrink-0 items-center gap-3 bg-[#252927] px-5 py-4 text-white sm:px-6 lg:py-2">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F7DF8B] text-[#252927] lg:h-8 lg:w-8 lg:rounded-xl">
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
@@ -114,58 +57,46 @@ export const FAQChat: React.FC = () => {
             </div>
           </div>
 
-          <div
-            ref={conversationRef}
-            role="log"
-            aria-label="FAQ conversation"
-            aria-live="off"
-            className="flex max-h-80 min-h-64 flex-col gap-3 overflow-y-auto bg-[#FFFDF8] px-4 py-5 sm:px-6 lg:min-h-0 lg:max-h-none lg:flex-1 lg:gap-2 lg:py-1"
-          >
-            {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[88%] rounded-2xl px-4 py-3 lg:px-3 lg:py-1 ${message.role === 'user' ? 'rounded-br-md bg-[#252927] text-white' : 'rounded-bl-md border border-[#252927]/8 bg-white text-[#252927]'}`}>
-                  <p className={`mb-1 text-[11px] font-bold lg:mb-0 ${message.role === 'user' ? 'text-white/65' : 'text-[#6C7470]'}`}>
-                    {message.role === 'user' ? 'You' : 'Prince Retail'}
-                  </p>
-                  <p className="text-sm leading-relaxed">{message.text}</p>
-                </div>
-              </div>
-            ))}
+          <div className="space-y-2 p-3 sm:p-4">
+            {suggestedQuestions.map((question) => {
+              const isOpen = openQuestionId === question.id;
+              const questionId = `faq-question-${question.id}`;
+              const answerId = `faq-answer-${question.id}`;
 
-            {pendingReply && (
-              <div className="flex justify-start" aria-hidden="true">
-                <div className="max-w-[88%] rounded-2xl rounded-bl-md border border-[#252927]/8 bg-white px-4 py-3 text-[#252927] lg:px-3 lg:py-1">
-                  <p className="mb-1 text-[11px] font-bold text-[#6C7470] lg:mb-0">Prince Retail</p>
-                  {typedAnswer ? (
-                    <p className="text-sm leading-relaxed">{typedAnswer}</p>
-                  ) : (
-                    <span className="faq-typing-dots flex h-5 items-center gap-1" aria-label="Typing">
-                      <span />
-                      <span />
-                      <span />
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">{announcement}</p>
-
-          <div className="shrink-0 border-t border-[#252927]/8 px-4 py-4 sm:px-6 lg:py-2">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-[#6C7470] lg:mb-1">Suggested questions</p>
-            <div className="grid gap-2 sm:grid-cols-2 lg:gap-1">
-              {suggestedQuestions.map((question) => (
-                <button
+              return (
+                <article
                   key={question.id}
-                  type="button"
-                  disabled={Boolean(pendingReply)}
-                  onClick={() => askQuestion(question)}
-                  className="min-h-11 rounded-xl border border-[#252927]/12 bg-white px-3 py-2 text-left text-xs font-semibold leading-relaxed text-[#252927] transition-colors hover:border-[#EF777B] hover:bg-[#FBE3DF]/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252927] disabled:cursor-wait disabled:opacity-55"
+                  className={`overflow-hidden rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none ${isOpen ? 'border-[#EF777B]/45 bg-[#FBE3DF]/55 ring-2 ring-[#EF777B]/20' : 'border-[#252927]/10 bg-white hover:bg-[#FFFDF8]'}`}
                 >
-                  {question.question}
-                </button>
-              ))}
-            </div>
+                  <h4>
+                    <button
+                      id={questionId}
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={answerId}
+                      onClick={() => setOpenQuestionId((current) => current === question.id ? null : question.id)}
+                      className="flex min-h-11 w-full items-center gap-3 px-3 py-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252927] sm:px-4"
+                    >
+                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 motion-reduce:transition-none ${isOpen ? 'border-[#EF777B] bg-white' : 'border-[#6C7470]/50 bg-white'}`} aria-hidden="true">
+                        <span className={`h-2 w-2 rounded-full bg-[#EF777B] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                      </span>
+                      <span className="text-sm font-semibold leading-snug text-[#252927]">{question.question}</span>
+                    </button>
+                  </h4>
+                  <div
+                    id={answerId}
+                    role="region"
+                    aria-labelledby={questionId}
+                    aria-hidden={!isOpen}
+                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pb-4 pl-11 pr-4 text-sm leading-relaxed text-[#555E59]">{question.answer}</p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </div>
