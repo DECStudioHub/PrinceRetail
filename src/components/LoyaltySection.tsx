@@ -24,7 +24,6 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
   const [registeredSuccess, setRegisteredSuccess] = useState(false);
   const [memberName, setMemberName] = useState('Maria Dela Cruz');
   const [memberPhone, setMemberPhone] = useState('0917-888-2026');
-  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
 
   // React to prop change if clicked from navbar or quick link
   React.useEffect(() => {
@@ -33,21 +32,6 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
       if (match) setSelectedTier(match);
     }
   }, [initialTierId]);
-
-  // Autoplay every 3 Seconds across the 4 Loyalty Card Tiers
-  React.useEffect(() => {
-    if (isAutoplayPaused) return;
-
-    const interval = setInterval(() => {
-      setSelectedTier((prev) => {
-        const currentIndex = loyaltyTiers.findIndex((t) => t.id === prev.id);
-        const nextIndex = (currentIndex + 1) % loyaltyTiers.length;
-        return loyaltyTiers[nextIndex];
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isAutoplayPaused]);
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,8 +72,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
           {/* Card Showcase Left */}
           <div className="lg:col-span-5 flex flex-col items-center">
             {/* Authentic Card Image Render without white card container */}
-            <div className="w-full max-w-md relative group">
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-1">
+            <div className="w-full max-w-md relative">
+              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
                 <img
                   src={getAssetUrl(selectedTier.cardImage)}
                   alt={selectedTier.name}
@@ -102,7 +86,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
               {/* Registration CTA directly under card */}
               <button
                 onClick={() => setShowRegisterModal(true)}
-                className="mt-6 w-full py-3.5 px-6 rounded-xl bg-[#252927] hover:bg-[#343a37] text-white text-sm font-bold flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                className="mt-6 w-full py-3.5 px-6 rounded-xl bg-[#252927] hover:bg-[#343a37] text-white text-sm font-bold flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg cursor-pointer"
               >
                 <UserCheck className="w-4 h-4 text-[#F7DF8B]" />
                 <span>Register for {selectedTier.name} Card</span>
@@ -121,7 +105,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                   <button
                     key={tier.id}
                     onClick={() => setSelectedTier(tier)}
-                    className={`py-2 sm:py-2.5 px-4 sm:px-6 rounded-full text-xs font-extrabold tracking-wider uppercase transition-all cursor-pointer ${
+                    className={`py-2 sm:py-2.5 px-4 sm:px-6 rounded-full text-xs font-extrabold tracking-wider uppercase cursor-pointer ${
                       isActive 
                         ? 'bg-[#252927] text-white shadow-xs' 
                         : 'text-[#6C7470] hover:text-[#252927] hover:bg-black/5'
@@ -203,10 +187,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
               return (
                 <button
                   key={tier.id}
-                  onClick={() => {
-                    setSelectedTier(tier);
-                    setIsAutoplayPaused(true);
-                  }}
+                  onClick={() => setSelectedTier(tier)}
                   className={`px-3.5 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${
                     isSelected
                       ? 'bg-[#252927] text-white shadow-xs'
@@ -220,11 +201,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
           </div>
 
           {/* WALLET STAGE CONTAINER — INCREASED WIDTH & BALANCED HEIGHT */}
-          <div 
-            onMouseEnter={() => setIsAutoplayPaused(true)}
-            onMouseLeave={() => setIsAutoplayPaused(false)}
-            className="relative max-w-5xl lg:max-w-6xl mx-auto pt-28 sm:pt-36 pb-6 px-2 sm:px-6"
-          >
+          <div className="relative max-w-5xl lg:max-w-6xl mx-auto pt-28 sm:pt-36 pb-6 px-2 sm:px-6">
             
             {/* TUCKED PASS CARDS LAYER (Under/Within the Pocket) */}
             <div className="relative z-10 w-full flex items-end justify-center">
@@ -242,14 +219,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                   return (
                     <div
                       key={tier.id}
-                      onClick={() => {
-                        setSelectedTier(tier);
-                        setIsAutoplayPaused(true);
-                      }}
-                      onMouseEnter={() => {
-                        setSelectedTier(tier);
-                        setIsAutoplayPaused(true);
-                      }}
+                      onClick={() => setSelectedTier(tier)}
+                      onMouseEnter={() => setSelectedTier(tier)}
                       style={{
                         transformOrigin: 'bottom center',
                       }}
@@ -391,10 +362,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                     return (
                       <button
                         key={tier.id}
-                        onClick={() => {
-                          setSelectedTier(tier);
-                          setIsAutoplayPaused(true);
-                        }}
+                        onClick={() => setSelectedTier(tier)}
                         className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-[#252927] text-white shadow-2xs'

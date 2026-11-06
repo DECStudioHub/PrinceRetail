@@ -38,7 +38,7 @@ This repository contains the complete corporate and e-commerce web application, 
 * **Interactive 3D Wallet Pocket**:
   * 4 pass cards tucked at natural fan angles (`-4.5°`, `-1.5°`, `+1.5°`, `+4.5°`) inside a stitched leather wallet sleeve.
   * Cards smoothly rise upward on hover/focus to reveal barcode lines, tier multipliers, and registration actions.
-  * **3-Second Autoplay Rotation**: Cards automatically cycle and pull out sequentially every 3 seconds, automatically pausing on user hover/tap.
+  * **Manual Tier Selection**: Visitors select a Royalty tier to view its card and benefits; the tier no longer changes automatically.
 * **Instant Digital Card Registration**: In-app modal with instant SMS activation flow and ₱150 shopping vouchers.
 
 ### 4. Customer & Enterprise Programs
