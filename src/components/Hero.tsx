@@ -29,6 +29,7 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenLoyalty
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [previousSlide, setPreviousSlide] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [appNotice, setAppNotice] = useState<string | null>(null);
@@ -45,10 +46,29 @@ export const Hero: React.FC<HeroProps> = ({
   ];
 
   useEffect(() => {
-    if (!is3DEnabled || isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 5000);
-    return () => clearInterval(timer);
-  }, [is3DEnabled, isPaused, slides.length]);
+    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (is3DEnabled) {
+      const timer = setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 5000);
+      return () => clearInterval(timer);
+    }
+    const timer = setTimeout(() => {
+      setPreviousSlide(currentSlide);
+      setCurrentSlide((slide) => (slide + 1) % slides.length);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [currentSlide, is3DEnabled, isPaused, slides.length]);
+
+  useEffect(() => {
+    if (previousSlide === null) return;
+    const timer = setTimeout(() => setPreviousSlide(null), 650);
+    return () => clearTimeout(timer);
+  }, [previousSlide]);
+
+  const showSlide = (nextSlide: number) => {
+    if (nextSlide === currentSlide) return;
+    if (!is3DEnabled) setPreviousSlide(currentSlide);
+    setCurrentSlide(nextSlide);
+  };
 
   return (
     <section id="home" className="relative pt-8 pb-12 lg:pt-10 lg:pb-16 overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FBE3DF]/30 scroll-mt-18">
@@ -217,18 +237,23 @@ export const Hero: React.FC<HeroProps> = ({
                     aria-label={`Load interactive 3D preview: ${slides[currentSlide].title}`}
                     className="group relative block h-full w-full rounded-[2rem] border-[9px] border-[#171a1c] bg-[#171a1c] p-1 shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#EF777B]"
                   >
+                    {previousSlide !== null && (
+                      <img
+                        key={`previous-${slides[previousSlide].id}`}
+                        src={slides[previousSlide].image}
+                        alt=""
+                        aria-hidden="true"
+                        decoding="async"
+                        className="hero-screen-crossfade-out absolute inset-0 h-full w-full rounded-[1.3rem] object-cover"
+                      />
+                    )}
                     <img
                       key={slides[currentSlide].id}
                       src={slides[currentSlide].image}
                       alt={`Prince Retail mobile app screen: ${slides[currentSlide].title}`}
-                      fetchPriority="high"
+                      fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
                       decoding="async"
-                      onAnimationEnd={() => {
-                        if (!is3DEnabled && !isPaused) {
-                          setCurrentSlide((slide) => (slide + 1) % slides.length);
-                        }
-                      }}
-                      className={`hero-screen-fade h-full w-full rounded-[1.3rem] object-cover ${isPaused ? 'is-paused' : ''}`}
+                      className={`h-full w-full rounded-[1.3rem] object-cover ${previousSlide !== null ? 'hero-screen-crossfade-in' : ''}`}
                     />
                     <span aria-hidden="true" className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#252927]/85 px-3 py-1.5 text-[10px] font-bold text-white opacity-90 transition-opacity group-hover:opacity-100">
                       Tap to explore in 3D
@@ -237,7 +262,7 @@ export const Hero: React.FC<HeroProps> = ({
                 )}
               </div>
               <button
-                onClick={() => setCurrentSlide((slide) => (slide + slides.length - 1) % slides.length)}
+                onClick={() => showSlide((currentSlide + slides.length - 1) % slides.length)}
                 aria-label="Previous app screen"
                 className="group absolute -left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-[#252927] transition-transform active:scale-95"
               >
@@ -246,7 +271,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </span>
               </button>
               <button
-                onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)}
+                onClick={() => showSlide((currentSlide + 1) % slides.length)}
                 aria-label="Next app screen"
                 className="group absolute -right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-[#252927] transition-transform active:scale-95"
               >
@@ -258,7 +283,7 @@ export const Hero: React.FC<HeroProps> = ({
                 {slides.map((slide, index) => (
                   <button
                     key={slide.id}
-                    onClick={() => setCurrentSlide(index)}
+                    onClick={() => showSlide(index)}
                     aria-label={`Show ${slide.title}`}
                     aria-current={index === currentSlide ? 'true' : undefined}
                     className={`h-2.5 rounded-full transition-all ${index === currentSlide ? 'w-6 bg-[#EF777B]' : 'w-2.5 bg-[#252927]/20 hover:bg-[#252927]/40'}`}
