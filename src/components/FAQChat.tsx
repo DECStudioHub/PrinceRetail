@@ -98,14 +98,14 @@ export const FAQChat: React.FC = () => {
           <p className="mt-4 max-w-md text-base leading-relaxed text-[#555E59]">
             Ask about stores, online orders, Royalty rewards, or wholesale. Choose a question to see a helpful answer.
           </p>
-          <a href="#contact" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-bold text-[#252927] underline decoration-[#EF777B] decoration-2 underline-offset-4 transition-colors hover:text-[#A53B40] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#252927]">
-            Need more help? Contact our team <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          <a href="#contact" className="mt-6 inline-flex min-h-11 items-start gap-2 rounded-lg text-sm font-bold text-[#252927] underline decoration-[#EF777B] decoration-2 underline-offset-4 transition-colors hover:text-[#A53B40] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#252927]">
+            Need more help? Contact our team <ArrowRight className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-lg shadow-[#252927]/5">
-          <div className="flex items-center gap-3 bg-[#252927] px-5 py-4 text-white sm:px-6">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F7DF8B] text-[#252927]">
+        <div className="overflow-hidden rounded-3xl border border-[#252927]/10 bg-white shadow-lg shadow-[#252927]/5 lg:flex lg:h-[272px] lg:flex-col">
+          <div className="flex shrink-0 items-center gap-3 bg-[#252927] px-5 py-4 text-white sm:px-6 lg:py-2">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F7DF8B] text-[#252927] lg:h-8 lg:w-8 lg:rounded-xl">
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
             </span>
             <div>
@@ -119,12 +119,12 @@ export const FAQChat: React.FC = () => {
             role="log"
             aria-label="FAQ conversation"
             aria-live="off"
-            className="flex max-h-80 min-h-64 flex-col gap-3 overflow-y-auto bg-[#FFFDF8] px-4 py-5 sm:px-6"
+            className="flex max-h-80 min-h-64 flex-col gap-3 overflow-y-auto bg-[#FFFDF8] px-4 py-5 sm:px-6 lg:min-h-0 lg:max-h-none lg:flex-1 lg:gap-2 lg:py-1"
           >
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[88%] rounded-2xl px-4 py-3 ${message.role === 'user' ? 'rounded-br-md bg-[#252927] text-white' : 'rounded-bl-md border border-[#252927]/8 bg-white text-[#252927]'}`}>
-                  <p className={`mb-1 text-[11px] font-bold ${message.role === 'user' ? 'text-white/65' : 'text-[#6C7470]'}`}>
+                <div className={`max-w-[88%] rounded-2xl px-4 py-3 lg:px-3 lg:py-1 ${message.role === 'user' ? 'rounded-br-md bg-[#252927] text-white' : 'rounded-bl-md border border-[#252927]/8 bg-white text-[#252927]'}`}>
+                  <p className={`mb-1 text-[11px] font-bold lg:mb-0 ${message.role === 'user' ? 'text-white/65' : 'text-[#6C7470]'}`}>
                     {message.role === 'user' ? 'You' : 'Prince Retail'}
                   </p>
                   <p className="text-sm leading-relaxed">{message.text}</p>
@@ -134,8 +134,8 @@ export const FAQChat: React.FC = () => {
 
             {pendingReply && (
               <div className="flex justify-start" aria-hidden="true">
-                <div className="max-w-[88%] rounded-2xl rounded-bl-md border border-[#252927]/8 bg-white px-4 py-3 text-[#252927]">
-                  <p className="mb-1 text-[11px] font-bold text-[#6C7470]">Prince Retail</p>
+                <div className="max-w-[88%] rounded-2xl rounded-bl-md border border-[#252927]/8 bg-white px-4 py-3 text-[#252927] lg:px-3 lg:py-1">
+                  <p className="mb-1 text-[11px] font-bold text-[#6C7470] lg:mb-0">Prince Retail</p>
                   {typedAnswer ? (
                     <p className="text-sm leading-relaxed">{typedAnswer}</p>
                   ) : (
@@ -151,9 +151,9 @@ export const FAQChat: React.FC = () => {
           </div>
           <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">{announcement}</p>
 
-          <div className="border-t border-[#252927]/8 px-4 py-4 sm:px-6">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-[#6C7470]">Suggested questions</p>
-            <div className="grid gap-2 sm:grid-cols-2">
+          <div className="shrink-0 border-t border-[#252927]/8 px-4 py-4 sm:px-6 lg:py-2">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-[#6C7470] lg:mb-1">Suggested questions</p>
+            <div className="grid gap-2 sm:grid-cols-2 lg:gap-1">
               {suggestedQuestions.map((question) => (
                 <button
                   key={question.id}
