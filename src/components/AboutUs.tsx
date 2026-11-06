@@ -230,20 +230,20 @@ export const AboutUs: React.FC = () => {
                 <span className="text-xs uppercase tracking-wider font-extrabold text-[#F7DF8B]">
                   Pamilyang Prince · Sabay sa Buhay
                 </span>
-                <p className="text-sm sm:text-base font-bold mt-1">
+                <p className="text-base font-bold leading-snug mt-1">
                   Serving grassroots Filipino families across Luzon, Visayas, and Mindanao with dignity and unbeatable everyday value.
                 </p>
               </div>
             </div>
 
-            {/* Floating Mission Quote Card */}
-            <div className="hidden sm:flex absolute -bottom-6 -right-6 bg-white p-5 rounded-2xl shadow-lg border border-[#252927]/10 items-center gap-3.5 max-w-sm">
+            {/* Slogan card stays below the image so it never covers the caption. */}
+            <div className="mt-3 sm:mt-4 flex w-full sm:max-w-sm sm:ml-auto bg-white p-4 sm:p-5 rounded-2xl shadow-md border border-[#252927]/10 items-start sm:items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#FBE3DF] flex items-center justify-center text-[#EF777B] shrink-0">
-                <Heart className="w-6 h-6 fill-[#EF777B]" />
+                <Heart className="w-6 h-6 fill-[#EF777B]" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#252927]">Our Slogan & Creed</div>
-                <div className="text-[11px] text-[#6C7470] leading-tight mt-0.5">
+                <div className="text-sm font-bold text-[#252927]">Our Slogan & Creed</div>
+                <div className="text-xs text-[#6C7470] leading-relaxed mt-0.5">
                   "Sabay sa Buhay" — walking alongside every Filipino family through life's triumphs and daily needs.
                 </div>
               </div>

@@ -39,7 +39,7 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
     let handleEnd;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 40);
-    camera.position.set(0, 0, 8.2);
+    camera.position.set(0, 0, 9.2);
 
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
@@ -76,9 +76,19 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
       const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x101419, metalness: 0.72, roughness: 0.24 });
       phone.add(new THREE.Mesh(bodyGeometry, bodyMaterial));
 
+      const screenWidth = 1.98;
+      const screenHeight = 4.02;
+      const screenGeometry = new THREE.ShapeGeometry(roundedRect(screenWidth, screenHeight, 0.2), 12);
+      const positions = screenGeometry.getAttribute('position');
+      const uvs = screenGeometry.getAttribute('uv');
+      for (let i = 0; i < positions.count; i++) {
+        uvs.setXY(i, positions.getX(i) / screenWidth + 0.5, positions.getY(i) / screenHeight + 0.5);
+      }
+      uvs.needsUpdate = true;
+
       const screenMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
       screenMaterialRef.current = screenMaterial;
-      const screen = new THREE.Mesh(new THREE.ShapeGeometry(roundedRect(1.96, 4.02, 0.2), 12), screenMaterial);
+      const screen = new THREE.Mesh(screenGeometry, screenMaterial);
       screen.position.z = 0.105;
       phone.add(screen);
 
