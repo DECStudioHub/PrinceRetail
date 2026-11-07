@@ -32,6 +32,7 @@ export type StoreLocation = {
   amenities: string[];
   coordinates?: { lat: number; lng: number };
   featured?: boolean;
+  image?: string;
 };
 
 export type LoyaltyTier = {

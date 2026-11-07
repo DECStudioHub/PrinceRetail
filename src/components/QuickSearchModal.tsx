@@ -53,23 +53,23 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-[#252927]/10 relative animate-scaleIn">
+      <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-[#1B221E]/10 relative animate-scaleIn">
         
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 pb-4 border-b border-[#252927]/10">
-          <Search className="w-5 h-5 text-[#EF777B] shrink-0" />
+        <div className="flex items-center gap-3 pb-4 border-b border-[#1B221E]/10">
+          <Search className="w-5 h-5 text-[#E22C28] shrink-0" />
           <input
             type="text"
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search products, store branches, promos, loyalty..."
-            className="w-full text-sm font-semibold text-[#252927] placeholder:text-[#6C7470] focus:outline-none bg-transparent"
+            className="w-full text-sm font-semibold text-[#1B221E] placeholder:text-[#55635C] focus:outline-none bg-transparent"
           />
           <button
             onClick={onClose}
             aria-label="Close search"
-            className="p-1 rounded-full hover:bg-slate-100 text-[#6C7470] cursor-pointer"
+            className="p-1 rounded-full hover:bg-slate-100 text-[#55635C] cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -78,15 +78,15 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
         {/* Results Area */}
         <div className="max-h-[60vh] overflow-y-auto pt-4 space-y-4">
           {!cleanQuery ? (
-            <div className="py-6 text-center text-xs text-[#6C7470]">
-              <p className="font-semibold text-[#252927] mb-1">Quick Search Prince Retail</p>
+            <div className="py-6 text-center text-xs text-[#55635C]">
+              <p className="font-semibold text-[#1B221E] mb-1">Quick Search Prince Retail</p>
               <p>Try typing "Rice", "Cebu", "Hakot", "Gold", or "Pampanga"</p>
               <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
                 {['Dinorado Rice', 'GC Rebate', 'PO Cash Bond', 'Layaway Plan', 'Papuno Puhonan', 'Cebu Flagship'].map((term) => (
                   <button
                     key={term}
                     onClick={() => setQuery(term)}
-                    className="px-2.5 py-1 rounded-lg bg-[#FFFDF8] border border-[#252927]/10 text-[11px] font-medium text-[#252927] hover:border-[#EF777B] cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg bg-[#FCFBF7] border border-[#1B221E]/10 text-[11px] font-medium text-[#1B221E] hover:border-[#E22C28] cursor-pointer"
                   >
                     {term}
                   </button>
@@ -98,8 +98,8 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
               {/* Products */}
               {matchingProducts.length > 0 && (
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C7470] mb-2 flex items-center gap-1.5">
-                    <ShoppingBag className="w-3.5 h-3.5 text-[#EF777B]" /> Products
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#55635C] mb-2 flex items-center gap-1.5">
+                    <ShoppingBag className="w-3.5 h-3.5 text-[#E22C28]" /> Products
                   </div>
                   <div className="space-y-1.5">
                     {matchingProducts.map((p) => (
@@ -109,7 +109,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                           onSelectProduct(p);
                           onClose();
                         }}
-                        className="p-2.5 rounded-xl hover:bg-[#FFFDF8] border border-transparent hover:border-[#252927]/10 flex items-center justify-between cursor-pointer transition-colors"
+                        className="p-2.5 rounded-xl hover:bg-[#FCFBF7] border border-transparent hover:border-[#1B221E]/10 flex items-center justify-between cursor-pointer transition-colors"
                       >
                         <div className="flex items-center gap-3">
                           <img
@@ -121,11 +121,11 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                             className="w-10 h-10 rounded-lg object-cover"
                           />
                           <div>
-                            <div className="text-xs font-bold text-[#252927]">{p.name}</div>
-                            <div className="text-[10px] text-[#6C7470]">{p.category} · {p.unit}</div>
+                            <div className="text-xs font-bold text-[#1B221E]">{p.name}</div>
+                            <div className="text-[10px] text-[#55635C]">{p.category} · {p.unit}</div>
                           </div>
                         </div>
-                        <span className="text-xs font-extrabold text-[#252927] tabular-nums">
+                        <span className="text-xs font-extrabold text-[#1B221E] tabular-nums">
                           ₱{p.price}
                         </span>
                       </div>
@@ -137,8 +137,8 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
               {/* Stores */}
               {matchingStores.length > 0 && (
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C7470] mb-2 flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#F7DF8B]" /> Stores & Branches
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#55635C] mb-2 flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#F0E901]" /> Stores & Branches
                   </div>
                   <div className="space-y-1.5">
                     {matchingStores.map((s) => (
@@ -148,13 +148,13 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                           onNavigateSection('stores');
                           onClose();
                         }}
-                        className="p-2.5 rounded-xl hover:bg-[#FFFDF8] border border-transparent hover:border-[#252927]/10 flex items-center justify-between cursor-pointer transition-colors"
+                        className="p-2.5 rounded-xl hover:bg-[#FCFBF7] border border-transparent hover:border-[#1B221E]/10 flex items-center justify-between cursor-pointer transition-colors"
                       >
                         <div>
-                          <div className="text-xs font-bold text-[#252927]">{s.name}</div>
-                          <div className="text-[10px] text-[#6C7470]">{s.address}</div>
+                          <div className="text-xs font-bold text-[#1B221E]">{s.name}</div>
+                          <div className="text-[10px] text-[#55635C]">{s.address}</div>
                         </div>
-                        <span className="text-[10px] font-bold text-[#EF777B] px-2 py-0.5 rounded-full bg-[#FBE3DF]">
+                        <span className="text-[10px] font-bold text-[#E22C28] px-2 py-0.5 rounded-full bg-[#FEE2E2]">
                           {s.region}
                         </span>
                       </div>
@@ -166,8 +166,8 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
               {/* Promos */}
               {matchingPromos.length > 0 && (
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C7470] mb-2 flex items-center gap-1.5">
-                    <Tag className="w-3.5 h-3.5 text-[#B8D9C4]" /> Deals & Promos
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#55635C] mb-2 flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-[#036936]" /> Deals & Promos
                   </div>
                   <div className="space-y-1.5">
                     {matchingPromos.map((pr) => (
@@ -177,13 +177,13 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                           onNavigateSection('promos');
                           onClose();
                         }}
-                        className="p-2.5 rounded-xl hover:bg-[#FFFDF8] border border-transparent hover:border-[#252927]/10 flex items-center justify-between cursor-pointer transition-colors"
+                        className="p-2.5 rounded-xl hover:bg-[#FCFBF7] border border-transparent hover:border-[#1B221E]/10 flex items-center justify-between cursor-pointer transition-colors"
                       >
                         <div>
-                          <div className="text-xs font-bold text-[#252927]">{pr.title}</div>
-                          <div className="text-[10px] text-[#6C7470]">{pr.subtitle}</div>
+                          <div className="text-xs font-bold text-[#1B221E]">{pr.title}</div>
+                          <div className="text-[10px] text-[#55635C]">{pr.subtitle}</div>
                         </div>
-                        <span className="text-[10px] font-bold text-[#252927] px-2 py-0.5 rounded-full bg-[#FFF0BF]">
+                        <span className="text-[10px] font-bold text-[#1B221E] px-2 py-0.5 rounded-full bg-[#FEF9C3]">
                           {pr.discount}
                         </span>
                       </div>
@@ -193,7 +193,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
               )}
 
               {matchingProducts.length === 0 && matchingStores.length === 0 && matchingPromos.length === 0 && (
-                <div className="py-8 text-center text-xs text-[#6C7470]">
+                <div className="py-8 text-center text-xs text-[#55635C]">
                   No matching results for "{query}".
                 </div>
               )}

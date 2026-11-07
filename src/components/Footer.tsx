@@ -31,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
   ];
 
   return (
-    <footer className="bg-[#252927] text-white pt-16 pb-12 relative overflow-hidden">
+    <footer className="bg-[#1B221E] text-white pt-16 pb-12 relative overflow-hidden">
       {/* Decorative hairline border top */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/10"></div>
 
@@ -45,9 +45,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
                 <span className="text-2xl font-black tracking-tight text-white">
                   PRINCE RETAIL
                 </span>
-                <span className="w-2 h-2 rounded-full bg-[#EF777B]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#E22C28]"></span>
               </div>
-              <p className="text-xs uppercase tracking-[0.25em] font-extrabold text-[#F7DF8B] mt-1">
+              <p className="text-xs uppercase tracking-[0.25em] font-extrabold text-[#F0E901] mt-1">
                 SABAY SA BUHAY
               </p>
             </div>
@@ -63,7 +63,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
           
           {/* Explore Column */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#B8D9C4] mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#4ADE80] mb-4">
               Explore
             </h4>
             <ul className="space-y-3">
@@ -74,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
                     className="group flex items-center text-xs font-medium text-white/70 hover:text-white transition-colors cursor-pointer text-left"
                   >
                     {/* Arrow slides in from left, label nudges right per prompt specs */}
-                    <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#EF777B]">
+                    <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#E22C28]">
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </span>
                     <span className="transform transition-transform duration-200 ease-out group-hover:translate-x-1">
@@ -88,7 +88,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
 
           {/* Discover Column */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F7DF8B] mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F0E901] mb-4">
               Discover
             </h4>
             <ul className="space-y-3">
@@ -104,7 +104,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
                     }}
                     className="group flex items-center text-xs font-medium text-white/70 hover:text-white transition-colors cursor-pointer text-left"
                   >
-                    <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#F7DF8B]">
+                    <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#F0E901]">
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </span>
                     <span className="transform transition-transform duration-200 ease-out group-hover:translate-x-1">
@@ -118,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
 
           {/* Connect Column */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#EF777B] mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#E22C28] mb-4">
               Connect
             </h4>
             <ul className="space-y-3">
@@ -131,7 +131,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
                       rel="noopener noreferrer"
                       className="group flex items-center text-xs font-medium text-white/70 hover:text-white transition-colors cursor-pointer text-left"
                     >
-                      <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#EF777B]">
+                      <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#E22C28]">
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </span>
                       <span className="transform transition-transform duration-200 ease-out group-hover:translate-x-1">
@@ -143,7 +143,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
                       onClick={() => onNavigate(link.id!)}
                       className="group flex items-center text-xs font-medium text-white/70 hover:text-white transition-colors cursor-pointer text-left"
                     >
-                      <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#EF777B]">
+                      <span className="w-0 overflow-hidden opacity-0 -translate-x-2 group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 ease-out inline-flex items-center text-[#E22C28]">
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </span>
                       <span className="transform transition-transform duration-200 ease-out group-hover:translate-x-1">
@@ -159,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
           {/* Brand Promise Summary */}
           <div className="col-span-2 md:col-span-3 lg:col-span-1 p-5 rounded-2xl bg-white/5 border border-white/10">
             <div className="flex items-center gap-2 text-xs font-bold text-white mb-2">
-              <Crown className="w-4 h-4 text-[#F7DF8B]" />
+              <Crown className="w-4 h-4 text-[#F0E901]" />
               <span>Royalty Member Club</span>
             </div>
             <p className="text-[11px] text-white/60 leading-relaxed mb-4">
@@ -167,7 +167,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
             </p>
             <button
               onClick={() => onNavigate('loyalty')}
-              className="w-full py-2 px-3 rounded-lg bg-[#EF777B] text-white text-[11px] font-bold hover:bg-[#e46468] transition-colors cursor-pointer"
+              className="w-full py-2 px-3 rounded-lg bg-[#E22C28] text-white text-[11px] font-bold hover:bg-[#C9221F] transition-colors cursor-pointer"
             >
               Sign Up Free
             </button>
@@ -184,7 +184,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectLoyaltyTier 
           {/* Mandatory Creator Credit */}
           <div className="flex items-center gap-2">
             <span className="text-white/40">Crafted by</span>
-            <span className="font-extrabold text-[#F7DF8B] tracking-wider text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10">
+            <span className="font-extrabold text-[#F0E901] tracking-wider text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10">
               DECStudioAiCreation
             </span>
           </div>

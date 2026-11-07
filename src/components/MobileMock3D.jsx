@@ -291,7 +291,7 @@ export function MobileMock3D({ image, alt, setIsPaused }) {
       tabIndex={0}
       aria-label={`${alt}. Drag to rotate, or focus and use the arrow keys.`}
       onKeyDown={handleKeyDown}
-      className="relative aspect-[1/2] w-full rounded-[2.4rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#EF777B]"
+      className="relative aspect-[1/2] w-full rounded-[2.4rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E22C28]"
     >
       <img
         src={image}

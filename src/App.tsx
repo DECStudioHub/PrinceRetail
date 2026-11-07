@@ -43,7 +43,7 @@ export default function App() {
           'Grain Type': '100% Whole Dinorado White Rice'
         },
         image: getAssetUrl('assets/images/prince_fresh_pantry_1793803411885.jpg'),
-        accentColor: '#EF777B'
+        accentColor: '#E22C28'
       },
       quantity: 1
     }
@@ -114,13 +114,13 @@ export default function App() {
   const totalCartCount = cartItems.reduce((acc, i) => acc + i.quantity, 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFDF8] text-[#252927]">
+    <div className="min-h-screen flex flex-col bg-[#FCFBF7] text-[#1B221E]">
       
       {/* Top Slim Promotional Announcement Bar */}
       {showTopBanner && (
-        <div className="bg-[#252927] text-white py-2 px-4 text-[11px] font-semibold text-center relative z-50 flex items-center justify-center gap-2 border-b border-white/10">
-          <span className="text-[#F7DF8B]">✨ Sabay sa Buhay 2026:</span>
-          <span>Use code <strong className="text-[#EF777B] tracking-wider uppercase font-mono">SABAY2026</strong> for 10% OFF + Free Delivery over ₱1,500</span>
+        <div className="bg-[#1B221E] text-white py-2 px-4 text-[11px] font-semibold text-center relative z-50 flex items-center justify-center gap-2 border-b border-white/10">
+          <span className="text-[#F0E901]">✨ Sabay sa Buhay 2026:</span>
+          <span>Use code <strong className="text-white bg-[#E22C28] px-2 py-0.5 rounded-md tracking-wider uppercase font-mono text-[10px] ml-1">SABAY2026</strong> for 10% OFF + Free Delivery over ₱1,500</span>
           <button
             onClick={() => setShowTopBanner(false)}
             aria-label="Close announcement"
@@ -206,8 +206,8 @@ export default function App() {
 
       {/* Floating Action Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#252927] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-white/10 flex items-center gap-2 animate-slideUp">
-          <span className="w-2 h-2 rounded-full bg-[#EF777B]"></span>
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1B221E] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-white/10 flex items-center gap-2 animate-slideUp">
+          <span className="w-2 h-2 rounded-full bg-[#E22C28]"></span>
           <span>{toastMessage}</span>
         </div>
       )}

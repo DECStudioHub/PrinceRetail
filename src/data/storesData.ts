@@ -1,4 +1,5 @@
 import { StoreLocation } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 const listedBranch = (
   id: string,
@@ -6,7 +7,7 @@ const listedBranch = (
   region: StoreLocation['region'],
   city: string,
   province: string,
-  details: Partial<Pick<StoreLocation, 'address' | 'hours' | 'phone'>> = {}
+  details: Partial<Pick<StoreLocation, 'address' | 'hours' | 'phone' | 'image' | 'featured'>> = {}
 ): StoreLocation => ({
   id,
   name,
@@ -16,6 +17,8 @@ const listedBranch = (
   address: details.address ?? `${city}, ${province}`,
   hours: details.hours,
   phone: details.phone,
+  featured: details.featured,
+  image: details.image,
   amenities: []
 });
 
@@ -105,6 +108,12 @@ const allStores: StoreLocation[] = [
   listedBranch('store-vs-bayawan-town', 'Prince Town Bayawan', 'Visayas', 'Bayawan City', 'Negros Oriental', { address: 'Mabini St. Suba Bayawan City Negros Oriental', hours: '8:00 AM – 8:00 PM (Mon - Sun)', phone: '(035) 430-0242' }),
   listedBranch('store-vs-bayawan-home', 'Prince Home Center Bayawan', 'Visayas', 'Bayawan City', 'Negros Oriental', { address: 'Mabini St. Suba Bayawan City Negros Oriental', hours: '8:00 AM – 8:00 PM (Mon - Sun)', phone: '09753758410, 09257112607' }),
   listedBranch('store-vs-baybay', 'Prince Town Baybay', 'Visayas', 'Baybay', 'Leyte', { address: 'M.L Quezon cor. A. Bonifacio St., Zone 11, Baybay, Leyte', hours: '8:00 AM – 7:00 PM (Mon - Fri); 8:00 AM – 7:30 PM (Sat - Sun)', phone: '(053) 563 8239' }),
+  listedBranch('store-vs-binalbagan', 'Prince Hypermart Binalbagan', 'Visayas', 'Binalbagan', 'Negros Occidental', { 
+    address: 'Biscom Access Road, Poblacion, Binalbagan, Negros Occidental', 
+    hours: '8:00 AM – 8:00 PM (Mon - Sun)', 
+    phone: '(034) 388-8255',
+    image: getAssetUrl('assets/images/stores/prince_binalbagan.jpg')
+  }),
   listedBranch('store-vs-cabatuan', 'Prince Hypermart Cabatuan', 'Visayas', 'Cabatuan', 'Iloilo', { address: 'Poblacion Cabatuan, Ilo-Ilo', hours: '8:00 AM – 8:00 PM (Mon - Sun)', phone: '(033) 332 1079' }),
   listedBranch('store-vs-calinog', 'Prince Hypermart Calinog', 'Visayas', 'Calinog', 'Iloilo', { address: 'Brgy. Libot, Calinog, Iloilo', hours: '8:00 AM – 8:00 PM (Mon - Sun)' }),
   listedBranch('store-vs-catbalogan', 'Prince Hypermart Catbalogan', 'Visayas', 'Catbalogan City', 'Western Samar', { address: 'Mabini Ave., Brgy. 027, Canlapwas, Catbalogan City, Western Samar', hours: '8:00 AM – 7:00 PM (Mon - Fri); 8:00 AM – 7:30 PM (Sat - Sun)', phone: '0917-801-0056' }),

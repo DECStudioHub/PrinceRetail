@@ -7,10 +7,10 @@ export const loyaltyTiers: LoyaltyTier[] = [
     name: 'ROYALTY',
     tagline: 'Entry-Level Rewards Membership',
     badge: 'Foundation Tier',
-    themeColor: '#B8D9C4',
-    bgClass: 'bg-[#DCEEE2]',
-    borderClass: 'border-[#B8D9C4]',
-    textColor: 'text-[#252927]',
+    themeColor: '#036936',
+    bgClass: 'bg-[#E8F5EC]',
+    borderClass: 'border-[#036936]',
+    textColor: 'text-[#1B221E]',
     description: 'Welcome to the Prince Retail family. Start earning points on all daily grocery and home purchases from your very first receipt.',
     multiplier: '1x Points (₱200 = 1 Point)',
     cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gift_Card_fb2f5864.jpg'),
@@ -20,18 +20,18 @@ export const loyaltyTiers: LoyaltyTier[] = [
       'Special birthday shopping discount voucher',
       'Access to exclusive Member-Only Piso Deals'
     ],
-    cardGradient: 'from-[#DCEEE2] via-[#E8F5EC] to-[#B8D9C4]',
-    cardTextColor: 'text-[#252927]'
+    cardGradient: 'from-[#E8F5EC] via-[#E8F5EC] to-[#036936]',
+    cardTextColor: 'text-[#1B221E]'
   },
   {
     id: 'royalty-gold',
     name: 'ROYALTY GOLD',
     tagline: 'Enhanced Shopping Rewards',
     badge: 'Gold Tier',
-    themeColor: '#F7DF8B',
-    bgClass: 'bg-[#FFF0BF]',
-    borderClass: 'border-[#F7DF8B]',
-    textColor: 'text-[#252927]',
+    themeColor: '#F0E901',
+    bgClass: 'bg-[#FEF9C3]',
+    borderClass: 'border-[#F0E901]',
+    textColor: 'text-[#1B221E]',
     description: 'Elevated rewards designed for regular family shoppers with bonus points and fast-track lane checkout privileges.',
     multiplier: '1.5x Points (₱200 = 1.5 Points)',
     cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Gold_Gift_Card_c4e61e30.jpg'),
@@ -42,18 +42,18 @@ export const loyaltyTiers: LoyaltyTier[] = [
       'Advance preview notifications for weekend warehouse sales',
       'Complimentary curbside pickup packing'
     ],
-    cardGradient: 'from-[#FFF0BF] via-[#FDF5D2] to-[#F7DF8B]',
-    cardTextColor: 'text-[#252927]'
+    cardGradient: 'from-[#FEF9C3] via-[#FEFCE8] to-[#F0E901]',
+    cardTextColor: 'text-[#1B221E]'
   },
   {
     id: 'royalty-platinum',
     name: 'ROYALTY PLATINUM',
     tagline: 'Premium Loyalty Experience',
     badge: 'Platinum Tier',
-    themeColor: '#EF777B',
-    bgClass: 'bg-[#FBE3DF]',
-    borderClass: 'border-[#EF777B]',
-    textColor: 'text-[#252927]',
+    themeColor: '#E22C28',
+    bgClass: 'bg-[#FEE2E2]',
+    borderClass: 'border-[#E22C28]',
+    textColor: 'text-[#1B221E]',
     description: 'Comprehensive VIP treatment with generous reward multipliers, free delivery perks, and curated seasonal family bundles.',
     multiplier: '2x Points (₱200 = 2 Points)',
     cardImage: getAssetUrl('assets/aistudio/Prince_Royalty_Platinum_Gift_Card_f4f98cf6.jpg'),
@@ -64,16 +64,16 @@ export const loyaltyTiers: LoyaltyTier[] = [
       'Quarterly exclusive Prince curated gift box',
       'VIP invitation to seasonal food tasting and private events'
     ],
-    cardGradient: 'from-[#FBE3DF] via-[#FCECE8] to-[#EF777B]',
-    cardTextColor: 'text-[#252927]'
+    cardGradient: 'from-[#FEE2E2] via-[#FEF2F2] to-[#E22C28]',
+    cardTextColor: 'text-[#1B221E]'
   },
   {
     id: 'royalty-diamond',
     name: 'ROYALTY DIAMOND',
     tagline: 'Exclusive Premium Membership Experience',
     badge: 'Diamond Tier',
-    themeColor: '#252927',
-    bgClass: 'bg-[#252927]',
+    themeColor: '#1B221E',
+    bgClass: 'bg-[#1B221E]',
     borderClass: 'border-slate-800',
     textColor: 'text-white',
     description: 'The pinnacle of Prince Retail privilege. Crafted for community leaders, large households, and elite patrons who expect absolute distinction.',
@@ -86,7 +86,7 @@ export const loyaltyTiers: LoyaltyTier[] = [
       'Zero delivery fees on all online orders nationwide',
       'Exclusive annual Prince Retail Founder Gala invitation'
     ],
-    cardGradient: 'from-[#1E2220] via-[#2A302D] to-[#161817]',
+    cardGradient: 'from-[#171D1A] via-[#212925] to-[#111613]',
     cardTextColor: 'text-white'
   }
 ];

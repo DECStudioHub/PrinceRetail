@@ -2,21 +2,21 @@
 
 @layer base {
   :root {
-    --color-pastel-red: #EF777B;
-    --color-soft-red: #FBE3DF;
-    --color-pastel-yellow: #F7DF8B;
-    --color-soft-yellow: #FFF0BF;
-    --color-pastel-green: #B8D9C4;
-    --color-soft-green: #DCEEE2;
-    --color-cream: #FFFDF8;
-    --color-charcoal: #252927;
-    --color-gray: #6C7470;
+    --color-pastel-red: #E22C28;
+    --color-soft-red: #FEE2E2;
+    --color-pastel-yellow: #F0E901;
+    --color-soft-yellow: #FEF9C3;
+    --color-pastel-green: #036936;
+    --color-soft-green: #E8F5EC;
+    --color-cream: #FCFBF7;
+    --color-charcoal: #1B221E;
+    --color-gray: #55635C;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #FFFDF8;
-    color: #252927;
+    background-color: #FCFBF7;
+    color: #1B221E;
     overflow-x: hidden;
   }
 }
@@ -26,14 +26,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFDF8;
+  background: #FCFBF7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #B8D9C4;
+  background: #036936;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #EF777B;
+  background: #E22C28;
 }
 
 /* Tabular numbers for price and metrics */
@@ -69,4 +69,26 @@
 
 @media (prefers-reduced-motion: reduce) {
   .careers-float, .careers-shadow, .hero-screen-crossfade-in, .hero-screen-crossfade-out { animation: none; }
+  .spring-flip-760 { transition: none !important; }
+}
+
+/* 3D Flip Card with 760ms overshooting spring */
+.perspective-1000 {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+.spring-flip-760 {
+  transition: transform 760ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }

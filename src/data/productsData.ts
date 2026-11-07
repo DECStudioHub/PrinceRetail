@@ -25,7 +25,7 @@ export const productsData: Product[] = [
       'Origin': 'Mindoro, Philippines'
     },
     image: freshPantryImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-2',
@@ -45,7 +45,7 @@ export const productsData: Product[] = [
       'Purity': '99.8% Refined Sucrose'
     },
     image: freshPantryImg,
-    accentColor: '#F7DF8B'
+    accentColor: '#F0E901'
   },
   {
     id: 'prod-3',
@@ -65,7 +65,7 @@ export const productsData: Product[] = [
       'Shelf Life': '18 Months'
     },
     image: freshPantryImg,
-    accentColor: '#B8D9C4'
+    accentColor: '#036936'
   },
   {
     id: 'prod-4',
@@ -85,7 +85,7 @@ export const productsData: Product[] = [
       'Inspection': 'Bureau of Animal Industry Inspected'
     },
     image: freshPantryImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-5',
@@ -104,7 +104,7 @@ export const productsData: Product[] = [
       'Format': 'Easy-Open Can'
     },
     image: heroPhoneImg,
-    accentColor: '#F7DF8B'
+    accentColor: '#F0E901'
   },
   {
     id: 'prod-6',
@@ -124,7 +124,7 @@ export const productsData: Product[] = [
       'Preservatives': 'No Artificial Fillers'
     },
     image: freshPantryImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-7',
@@ -143,7 +143,7 @@ export const productsData: Product[] = [
       'Origin': 'Naturally Fermented Cane Vinegar & Soy'
     },
     image: freshPantryImg,
-    accentColor: '#B8D9C4'
+    accentColor: '#036936'
   },
   {
     id: 'prod-8',
@@ -162,7 +162,7 @@ export const productsData: Product[] = [
       'Cooking Time': '3 Minutes'
     },
     image: heroPhoneImg,
-    accentColor: '#F7DF8B'
+    accentColor: '#F0E901'
   },
   {
     id: 'prod-9',
@@ -182,7 +182,7 @@ export const productsData: Product[] = [
       'Certifications': 'Halal Certified, Sangkap Pinoy'
     },
     image: freshPantryImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-10',
@@ -201,7 +201,7 @@ export const productsData: Product[] = [
       'Fragrance': 'Zesty Citrus Blossom'
     },
     image: freshPantryImg,
-    accentColor: '#B8D9C4'
+    accentColor: '#036936'
   },
   {
     id: 'prod-11',
@@ -220,7 +220,7 @@ export const productsData: Product[] = [
       'Yield': 'Up to 35 wash loads'
     },
     image: heroPhoneImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-12',
@@ -239,7 +239,7 @@ export const productsData: Product[] = [
       'Scent': 'Signature Pure White Clean'
     },
     image: freshPantryImg,
-    accentColor: '#B8D9C4'
+    accentColor: '#036936'
   },
   {
     id: 'prod-13',
@@ -258,7 +258,7 @@ export const productsData: Product[] = [
       'Includes': '1 Bucket + 1 Mop Rod + 2 Microfiber Refills'
     },
     image: heroPhoneImg,
-    accentColor: '#F7DF8B'
+    accentColor: '#F0E901'
   },
   {
     id: 'prod-14',
@@ -278,7 +278,7 @@ export const productsData: Product[] = [
       'Milling': 'Commercial Grade Well Milled'
     },
     image: freshPantryImg,
-    accentColor: '#EF777B'
+    accentColor: '#E22C28'
   },
   {
     id: 'prod-15',
@@ -298,7 +298,7 @@ export const productsData: Product[] = [
       'Shelf Life': '3 Years'
     },
     image: storeCommunityImg,
-    accentColor: '#F7DF8B'
+    accentColor: '#F0E901'
   },
   {
     id: 'prod-16',
@@ -318,6 +318,6 @@ export const productsData: Product[] = [
       'Inspection': 'NMIS Certified Fresh'
     },
     image: freshPantryImg,
-    accentColor: '#B8D9C4'
+    accentColor: '#036936'
   }
 ];

@@ -8,8 +8,8 @@ export const promosData: PromoItem[] = [
     discount: 'Up to 35% OFF',
     code: 'SABAY2026',
     validUntil: 'Every Friday – Sunday',
-    bgPastel: '#FBE3DF',
-    accentTag: '#EF777B',
+    bgPastel: '#FEE2E2',
+    accentTag: '#E22C28',
     description: 'Stock up your pantry for the week ahead. Exclusive markdowns on fresh poultry, canned staples, and laundry detergents across all branches and online store.'
   },
   {
@@ -19,8 +19,8 @@ export const promosData: PromoItem[] = [
     discount: '₱1 ADD-ON',
     code: 'PISODEAL',
     validUntil: 'Mid-Month & Payday Special',
-    bgPastel: '#FFF0BF',
-    accentTag: '#F7DF8B',
+    bgPastel: '#FEF9C3',
+    accentTag: '#F0E901',
     description: 'Our signature customer-appreciation celebration! Grab 1kg sugar, bath soap bars, or kitchen towels for exactly ₱1 when you reach the checkout tier.'
   },
   {
@@ -30,8 +30,8 @@ export const promosData: PromoItem[] = [
     discount: 'Extra 8% Rebate',
     code: 'KASOSYOVIP',
     validUntil: 'Continuous Program',
-    bgPastel: '#DCEEE2',
-    accentTag: '#B8D9C4',
+    bgPastel: '#E8F5EC',
+    accentTag: '#036936',
     description: 'Empowering Filipino neighborhood sari-sari stores with direct-from-manufacturer volume pricing, consignment credit support, and free warehouse loading.'
   },
   {
@@ -41,8 +41,8 @@ export const promosData: PromoItem[] = [
     discount: '₱150 WELCOME',
     code: 'ROYALTYNEW',
     validUntil: 'Valid on New Registrations',
-    bgPastel: '#FBE3DF',
-    accentTag: '#EF777B',
+    bgPastel: '#FEE2E2',
+    accentTag: '#E22C28',
     description: 'Sign up for the free Royalty Rewards card today and claim your instant introductory voucher code valid on groceries, clothing, and home essentials.'
   }
 ];
