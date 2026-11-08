@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShoppingBag, 
   Search, 
@@ -12,20 +12,30 @@ import {
   Truck
 } from 'lucide-react';
 import { productsData } from '../data/productsData';
-import { Product } from '../types';
+import { Product, CartItem } from '../types';
 import { ProductDetailModal } from './ProductDetailModal';
 import { getAssetUrl } from '../utils/assets';
 
 interface ShopOnlineProps {
   onAddToCart: (product: Product, quantity: number) => void;
+  cartItems?: CartItem[];
 }
 
-export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
+export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart, cartItems }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [lastAddedId, setLastAddedId] = useState<string | null>(null);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+
+  // Sync added status with cartItems: any item currently in the cart shows "Added".
+  // If an item is cleared or removed from the cart, its button returns to "+ Add".
+  useEffect(() => {
+    if (cartItems) {
+      const inCart = new Set(cartItems.map((item) => item.product.id));
+      setAddedIds(inCart);
+    }
+  }, [cartItems]);
 
   const categories = [
     'All',
@@ -56,8 +66,7 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
   const handleQuickAdd = (product: Product, e: React.MouseEvent) => {
     e.stopPropagation();
     onAddToCart(product, 1);
-    setLastAddedId(product.id);
-    setTimeout(() => setLastAddedId(null), 1500);
+    setAddedIds((prev) => new Set(prev).add(product.id));
   };
 
   return (
@@ -153,7 +162,7 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
         {/* Product Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {filteredProducts.map((product) => {
-            const isJustAdded = lastAddedId === product.id;
+            const isAdded = addedIds.has(product.id);
             return (
               <div
                 key={product.id}
@@ -223,22 +232,25 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
                   </div>
 
                   <button
+                    type="button"
                     onClick={(e) => handleQuickAdd(product, e)}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all active:scale-95 cursor-pointer shrink-0 ${
-                      isJustAdded
-                        ? 'bg-emerald-600 text-white'
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0 ${
+                      isAdded
+                        ? 'bg-[#036936] hover:bg-[#02522a] text-white shadow-2xs'
                         : 'bg-[#E22C28] hover:bg-[#C9221F] text-white shadow-2xs'
                     }`}
+                    title={isAdded ? 'Added to cart (Click to add more)' : 'Add to cart'}
+                    aria-label={isAdded ? `${product.name} is added to cart` : `Add ${product.name} to cart`}
                   >
-                    {isJustAdded ? (
+                    {isAdded ? (
                       <>
-                        <Check className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Added</span>
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                        <span>Added</span>
                       </>
                     ) : (
                       <>
-                        <Plus className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Add</span>
+                        <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                        <span>Add</span>
                       </>
                     )}
                   </button>
@@ -266,7 +278,10 @@ export const ShopOnline: React.FC<ShopOnlineProps> = ({ onAddToCart }) => {
       <ProductDetailModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
-        onAddToCart={onAddToCart}
+        onAddToCart={(prod, qty) => {
+          onAddToCart(prod, qty);
+          setAddedIds((prev) => new Set(prev).add(prod.id));
+        }}
       />
     </section>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Check, 
   UserCheck,
@@ -6,10 +6,15 @@ import {
   ArrowRight,
   ShieldCheck,
   Gift,
-  Crown
+  Crown,
+  Search,
+  ChevronDown,
+  MapPin,
+  X
 } from 'lucide-react';
 import { loyaltyTiers } from '../data/loyaltyData';
-import { LoyaltyTier } from '../types';
+import { storesData } from '../data/storesData';
+import { LoyaltyTier, StoreLocation } from '../types';
 import { getAssetUrl } from '../utils/assets';
 
 interface LoyaltySectionProps {
@@ -25,6 +30,55 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
   const [memberName, setMemberName] = useState('Maria Dela Cruz');
   const [memberPhone, setMemberPhone] = useState('0917-888-2026');
 
+  // Searchable Preferred Home Branch state with all Prince Retail stores
+  const [selectedBranch, setSelectedBranch] = useState<StoreLocation>(() => {
+    return storesData.find((s) => s.id === 'store-vs-binalbagan') || storesData[0];
+  });
+  const [isBranchDropdownOpen, setIsBranchDropdownOpen] = useState(false);
+  const [branchSearchQuery, setBranchSearchQuery] = useState('');
+  const branchDropdownRef = useRef<HTMLDivElement>(null);
+  const branchSearchInputRef = useRef<HTMLInputElement>(null);
+
+  // Close branch dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        branchDropdownRef.current &&
+        !branchDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsBranchDropdownOpen(false);
+      }
+    };
+    if (isBranchDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isBranchDropdownOpen]);
+
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (isBranchDropdownOpen) {
+      const timer = setTimeout(() => {
+        branchSearchInputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isBranchDropdownOpen]);
+
+  // Filter all Prince stores by name, city, province, or region
+  const filteredBranches = storesData.filter((store) => {
+    const query = branchSearchQuery.trim().toLowerCase();
+    if (!query) return true;
+    return (
+      store.name.toLowerCase().includes(query) ||
+      store.city.toLowerCase().includes(query) ||
+      store.province.toLowerCase().includes(query) ||
+      store.region.toLowerCase().includes(query)
+    );
+  });
+
   // React to prop change if clicked from navbar or quick link
   React.useEffect(() => {
     if (initialTierId) {
@@ -39,7 +93,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
     setTimeout(() => {
       setShowRegisterModal(false);
       setRegisteredSuccess(false);
-    }, 2400);
+    }, 2800);
   };
 
   return (
@@ -318,7 +372,7 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                                 : 'bg-[#E22C28] text-white hover:bg-[#C9221F]'
                             }`}
                           >
-                            <span>{isSelected ? 'Register Card' : 'Select'}</span>
+                            <span>Register Card</span>
                             <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                           </button>
 
@@ -407,8 +461,8 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
       {/* Free Registration Modal */}
       {showRegisterModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-[#1B221E]/10 relative animate-scaleIn">
-            <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-[#1B221E]/10 relative animate-scaleIn max-h-[92vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-4 mb-3">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#E22C28]">
                   Join Royalty Club
@@ -418,36 +472,83 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                 </h3>
               </div>
               <button
-                onClick={() => setShowRegisterModal(false)}
+                onClick={() => {
+                  setShowRegisterModal(false);
+                  setIsBranchDropdownOpen(false);
+                }}
                 className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-[#1B221E] flex items-center justify-center text-xs font-bold cursor-pointer"
+                aria-label="Close modal"
               >
                 ✕
               </button>
             </div>
 
+            {/* 4 Card Tier Selector Pills (Supports all 4 cards) */}
+            <div className="grid grid-cols-4 gap-1 p-1 bg-[#FCFBF7] rounded-xl border border-[#1B221E]/10 mb-3.5">
+              {loyaltyTiers.map((tier) => {
+                const isTierActive = selectedTier.id === tier.id;
+                return (
+                  <button
+                    key={tier.id}
+                    type="button"
+                    onClick={() => setSelectedTier(tier)}
+                    className={`py-1 px-1 rounded-lg text-[10px] font-bold text-center transition-all truncate cursor-pointer ${
+                      isTierActive
+                        ? 'bg-[#1B221E] text-white shadow-2xs'
+                        : 'text-[#55635C] hover:text-[#1B221E]'
+                    }`}
+                    title={`Switch to ${tier.name}`}
+                  >
+                    {tier.name.replace('ROYALTY', '').trim() || 'Royalty'}
+                  </button>
+                );
+              })}
+            </div>
+
             {registeredSuccess ? (
-              <div className="py-8 text-center">
-                <div className="w-14 h-14 rounded-full bg-[#E8F5EC] text-emerald-700 flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-7 h-7" />
+              <div className="py-6 text-center">
+                <div className="w-14 h-14 rounded-full bg-[#E8F5EC] text-[#036936] flex items-center justify-center mx-auto mb-3">
+                  <Check className="w-7 h-7 stroke-[2.5]" />
                 </div>
-                <h4 className="text-lg font-bold text-[#1B221E]">Welcome to the Family!</h4>
+                <h4 className="text-lg font-bold text-[#1B221E]">Welcome to Royalty Rewards!</h4>
                 <p className="text-xs text-[#55635C] mt-1">
-                  Your digital Royalty Rewards card is active. An activation SMS has been sent to {memberPhone}.
+                  Your digital <strong className="text-[#1B221E]">{selectedTier.name}</strong> card is now active.
+                </p>
+                <div className="mt-4 p-3.5 rounded-2xl bg-[#FCFBF7] border border-[#1B221E]/10 text-xs text-left space-y-1.5">
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#55635C]">Member Name:</span>
+                    <strong className="text-[#1B221E] font-bold">{memberName}</strong>
+                  </div>
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#55635C]">Tier:</span>
+                    <strong className="text-[#E22C28] font-bold">{selectedTier.name} ({selectedTier.multiplier})</strong>
+                  </div>
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#55635C]">Home Branch:</span>
+                    <strong className="text-[#1B221E] font-bold truncate max-w-[190px] text-right">{selectedBranch.name}</strong>
+                  </div>
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#55635C]">Mobile:</span>
+                    <strong className="text-[#1B221E] font-bold">{memberPhone}</strong>
+                  </div>
+                </div>
+                <p className="text-[11px] text-[#55635C] mt-3">
+                  An activation SMS with digital pass credentials has been sent to your phone.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleRegister} className="space-y-4">
-                {/* Visual card summary thumbnail */}
+              <form onSubmit={handleRegister} className="space-y-3.5">
+                {/* Visual card summary thumbnail matching user attachment image_95749edb.png */}
                 <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#FCFBF7] border border-[#1B221E]/10">
                   <img
                     src={getAssetUrl(selectedTier.cardImage)}
                     alt={selectedTier.name}
                     loading="lazy"
                     decoding="async"
-                    className="w-16 h-10 object-cover rounded-lg shadow-xs"
+                    className="w-16 h-10 object-cover rounded-lg shadow-xs shrink-0"
                   />
-                  <div>
-                    <div className="text-xs font-extrabold text-[#1B221E]">{selectedTier.name}</div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-extrabold text-[#1B221E] truncate">{selectedTier.name}</div>
                     <div className="text-[11px] text-[#E22C28] font-semibold">{selectedTier.multiplier}</div>
                   </div>
                 </div>
@@ -474,33 +575,160 @@ export const LoyaltySection: React.FC<LoyaltySectionProps> = ({ initialTierId })
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#1B221E] mb-1">Preferred Home Branch</label>
-                  <select className="w-full px-3.5 py-2.5 rounded-xl border border-[#1B221E]/15 bg-[#FCFBF7] text-xs font-medium focus:outline-none focus:border-[#E22C28]">
-                    <option>Cebu Flagship (Colon Street)</option>
-                    <option>Batangas City Center</option>
-                    <option>Davao City Bajada</option>
-                    <option>Tacloban City Leyte</option>
-                    <option>San Fernando Pampanga</option>
-                    <option>Bacolod Singcang</option>
-                  </select>
+                {/* PREFERRED HOME BRANCH: Searchable Dropdown with ALL Prince Stores */}
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-[#1B221E]">
+                      Preferred Home Branch
+                    </label>
+                    <span className="text-[10px] font-semibold text-[#55635C]">
+                      {storesData.length} branches
+                    </span>
+                  </div>
+
+                  <div className="relative" ref={branchDropdownRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsBranchDropdownOpen((prev) => !prev)}
+                      className={`w-full px-3.5 py-2.5 rounded-xl border bg-[#FCFBF7] text-xs font-medium text-left flex items-center justify-between gap-2 transition-all cursor-pointer shadow-2xs ${
+                        isBranchDropdownOpen
+                          ? 'border-[#E22C28] ring-2 ring-[#E22C28]/10'
+                          : 'border-[#1B221E]/15 hover:border-[#E22C28]/40'
+                      }`}
+                      aria-expanded={isBranchDropdownOpen}
+                      aria-haspopup="listbox"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <MapPin className="w-4 h-4 text-[#E22C28] shrink-0" />
+                        <div className="min-w-0">
+                          <div className="font-bold text-[#1B221E] truncate">
+                            {selectedBranch ? selectedBranch.name : 'Select a Prince Retail Store'}
+                          </div>
+                          <div className="text-[10px] text-[#55635C] truncate">
+                            {selectedBranch
+                              ? `${selectedBranch.city}, ${selectedBranch.province} · ${selectedBranch.region}`
+                              : 'Choose your home branch'}
+                          </div>
+                        </div>
+                      </div>
+                      <ChevronDown
+                        className={`w-4 h-4 text-[#55635C] shrink-0 transition-transform duration-200 ${
+                          isBranchDropdownOpen ? 'rotate-180 text-[#E22C28]' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Popover Dropdown with Search Bar */}
+                    {isBranchDropdownOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 z-50 bg-white rounded-2xl shadow-2xl border border-[#1B221E]/15 p-2.5 animate-fadeIn">
+                        {/* Search Bar to easily type store name */}
+                        <div className="relative mb-2">
+                          <Search className="w-3.5 h-3.5 text-[#55635C] absolute left-3 top-1/2 -translate-y-1/2" />
+                          <input
+                            ref={branchSearchInputRef}
+                            type="text"
+                            value={branchSearchQuery}
+                            onChange={(e) => setBranchSearchQuery(e.target.value)}
+                            placeholder="Type store name (e.g. Binalbagan, Jaen, Baybay)..."
+                            className="w-full pl-8.5 pr-8 py-2 rounded-xl bg-[#FCFBF7] border border-[#1B221E]/15 text-xs text-[#1B221E] font-medium placeholder:text-[#55635C] focus:outline-none focus:border-[#E22C28]"
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                          {branchSearchQuery && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setBranchSearchQuery('');
+                                branchSearchInputRef.current?.focus();
+                              }}
+                              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] cursor-pointer"
+                            >
+                              <X className="w-2.5 h-2.5" />
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Store Network Counter */}
+                        <div className="flex items-center justify-between px-1.5 pb-1.5 text-[10px] font-semibold text-[#55635C] border-b border-[#1B221E]/8">
+                          <span>All Prince Retail Stores</span>
+                          <span>{filteredBranches.length} {filteredBranches.length === 1 ? 'store' : 'stores'}</span>
+                        </div>
+
+                        {/* Scrollable List of All Prince Stores */}
+                        <div className="max-h-48 overflow-y-auto space-y-1 pt-1.5 pr-1" role="listbox">
+                          {filteredBranches.length > 0 ? (
+                            filteredBranches.map((store) => {
+                              const isSelected = selectedBranch?.id === store.id;
+                              const regionBadge =
+                                store.region === 'Visayas'
+                                  ? 'bg-[#FEF9C3] text-[#854D0E] border-[#F0E901]/60'
+                                  : store.region === 'Luzon'
+                                  ? 'bg-[#FEE2E2] text-[#991B1B] border-[#E22C28]/30'
+                                  : 'bg-[#E8F5EC] text-[#036936] border-[#036936]/30';
+
+                              return (
+                                <div
+                                  key={store.id}
+                                  onClick={() => {
+                                    setSelectedBranch(store);
+                                    setIsBranchDropdownOpen(false);
+                                    setBranchSearchQuery('');
+                                  }}
+                                  className={`p-2 rounded-xl flex items-center justify-between gap-2 cursor-pointer transition-colors text-xs ${
+                                    isSelected
+                                      ? 'bg-[#FEF9C3]/50 border border-[#F0E901] font-bold'
+                                      : 'hover:bg-[#FCFBF7] border border-transparent'
+                                  }`}
+                                  role="option"
+                                  aria-selected={isSelected}
+                                >
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="font-bold text-[#1B221E] truncate">{store.name}</span>
+                                      <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded border ${regionBadge}`}>
+                                        {store.region}
+                                      </span>
+                                    </div>
+                                    <div className="text-[10px] text-[#55635C] truncate mt-0.5">
+                                      {store.city}, {store.province}
+                                    </div>
+                                  </div>
+                                  {isSelected && (
+                                    <Check className="w-4 h-4 text-[#036936] shrink-0 stroke-[2.5]" />
+                                  )}
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div className="py-4 text-center text-xs text-[#55635C]">
+                              No Prince store found matching "{branchSearchQuery}".
+                              <div className="text-[10px] mt-0.5 text-[#55635C]/80">Try typing a city or province name.</div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#FEF9C3]/50 border border-[#F0E901]/50 text-[11px] text-[#1B221E]">
                   🎁 Instant benefit: ₱150 grocery discount voucher credited upon successful card generation!
                 </div>
 
-                <div className="flex items-center gap-3 pt-2">
+                <div className="flex items-center gap-3 pt-1">
                   <button
                     type="submit"
-                    className="flex-1 py-3 px-4 rounded-xl bg-[#E22C28] hover:bg-[#C9221F] text-white text-xs font-bold shadow-xs cursor-pointer"
+                    className="flex-1 py-3 px-4 rounded-xl bg-[#E22C28] hover:bg-[#C9221F] text-white text-xs font-bold shadow-xs cursor-pointer transition-colors"
                   >
                     Generate Digital Card
                   </button>
                   <button
                     type="button"
-                    onClick={() => setShowRegisterModal(false)}
-                    className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#1B221E] text-xs font-bold cursor-pointer"
+                    onClick={() => {
+                      setShowRegisterModal(false);
+                      setIsBranchDropdownOpen(false);
+                    }}
+                    className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#1B221E] text-xs font-bold cursor-pointer transition-colors"
                   >
                     Cancel
                   </button>

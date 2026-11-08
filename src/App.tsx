@@ -23,31 +23,7 @@ import { X, Sparkles } from 'lucide-react';
 import { getAssetUrl } from './utils/assets';
 
 export default function App() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    // Start with 1 item as a friendly default demo
-    {
-      product: {
-        id: 'prod-1',
-        name: 'Dinorado Super Special Fragrant Rice',
-        category: 'Daily Essentials',
-        price: 295,
-        originalPrice: 330,
-        unit: '5kg pack',
-        rating: 4.9,
-        reviewsCount: 342,
-        inStock: true,
-        badge: 'Best Seller',
-        description: 'Freshly milled, fragrant aromatic Dinorado whole-grain rice.',
-        specs: {
-          'Net Weight': '5 Kilograms',
-          'Grain Type': '100% Whole Dinorado White Rice'
-        },
-        image: getAssetUrl('assets/images/prince_fresh_pantry_1793803411885.jpg'),
-        accentColor: '#E22C28'
-      },
-      quantity: 1
-    }
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -166,7 +142,7 @@ export default function App() {
         <LoyaltySection initialTierId={selectedLoyaltyTierId} />
 
         {/* Section 9: Shop Online Section */}
-        <ShopOnline onAddToCart={handleAddToCart} />
+        <ShopOnline onAddToCart={handleAddToCart} cartItems={cartItems} />
 
         {/* Section 10: Careers Section */}
         <CareersSection />
